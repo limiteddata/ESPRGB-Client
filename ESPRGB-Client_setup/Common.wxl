@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization Culture="en-us" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+  
+  
+  <String Id="ProductName_x64">ESPRGB-Client (64 bit)</String>
+  <String Id="ProductName_x86">ESPRGB-Client (32 bit)</String>
+  <String Id="ShortProductName">ESPRGB-Client</String>
+
+  <String Id="AppBuildFolder">..\ESPRGB-Client\bin\Release</String>
+  <String Id="AppFile">ESPRGB-Client.exe</String>
+
+  <String Id="Company">limiteddata</String>
+  <String Id="Description">ESPRGB-Client</String>
+  <String Id="Keywords">ESPRGB-Client, ESPRGB</String>
+  <String Id="HelpUrl">https://github.com/limiteddata/ESPRGB-Client</String>
+  
+  
+</WixLocalization>

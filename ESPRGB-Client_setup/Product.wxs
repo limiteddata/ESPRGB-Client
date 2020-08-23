@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <?define ESPRGB-Client_TargetDir=$(var.ESPRGB-Client.TargetDir)?>
+
+  <?if $(var.Platform)=x64?>
+  <?define ProductCode ="{D98CF59A-0675-4DDD-A244-F5E1E4363EE7}" ?>
+  <?else?>
+  <?define ProductCode ="{8B9F3CC0-2545-4E7D-806C-A72E343D8F38}" ?>
+  <?endif?>
+  <?define UpgradeCode = "{9C619015-915E-4EEA-9B1A-4FC75C2FD0E5}" ?>
+
+  <?define ProductName = "!(loc.ProductName_$(var.Platform))" ?>
+
+
+  <Product Id="$(var.ProductCode)" Name="$(var.ProductName)" Language="1033" Version="$(var.BuildVersion)" Manufacturer="!(loc.Company)" UpgradeCode="b888d4f3-2137-48e9-9c2a-8818c187e44e">
+    <Package InstallerVersion="200" Compressed="yes"  InstallScope="perMachine" Platform="$(var.Platform)" Manufacturer="!(loc.Company)" Description="!(loc.Description)" Keywords="!(loc.Keywords)" />
+    
+    <MajorUpgrade DowngradeErrorMessage="A newer version of $(var.ProductName) is already installed." />
+    <MediaTemplate EmbedCab="yes" />
+    <Icon Id="icon.ico" SourceFile="$(var.ESPRGB-Client.ProjectDir)\esprgb_icon_128.ico" />
+    <Property Id="ARPPRODUCTICON">icon.ico</Property>
+    <Property Id="ARPURLINFOABOUT">!(loc.HelpUrl)</Property>
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />  
+    <UIRef Id="MyWixUI_InstallDir" />
+
+    <WixVariable Id="WixUIDialogBmp" Value="$(var.ProjectDir)\Assets\Background.bmp" />
+    <WixVariable Id="WixUIBannerBmp" Value="$(var.ProjectDir)\Assets\Banner.bmp" />
+    <WixVariable Id="WixUILicenseRtf" Value="$(var.ProjectDir)\Assets\license.rtf" />
+
+
+
+    
+    <Feature Id="ProductFeature" Title="!(loc.ShortProductName)" Level="1">
+      <ComponentGroupRef Id="ProductComponents" />
+      <ComponentGroupRef Id="PublishedComponents" />
+      
+      
+    </Feature>
+
+  </Product>
+</Wix>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+  <Fragment>
+    <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+      <ComponentRef Id="MainAppShortcut" />
+      <ComponentRef Id="MainAppDesktopShortcut" />
+      <ComponentRef Id="UninstallShortcut" />
+      <ComponentRef Id="StartupShortcut" />
+      
+
+    </ComponentGroup>
+
+    <Property Id="INSTALLDESKTOPSHORTCUT" Value="1" />
+    <Property Id="STARTUPSHORTCUT" Value="1" />
+    <Property Id="STARTMENUSHORTCUT" Value="1" />
+    <Property Id="LAUNCHAPPONEXIT" Value="1" />
+    
+    <DirectoryRef Id="INSTALLFOLDER" FileSource="!(loc.AppBuildFolder)">
+
+
+      
+      
+      <Component Id="MainAppShortcut" Guid="{7675F470-5644-4481-A74E-B3DB3FE47378}">
+        <Condition>STARTMENUSHORTCUT</Condition>
+        <Shortcut Id="MainAppShortcut"
+                  Name="!(loc.ShortProductName)"
+                  Target="[INSTALLFOLDER]\!(loc.AppFile)"
+                  Directory="InstallProgramMenuFolder"
+                  WorkingDirectory="INSTALLFOLDER"
+                  Icon="icon.ico"/>
+        <RegistryKey Root="HKCU" Key="SOFTWARE\!(loc.ShortProductName)" Action="createAndRemoveOnUninstall">
+          <RegistryValue Name="STARTMENUSHORTCUT" Type="integer" Value="1" KeyPath="yes"  />
+        </RegistryKey>
+        <RemoveFolder Id="RemoveStartMenu" Directory="InstallProgramMenuFolder" On="uninstall" />
+      </Component>
+      
+      <Component Id="MainAppDesktopShortcut" Guid="{A84E1A6E-DC22-4EF3-B422-4E57B813376D}">
+        <Condition>INSTALLDESKTOPSHORTCUT</Condition>
+        <Shortcut Id="MainAppDesktopShortcut"
+          Name="!(loc.ShortProductName)"
+          Target="[INSTALLFOLDER]\!(loc.AppFile)"
+          Directory="DesktopFolder"
+          WorkingDirectory="INSTALLFOLDER"
+          Icon="icon.ico"/>
+        <RegistryKey Root="HKCU" Key="SOFTWARE\!(loc.ShortProductName)" Action="createAndRemoveOnUninstall">
+          <RegistryValue Name="DESKTOPSHORTCUT" Type="integer" Value="1" KeyPath="yes"  />
+        </RegistryKey>
+      
+      </Component>
+
+      <Component Id="UninstallShortcut" Guid="{F8667075-6EC9-48C8-A17D-7A3AF6011CC8}">
+        <Shortcut Id="UninstallProduct"
+          Name="uninstall"
+          Target="[SystemFolder]msiexec.exe"
+          Arguments="/x [ProductCode]"
+          Description="uninstall !(loc.ShortProductName)" />
+        <RegistryKey Root="HKCU" Key="SOFTWARE\!(loc.ShortProductName)" Action="createAndRemoveOnUninstall">
+          <RegistryValue Name="UNINSTALLPRODUCT" Type="integer" Value="1" KeyPath="yes"  />
+        </RegistryKey>    
+      </Component>
+
+      <Component Id="StartupShortcut" Guid="{BCB707E4-535A-406C-AB09-642966F2B036}">
+        <Condition>STARTUPSHORTCUT</Condition>
+                <RegistryValue Id="StartupShortcutA" Root="HKCU" Action="write"
+               Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Run"
+               Name="!(loc.ShortProductName)"
+               Value="[INSTALLFOLDER]!(loc.AppFile)"
+               Type="string" />
+        
+               <RegistryValue Id="StartupShortcutB" Root="HKCU" Action="write"
+               Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run"
+               Name="!(loc.ShortProductName)"
+               Value="020000000000000000000000"
+               Type="binary" />
+      </Component>
+    </DirectoryRef>
+
+  </Fragment>
+
+</Wix>

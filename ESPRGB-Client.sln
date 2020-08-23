@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30309.148
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESPRGB-Client", "ESPRGB-Client\ESPRGB-Client.csproj", "{CA2FC372-D7C8-49AF-A2B0-4B9D7DBE60B1}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "ESPRGB-Client_setup", "ESPRGB-Client_setup\ESPRGB-Client_setup.wixproj", "{1B5459A8-24A3-4966-9ACD-005D23BFA65E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CA2FC372-D7C8-49AF-A2B0-4B9D7DBE60B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA2FC372-D7C8-49AF-A2B0-4B9D7DBE60B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA2FC372-D7C8-49AF-A2B0-4B9D7DBE60B1}.Debug|x64.ActiveCfg = Debug|x64
+		{CA2FC372-D7C8-49AF-A2B0-4B9D7DBE60B1}.Debug|x64.Build.0 = Debug|x64
+		{CA2FC372-D7C8-49AF-A2B0-4B9D7DBE60B1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CA2FC372-D7C8-49AF-A2B0-4B9D7DBE60B1}.Debug|x86.Build.0 = Debug|Any CPU
+		{CA2FC372-D7C8-49AF-A2B0-4B9D7DBE60B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA2FC372-D7C8-49AF-A2B0-4B9D7DBE60B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA2FC372-D7C8-49AF-A2B0-4B9D7DBE60B1}.Release|x64.ActiveCfg = Release|x64
+		{CA2FC372-D7C8-49AF-A2B0-4B9D7DBE60B1}.Release|x64.Build.0 = Release|x64
+		{CA2FC372-D7C8-49AF-A2B0-4B9D7DBE60B1}.Release|x86.ActiveCfg = Release|Any CPU
+		{CA2FC372-D7C8-49AF-A2B0-4B9D7DBE60B1}.Release|x86.Build.0 = Release|Any CPU
+		{1B5459A8-24A3-4966-9ACD-005D23BFA65E}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{1B5459A8-24A3-4966-9ACD-005D23BFA65E}.Debug|x64.ActiveCfg = Debug|x64
+		{1B5459A8-24A3-4966-9ACD-005D23BFA65E}.Debug|x86.ActiveCfg = Debug|x86
+		{1B5459A8-24A3-4966-9ACD-005D23BFA65E}.Release|Any CPU.ActiveCfg = Release|x64
+		{1B5459A8-24A3-4966-9ACD-005D23BFA65E}.Release|x64.ActiveCfg = Release|x64
+		{1B5459A8-24A3-4966-9ACD-005D23BFA65E}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5D19576B-25B5-49BB-87D8-726462BC1B73}
+	EndGlobalSection
+EndGlobal
