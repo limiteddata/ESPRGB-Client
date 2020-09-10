@@ -1,8 +1,8 @@
 # ESPRGB-Client
 
-<center>
-  <img src="./assets/esprgb_banner.svg" width=300 />
-</center>
+
+<img align="center" src="./assets/esprgb_banner.svg" width=300 />
+
 
 ESPRGB-Client is built to control your rgb led strip from your PC with devices that are ESPRGB compatible. This client can do audio reactive led without using a microphone, ambilight, create schedules (by application), sync all your devices together, open and close the lights when whenever your pc is running and many more.
 
