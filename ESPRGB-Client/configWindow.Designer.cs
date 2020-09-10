@@ -30,19 +30,21 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(configWindow));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.HOSTNAME = new System.Windows.Forms.TextBox();
+            this.dns = new System.Windows.Forms.TextBox();
+            this.subnet = new System.Windows.Forms.TextBox();
+            this.gateway = new System.Windows.Forms.TextBox();
+            this.local_IP = new System.Windows.Forms.TextBox();
+            this.PASSWORD = new System.Windows.Forms.TextBox();
             this.testbutton_bz = new System.Windows.Forms.Button();
             this.BUZZERPIN = new System.Windows.Forms.ComboBox();
             this.label15 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.pinResponse = new System.Windows.Forms.Label();
             this.sendButton = new System.Windows.Forms.Button();
-            this.dns = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
-            this.subnet = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
-            this.gateway = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.local_IP = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.startStatic = new System.Windows.Forms.CheckBox();
@@ -55,12 +57,10 @@
             this.testButton_R = new System.Windows.Forms.Button();
             this.REDPIN = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.HOSTNAME = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.SSID = new System.Windows.Forms.ComboBox();
-            this.PASSWORD = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.closeButton = new System.Windows.Forms.Button();
@@ -112,6 +112,55 @@
             this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.messageBox_MouseDown);
             this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.messageBox_MouseMove);
             // 
+            // HOSTNAME
+            // 
+            this.HOSTNAME.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.HOSTNAME.Location = new System.Drawing.Point(165, 161);
+            this.HOSTNAME.Name = "HOSTNAME";
+            this.HOSTNAME.Size = new System.Drawing.Size(158, 22);
+            this.HOSTNAME.TabIndex = 54;
+            // 
+            // dns
+            // 
+            this.dns.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dns.Location = new System.Drawing.Point(91, 445);
+            this.dns.Name = "dns";
+            this.dns.Size = new System.Drawing.Size(232, 22);
+            this.dns.TabIndex = 69;
+            // 
+            // subnet
+            // 
+            this.subnet.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.subnet.Location = new System.Drawing.Point(91, 417);
+            this.subnet.Name = "subnet";
+            this.subnet.Size = new System.Drawing.Size(232, 22);
+            this.subnet.TabIndex = 67;
+            // 
+            // gateway
+            // 
+            this.gateway.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gateway.Location = new System.Drawing.Point(91, 387);
+            this.gateway.Name = "gateway";
+            this.gateway.Size = new System.Drawing.Size(232, 22);
+            this.gateway.TabIndex = 65;
+            // 
+            // local_IP
+            // 
+            this.local_IP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.local_IP.Location = new System.Drawing.Point(91, 358);
+            this.local_IP.Name = "local_IP";
+            this.local_IP.Size = new System.Drawing.Size(232, 22);
+            this.local_IP.TabIndex = 63;
+            // 
+            // PASSWORD
+            // 
+            this.PASSWORD.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PASSWORD.Location = new System.Drawing.Point(91, 106);
+            this.PASSWORD.Name = "PASSWORD";
+            this.PASSWORD.PasswordChar = '*';
+            this.PASSWORD.Size = new System.Drawing.Size(232, 22);
+            this.PASSWORD.TabIndex = 52;
+            // 
             // testbutton_bz
             // 
             this.testbutton_bz.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(156)))));
@@ -144,8 +193,7 @@
             "12",
             "13",
             "14",
-            "15",
-            "16"});
+            "15"});
             this.BUZZERPIN.Location = new System.Drawing.Point(165, 283);
             this.BUZZERPIN.Name = "BUZZERPIN";
             this.BUZZERPIN.Size = new System.Drawing.Size(85, 23);
@@ -200,14 +248,6 @@
             this.sendButton.UseVisualStyleBackColor = false;
             this.sendButton.Click += new System.EventHandler(this.sendButton_Click);
             // 
-            // dns
-            // 
-            this.dns.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dns.Location = new System.Drawing.Point(91, 445);
-            this.dns.Name = "dns";
-            this.dns.Size = new System.Drawing.Size(232, 22);
-            this.dns.TabIndex = 69;
-            // 
             // label13
             // 
             this.label13.AutoSize = true;
@@ -218,14 +258,6 @@
             this.label13.Size = new System.Drawing.Size(35, 16);
             this.label13.TabIndex = 63;
             this.label13.Text = "Dns:";
-            // 
-            // subnet
-            // 
-            this.subnet.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.subnet.Location = new System.Drawing.Point(91, 417);
-            this.subnet.Name = "subnet";
-            this.subnet.Size = new System.Drawing.Size(232, 22);
-            this.subnet.TabIndex = 67;
             // 
             // label12
             // 
@@ -238,14 +270,6 @@
             this.label12.TabIndex = 61;
             this.label12.Text = "Subnet:";
             // 
-            // gateway
-            // 
-            this.gateway.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gateway.Location = new System.Drawing.Point(91, 387);
-            this.gateway.Name = "gateway";
-            this.gateway.Size = new System.Drawing.Size(232, 22);
-            this.gateway.TabIndex = 65;
-            // 
             // label10
             // 
             this.label10.AutoSize = true;
@@ -256,14 +280,6 @@
             this.label10.Size = new System.Drawing.Size(64, 16);
             this.label10.TabIndex = 58;
             this.label10.Text = "Gateway:";
-            // 
-            // local_IP
-            // 
-            this.local_IP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.local_IP.Location = new System.Drawing.Point(91, 358);
-            this.local_IP.Name = "local_IP";
-            this.local_IP.Size = new System.Drawing.Size(232, 22);
-            this.local_IP.TabIndex = 63;
             // 
             // label11
             // 
@@ -333,8 +349,7 @@
             "12",
             "13",
             "14",
-            "15",
-            "16"});
+            "15"});
             this.BLUEPIN.Location = new System.Drawing.Point(165, 254);
             this.BLUEPIN.Name = "BLUEPIN";
             this.BLUEPIN.Size = new System.Drawing.Size(85, 23);
@@ -384,8 +399,7 @@
             "12",
             "13",
             "14",
-            "15",
-            "16"});
+            "15"});
             this.GREENPIN.Location = new System.Drawing.Point(165, 223);
             this.GREENPIN.Name = "GREENPIN";
             this.GREENPIN.Size = new System.Drawing.Size(85, 23);
@@ -435,8 +449,7 @@
             "12",
             "13",
             "14",
-            "15",
-            "16"});
+            "15"});
             this.REDPIN.Location = new System.Drawing.Point(165, 192);
             this.REDPIN.Name = "REDPIN";
             this.REDPIN.Size = new System.Drawing.Size(85, 23);
@@ -453,14 +466,6 @@
             this.label6.Size = new System.Drawing.Size(58, 16);
             this.label6.TabIndex = 45;
             this.label6.Text = "Red pin:";
-            // 
-            // HOSTNAME
-            // 
-            this.HOSTNAME.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.HOSTNAME.Location = new System.Drawing.Point(165, 161);
-            this.HOSTNAME.Name = "HOSTNAME";
-            this.HOSTNAME.Size = new System.Drawing.Size(158, 22);
-            this.HOSTNAME.TabIndex = 54;
             // 
             // label5
             // 
@@ -510,15 +515,6 @@
             this.SSID.TabIndex = 50;
             this.SSID.SelectedIndexChanged += new System.EventHandler(this.SSID_SelectedIndexChanged);
             this.SSID.KeyDown += new System.Windows.Forms.KeyEventHandler(this.SSID_KeyDown);
-            // 
-            // PASSWORD
-            // 
-            this.PASSWORD.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PASSWORD.Location = new System.Drawing.Point(91, 106);
-            this.PASSWORD.Name = "PASSWORD";
-            this.PASSWORD.PasswordChar = '*';
-            this.PASSWORD.Size = new System.Drawing.Size(232, 22);
-            this.PASSWORD.TabIndex = 52;
             // 
             // label2
             // 
