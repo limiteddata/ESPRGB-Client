@@ -50,7 +50,7 @@ By checking **Use Color List** you can create a custom color sequence, otherwise
 **Disco** (windows client only) is grabbing the audio output of your pc and it does a fft analysis to split the audio into 3 sections that you can adjust and set to red green blue or none. The different frequencies from the music you listen, the max brightness of each section, the sensitivity and the color of each section will determine the final color your esp will show.
 The brightness slider will change the maximum peak that each selection can hit. Sensitivity will remove the "noise" or the low volume sound.
 
-<img src="./images/Disco.png" width=450 />
+<img src="./images/disco.png" width=450 />
 
 **Solid Disco** (windows client only) is mostly the same as disco but you can only one range of frequencies but a rgb color. You can change the color manually or check the **Random Color** and it will change randomly each beat. The range can be adjust by dragging the bar under the visualizer. Sensitivity will remove the "noise" or the low volume sound.
 
