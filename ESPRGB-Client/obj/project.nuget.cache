@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "dgSpecHash": "PGJubZuJ6JhUup1OkMe2k5iCZvKLeCKhbUICEYwzy7os1ZwvfyV5xOII+AoQ83SbLuaPwjeonmCovWCOEr5kgg==",
+  "success": true,
+  "projectFilePath": "D:\\ESP\\ESPRGB-Client\\ESPRGB-Client\\ESPRGB-Client\\ESPRGB-Client.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\adroi\\.nuget\\packages\\dnsclient\\1.3.2\\dnsclient.1.3.2.nupkg.sha512",
+    "C:\\Users\\adroi\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",
+    "C:\\Users\\adroi\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
+    "C:\\Users\\adroi\\.nuget\\packages\\tmds.mdns\\0.7.0\\tmds.mdns.0.7.0.nupkg.sha512",
+    "C:\\Users\\adroi\\.nuget\\packages\\zeroit.framework.metro\\1.0.0\\zeroit.framework.metro.1.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

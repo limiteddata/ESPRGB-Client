@@ -1,0 +1,8 @@
+obj\x64\Release\Components.wixobj
+obj\x64\Release\Directories.wixobj
+obj\x64\Release\Product.wixobj
+D:\ESP\ESPRGB-Client\ESPRGB-Client\ESPRGB-Client_setup\bin\x64\Release\en-us\ESPRGB_Client_setup.msi
+D:\ESP\ESPRGB-Client\ESPRGB-Client\ESPRGB-Client_setup\bin\x64\Release\en-us\ESPRGB_Client_setup.wixpdb
+obj\x64\Release\ESPRGB-Client_setup.wixproj.BindContentsFileListen-us.txt
+obj\x64\Release\ESPRGB-Client_setup.wixproj.BindOutputsFileListen-us.txt
+obj\x64\Release\ESPRGB-Client_setup.wixproj.BindBuiltOutputsFileListen-us.txt

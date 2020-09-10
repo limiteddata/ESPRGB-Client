@@ -1,0 +1,11 @@
+..\ESPRGB-Client\bin\Release\Tmds.MDns.dll
+..\ESPRGB-Client\bin\Release\ESPRGB-Client.pdb
+..\ESPRGB-Client\bin\Release\basswasapi.dll
+..\ESPRGB-Client\bin\Release\Zeroit.Framework.Metro.dll
+..\ESPRGB-Client\bin\Release\Newtonsoft.Json.dll
+..\ESPRGB-Client\bin\Release\Bass.Net.dll
+..\ESPRGB-Client\bin\Release\bass.dll
+..\ESPRGB-Client\bin\Release\System.Buffers.dll
+..\ESPRGB-Client\bin\Release\ESPRGB-Client.exe
+..\ESPRGB-Client\bin\Release\ESPRGB-Client.exe.config
+..\ESPRGB-Client\bin\Release\DnsClient.dll
