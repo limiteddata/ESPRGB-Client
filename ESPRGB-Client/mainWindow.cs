@@ -546,7 +546,7 @@ namespace ESPRGB_Client
         public void checkForUpdates()
         {
             Thread updateChecker = new Thread(() => {
-                githubUpdater updater = new githubUpdater("limiteddata", "ESPRGB-Client", Path.GetTempPath());
+                githubUpdater updater = new githubUpdater("limiteddata", "ESPRGB-Client", Path.GetTempPath());    
                 Task<bool> newUpdate = updater.checkForUpdates(curVersion);
                 if (newUpdate.Result)
                 {

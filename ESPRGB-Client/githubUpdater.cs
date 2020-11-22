@@ -45,7 +45,7 @@ namespace githubUpdaterApp
         {
             latestReleaseJson = await GetLatestReleaseJSONAsync(_username, _repository);
 
-            latestVersion = new Version(latestReleaseJson["tag_name"].ToString().Split('v')[1]);
+            latestVersion = new Version(latestReleaseJson["tag_name"].ToString());
 
             if (latestVersion > currentVersion)
             {
