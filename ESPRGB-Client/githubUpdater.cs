@@ -58,10 +58,18 @@ namespace githubUpdaterApp
                 return false;
             }
         }
+        public async Task<bool> downloadNewVersionFromExtension(string ext)
+        {
+
+            var updateUrl = ExtractDownloadUrlFromExtension(latestReleaseJson,ext);
+            updateArchiveFileName = Path.Combine(_tempDir, Path.GetFileName(updateUrl));
+            await DownloadFile(updateUrl, updateArchiveFileName);
+            return File.Exists(updateArchiveFileName);
+        }
         public async Task<bool> downloadNewVersion()
         {
             var updateUrl = ExtractDownloadUrl(latestReleaseJson);
-            updateArchiveFileName = Path.Combine(_tempDir, Path.GetFileName(updateUrl));                  
+            updateArchiveFileName = Path.Combine(_tempDir, Path.GetFileName(updateUrl));
             await DownloadFile(updateUrl, updateArchiveFileName);
             return File.Exists(updateArchiveFileName);
         }
@@ -96,10 +104,10 @@ namespace githubUpdaterApp
         }
         public bool Install()
         {
-            try { 
+            try {
                 if (newUpdateAvailable)
                 {
- 
+
                     var process = new Process
                     {
                         StartInfo = new ProcessStartInfo
@@ -113,13 +121,23 @@ namespace githubUpdaterApp
                     process.Start();
                     return true;
                 }
-            return false;
+                return false;
             }
             catch
             {
                 return false;
             }
         }
+        public static string ExtractDownloadUrlFromExtension(JObject json, string ext){
+            JArray assets = (JArray)json["assets"];
+            for (int i = 0; i < assets.Count(); i++)
+            {
+                string obj = (string)assets[i]["name"];
+                if (obj.Contains(ext)) return json["assets"][i]["browser_download_url"].ToObject<string>();
+            }
+            return "";
+        }
+
         public static string ExtractDownloadUrl(JObject json) => json["assets"][0]["browser_download_url"].ToObject<string>();
 
         public static Version ExtractVersion(JObject json) => new Version(json["name"].ToObject<string>());

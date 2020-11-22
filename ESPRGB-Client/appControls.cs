@@ -111,7 +111,7 @@ namespace ESPRGB_Client
         int index;
         private void OnDispose(object sender, EventArgs e)
         {
-            ws.CloseAsync(CloseStatusCode.Away);
+            if (ws != null) ws.CloseAsync(CloseStatusCode.Away);
             reconnectTimer.Dispose();
             rssiTimer.Dispose();
             scheduleTimer.Dispose();

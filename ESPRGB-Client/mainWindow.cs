@@ -557,7 +557,7 @@ namespace ESPRGB_Client
                         updateMessage.ShowDialog();
                         if (updateMessage.DialogResult == DialogResult.Yes)
                         {
-                            Task<bool> download = updater.downloadNewVersion();
+                            Task<bool> download = updater.downloadNewVersionFromExtension("msi");
                             if (download.Result)
                             {
                                 exceptions msg = new exceptions(0, "ESPRGB-Update", "Finished downloading. Continue installing the new version");
