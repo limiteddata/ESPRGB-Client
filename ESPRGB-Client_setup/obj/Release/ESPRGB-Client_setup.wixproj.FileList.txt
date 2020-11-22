@@ -1,12 +1,12 @@
 D:\ESP\ESPRGB-Client\ESPRGB-Client\ESPRGB-Client_setup\bin\Release\ESPRGB_Client_setup.msi
 D:\ESP\ESPRGB-Client\ESPRGB-Client\ESPRGB-Client_setup\bin\Release\ESPRGB_Client_setup.wixpdb
 obj\Release\Components.wixobj
+obj\Release\ComponentsGenerated.wixobj
 obj\Release\Directories.wixobj
+obj\Release\myExitDialog.wixobj
+obj\Release\MyInstallDirDlg.wixobj
+obj\Release\MyWixUI_InstallDir.wixobj
 obj\Release\Product.wixobj
 obj\Release\ESPRGB-Client_setup.wixproj.BindContentsFileListnull.txt
 obj\Release\ESPRGB-Client_setup.wixproj.BindOutputsFileListnull.txt
 obj\Release\ESPRGB-Client_setup.wixproj.BindBuiltOutputsFileListnull.txt
-obj\Release\ComponentsGenerated.wixobj
-obj\Release\MyInstallDirDlg.wixobj
-obj\Release\MyWixUI_InstallDir.wixobj
-obj\Release\myExitDialog.wixobj

@@ -31,7 +31,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(exceptions));
             this.panel1 = new System.Windows.Forms.Panel();
-            this.yesButton = new System.Windows.Forms.Button();
             this.message = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -39,7 +38,6 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(42)))), ((int)(((byte)(71)))));
-            this.panel1.Controls.Add(this.yesButton);
             this.panel1.Controls.Add(this.message);
             this.panel1.Location = new System.Drawing.Point(10, 10);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
@@ -48,22 +46,6 @@
             this.panel1.TabIndex = 0;
             this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.messageBox_MouseDown);
             this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.messageBox_MouseMove);
-            // 
-            // yesButton
-            // 
-            this.yesButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(156)))));
-            this.yesButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.yesButton.FlatAppearance.BorderSize = 0;
-            this.yesButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.yesButton.Font = new System.Drawing.Font("Microsoft PhagsPa", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.yesButton.ForeColor = System.Drawing.Color.White;
-            this.yesButton.Location = new System.Drawing.Point(108, 70);
-            this.yesButton.Name = "yesButton";
-            this.yesButton.Size = new System.Drawing.Size(85, 30);
-            this.yesButton.TabIndex = 4;
-            this.yesButton.Text = "OK";
-            this.yesButton.UseVisualStyleBackColor = false;
-            this.yesButton.Click += new System.EventHandler(this.yesButton_Click);
             // 
             // message
             // 
@@ -100,7 +82,6 @@
         #endregion
 
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label message;
-        private System.Windows.Forms.Button yesButton;
+        private System.Windows.Forms.Label message;      
     }
 }

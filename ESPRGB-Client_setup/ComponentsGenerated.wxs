@@ -2,37 +2,37 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>
         <DirectoryRef Id="INSTALLFOLDER">
-            <Component Id="cmpB82FB306CE7F00B5A8FE5BAE2E5B8075" Guid="{49902B27-863F-4603-BDA6-7DAB4765FC38}">
+            <Component Id="cmpB82FB306CE7F00B5A8FE5BAE2E5B8075" Guid="{29DE892D-1F3E-4880-9979-BCAED1506552}">
                 <File Id="filA90D5F13C1E1508760D6746CBEFDFB9E" KeyPath="yes" Source="$(var.BasePath)\bass.dll" />
             </Component>
-            <Component Id="cmp75A93D41838B465071440D11D1B6BB9A" Guid="{46F60BBB-CBF7-433D-AA5F-77CEA41F0202}">
+            <Component Id="cmp75A93D41838B465071440D11D1B6BB9A" Guid="{029F5C53-D793-421F-A0C4-0BB559CE9FAB}">
                 <File Id="fil9F80672AE8BF524EA8178EC1AA246300" KeyPath="yes" Source="$(var.BasePath)\Bass.Net.dll" />
             </Component>
-            <Component Id="cmp8A521B79814CE7E4F2766CD8962F1DD1" Guid="{AD4FED54-B062-4E20-B69E-599B3765013B}">
+            <Component Id="cmp8A521B79814CE7E4F2766CD8962F1DD1" Guid="{04069140-0A6A-4F59-BECB-6B97989FF28B}">
                 <File Id="fil75AA0467D02A8147841683226E78A2E3" KeyPath="yes" Source="$(var.BasePath)\basswasapi.dll" />
             </Component>
-            <Component Id="cmp73F5E8FBB8791D910527DDD7786C1F56" Guid="{26F1BE8B-1E4B-4EAA-B42E-3DB90661747D}">
+            <Component Id="cmp73F5E8FBB8791D910527DDD7786C1F56" Guid="{621E9BA8-57DD-4EA3-BEAF-78D574EB1F83}">
                 <File Id="filEB8214371A71B894A4EDE52135CFC9A4" KeyPath="yes" Source="$(var.BasePath)\DnsClient.dll" />
             </Component>
-            <Component Id="cmpF0E6F98BEE7D7C34ED40CDA5069C4EB5" Guid="{F757573C-52CA-4F86-96BF-ED7906EC985F}">
+            <Component Id="cmpF0E6F98BEE7D7C34ED40CDA5069C4EB5" Guid="{447C8986-B126-41CB-A2A4-5CC12A991624}">
                 <File Id="filD3D9661A6B018D225FD9FACD52D259DC" KeyPath="yes" Source="$(var.BasePath)\ESPRGB-Client.exe" />
             </Component>
-            <Component Id="cmp87ECA32ED4B479DDB5E71E3E55BDA1A3" Guid="{3472EE87-1222-4BBE-BF35-38527011F677}">
+            <Component Id="cmp87ECA32ED4B479DDB5E71E3E55BDA1A3" Guid="{23113F56-1251-4894-8474-5AF30A387A62}">
                 <File Id="filE16498CFE7AD2DE589DE2B45F57BD299" KeyPath="yes" Source="$(var.BasePath)\ESPRGB-Client.exe.config" />
             </Component>
-            <Component Id="cmp03BB43E84ED2CCA4963E4550C8F48E05" Guid="{70B43B5F-8B65-4FAE-A185-85CE81EDE52B}">
+            <Component Id="cmp03BB43E84ED2CCA4963E4550C8F48E05" Guid="{4BBB6593-B6B1-4042-9345-A579D3AC4EC8}">
                 <File Id="fil1DEC85E81F770C50424434E8F7C42EA2" KeyPath="yes" Source="$(var.BasePath)\ESPRGB-Client.pdb" />
             </Component>
-            <Component Id="cmpBC4FC00A26E7D32479D42D3411317FC5" Guid="{5F52A70F-BE5B-42FE-8226-42FF5B3A7C9D}">
+            <Component Id="cmpBC4FC00A26E7D32479D42D3411317FC5" Guid="{E5C4DD14-2613-4751-AF27-13792B89933C}">
                 <File Id="fil90A8AAD9FC612906D405476D61CEA3F4" KeyPath="yes" Source="$(var.BasePath)\Newtonsoft.Json.dll" />
             </Component>
-            <Component Id="cmpA748C45814948C0E47F0962CF5A9E2C5" Guid="{CC0424CD-B08D-4F54-A33A-B89E8C61B4A2}">
+            <Component Id="cmpA748C45814948C0E47F0962CF5A9E2C5" Guid="{AE26F963-17BD-4580-8099-79E558A59B4E}">
                 <File Id="filAF63FF48A59E0E5E7F49BFD1CBBB0CC3" KeyPath="yes" Source="$(var.BasePath)\System.Buffers.dll" />
             </Component>
-            <Component Id="cmpB870967352B364EE79BF8B8BFF4C3770" Guid="{155988D8-7615-42D6-915C-26DA9E1F9AB1}">
+            <Component Id="cmpB870967352B364EE79BF8B8BFF4C3770" Guid="{A5AA02C8-74F8-43FE-9B33-6265FECCD65D}">
                 <File Id="fil128980E61205EAE3EA4C240E996793A3" KeyPath="yes" Source="$(var.BasePath)\Tmds.MDns.dll" />
             </Component>
-            <Component Id="cmp6D84B6534D82DD7DF8874D5F488E0108" Guid="{CEF8B0F6-7A4F-43D4-8A02-F909D8265B32}">
+            <Component Id="cmp6D84B6534D82DD7DF8874D5F488E0108" Guid="{90B5B491-4BED-4CDB-A16D-C3D2F8A3C6BD}">
                 <File Id="fil8C39E3D754ED56F39AA9253AA89F4021" KeyPath="yes" Source="$(var.BasePath)\Zeroit.Framework.Metro.dll" />
             </Component>
         </DirectoryRef>

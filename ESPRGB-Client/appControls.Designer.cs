@@ -67,8 +67,8 @@ namespace ESPRGB_Client
             this.br_removeLastColor = new System.Windows.Forms.Button();
             this.br_addCurrentColor = new System.Windows.Forms.Button();
             this.useColorList = new System.Windows.Forms.CheckBox();
-            this.startBreathing = new System.Windows.Forms.CheckBox();
             this.colorListResult = new ESPRGB_Client.breathingSlider();
+            this.startBreathing = new System.Windows.Forms.CheckBox();
             this._Disco = new System.Windows.Forms.TabPage();
             this.startDisco = new System.Windows.Forms.CheckBox();
             this.label15 = new System.Windows.Forms.Label();
@@ -114,17 +114,26 @@ namespace ESPRGB_Client
             this.startAmbilight = new System.Windows.Forms.CheckBox();
             this.label21 = new System.Windows.Forms.Label();
             this._Schedule = new System.Windows.Forms.TabPage();
+            this.timeScheduleList = new WindowsFormsApp2.scheduleList();
+            this.label24 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.enableTimeSchedule = new Zeroit.Framework.Metro.ZeroitMetroSwitch();
+            this.addNewTimeSchedule = new System.Windows.Forms.Button();
+            this.label22 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
-            this.enableSchedule = new Zeroit.Framework.Metro.ZeroitMetroSwitch();
-            this.addNewSchedule = new System.Windows.Forms.Button();
+            this.enableAppSchedule = new Zeroit.Framework.Metro.ZeroitMetroSwitch();
+            this.addNewAppSchedule = new System.Windows.Forms.Button();
             this.label19 = new System.Windows.Forms.Label();
-            this.scheduleList = new WindowsFormsApp2.scheduleList();
+            this.appScheduleList = new WindowsFormsApp2.scheduleList();
             this._Other = new System.Windows.Forms.TabPage();
+            this.removeDevice = new System.Windows.Forms.Button();
+            this.espVersion = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
             this.powerConectedButton = new System.Windows.Forms.Button();
             this.restartButton = new System.Windows.Forms.Button();
             this.configButton = new System.Windows.Forms.Button();
             this.syncButton = new System.Windows.Forms.Button();
-            this.removeDevice = new System.Windows.Forms.Button();
+            this.removeUserConfig = new System.Windows.Forms.Button();
             this.formatButton = new System.Windows.Forms.Button();
             this.connectButton = new System.Windows.Forms.Button();
             this.solidDiscoTimer = new System.Windows.Forms.Timer(this.components);
@@ -504,11 +513,10 @@ namespace ESPRGB_Client
             this.powerButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(42)))), ((int)(((byte)(71)))));
             this.powerButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.powerButton.ForeColor = System.Drawing.Color.Transparent;
-            this.powerButton.Image = global::ESPRGB_Client.Properties.Resources.power_0;
             this.powerButton.Location = new System.Drawing.Point(471, 318);
             this.powerButton.Margin = new System.Windows.Forms.Padding(0);
             this.powerButton.Name = "powerButton";
-            this.powerButton.Size = new System.Drawing.Size(47, 47);
+            this.powerButton.Size = new System.Drawing.Size(6, 6);
             this.powerButton.TabIndex = 14;
             this.powerButton.TabStop = false;
             this.powerButton.UseVisualStyleBackColor = false;
@@ -554,10 +562,9 @@ namespace ESPRGB_Client
             this.startColorCycle.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(42)))), ((int)(((byte)(71)))));
             this.startColorCycle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.startColorCycle.ForeColor = System.Drawing.Color.Transparent;
-            this.startColorCycle.Image = global::ESPRGB_Client.Properties.Resources.bool_0;
             this.startColorCycle.Location = new System.Drawing.Point(655, 70);
             this.startColorCycle.Name = "startColorCycle";
-            this.startColorCycle.Size = new System.Drawing.Size(26, 26);
+            this.startColorCycle.Size = new System.Drawing.Size(6, 6);
             this.startColorCycle.TabIndex = 20;
             this.startColorCycle.TabStop = false;
             this.startColorCycle.UseVisualStyleBackColor = false;
@@ -576,8 +583,8 @@ namespace ESPRGB_Client
             this._Breathing.Controls.Add(this.label8);
             this._Breathing.Controls.Add(this.breathingSpeed);
             this._Breathing.Controls.Add(this.label4);
-            this._Breathing.Controls.Add(this.startBreathing);
             this._Breathing.Controls.Add(this.colorListResult);
+            this._Breathing.Controls.Add(this.startBreathing);
             this._Breathing.Location = new System.Drawing.Point(99, 4);
             this._Breathing.Margin = new System.Windows.Forms.Padding(0);
             this._Breathing.Name = "_Breathing";
@@ -670,6 +677,15 @@ namespace ESPRGB_Client
             this.useColorList.UseVisualStyleBackColor = true;
             this.useColorList.Click += new System.EventHandler(this.useColorList_Click);
             // 
+            // colorListResult
+            // 
+            this.colorListResult.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(32)))), ((int)(((byte)(54)))));
+            this.colorListResult.Location = new System.Drawing.Point(49, 124);
+            this.colorListResult.Name = "colorListResult";
+            this.colorListResult.Size = new System.Drawing.Size(603, 30);
+            this.colorListResult.TabIndex = 33;
+            this.colorListResult.TabStop = false;
+            // 
             // startBreathing
             // 
             this.startBreathing.Appearance = System.Windows.Forms.Appearance.Button;
@@ -681,24 +697,14 @@ namespace ESPRGB_Client
             this.startBreathing.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(42)))), ((int)(((byte)(71)))));
             this.startBreathing.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.startBreathing.ForeColor = System.Drawing.Color.Transparent;
-            this.startBreathing.Image = global::ESPRGB_Client.Properties.Resources.bool_0;
             this.startBreathing.Location = new System.Drawing.Point(655, 70);
             this.startBreathing.Name = "startBreathing";
-            this.startBreathing.Size = new System.Drawing.Size(26, 26);
+            this.startBreathing.Size = new System.Drawing.Size(6, 6);
             this.startBreathing.TabIndex = 24;
             this.startBreathing.TabStop = false;
             this.startBreathing.UseVisualStyleBackColor = false;
             this.startBreathing.CheckedChanged += new System.EventHandler(this.startBreathing_CheckedChanged);
             this.startBreathing.Click += new System.EventHandler(this.startBreathing_Click);
-            // 
-            // colorListResult
-            // 
-            this.colorListResult.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(32)))), ((int)(((byte)(54)))));
-            this.colorListResult.Location = new System.Drawing.Point(49, 124);
-            this.colorListResult.Name = "colorListResult";
-            this.colorListResult.Size = new System.Drawing.Size(603, 30);
-            this.colorListResult.TabIndex = 33;
-            this.colorListResult.TabStop = false;
             // 
             // _Disco
             // 
@@ -1036,8 +1042,8 @@ namespace ESPRGB_Client
             this._SolidDisco.Controls.Add(this.solidDiscoSensitivity);
             this._SolidDisco.Controls.Add(this.startSolidDisco);
             this._SolidDisco.Controls.Add(this.label1);
-            this._SolidDisco.Controls.Add(this.SolidDiscoVisualizer);
             this._SolidDisco.Controls.Add(this.colorslider_simple);
+            this._SolidDisco.Controls.Add(this.SolidDiscoVisualizer);
             this._SolidDisco.Location = new System.Drawing.Point(99, 4);
             this._SolidDisco.Margin = new System.Windows.Forms.Padding(0);
             this._SolidDisco.Name = "_SolidDisco";
@@ -1268,7 +1274,7 @@ namespace ESPRGB_Client
             this.morsePlainText.ForeColor = System.Drawing.Color.White;
             this.morsePlainText.Location = new System.Drawing.Point(83, 112);
             this.morsePlainText.Margin = new System.Windows.Forms.Padding(0);
-            this.morsePlainText.MaxLength = 200;
+            this.morsePlainText.MaxLength = 75;
             this.morsePlainText.Multiline = true;
             this.morsePlainText.Name = "morsePlainText";
             this.morsePlainText.Size = new System.Drawing.Size(370, 70);
@@ -1318,10 +1324,11 @@ namespace ESPRGB_Client
             // screenSampler
             // 
             this.screenSampler.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(32)))), ((int)(((byte)(54)))));
+            this.screenSampler.enable = false;
             this.screenSampler.Location = new System.Drawing.Point(14, 38);
             this.screenSampler.Margin = new System.Windows.Forms.Padding(0);
             this.screenSampler.Name = "screenSampler";
-            this.screenSampler.ScreenColor = System.Drawing.Color.Empty;
+            this.screenSampler.ScreenColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(48)))), ((int)(((byte)(53)))));
             this.screenSampler.selectedScreen = 0;
             this.screenSampler.Size = new System.Drawing.Size(700, 385);
             this.screenSampler.TabIndex = 37;
@@ -1358,11 +1365,17 @@ namespace ESPRGB_Client
             // _Schedule
             // 
             this._Schedule.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(42)))), ((int)(((byte)(71)))));
+            this._Schedule.Controls.Add(this.timeScheduleList);
+            this._Schedule.Controls.Add(this.label24);
+            this._Schedule.Controls.Add(this.label23);
+            this._Schedule.Controls.Add(this.enableTimeSchedule);
+            this._Schedule.Controls.Add(this.addNewTimeSchedule);
+            this._Schedule.Controls.Add(this.label22);
             this._Schedule.Controls.Add(this.label20);
-            this._Schedule.Controls.Add(this.enableSchedule);
-            this._Schedule.Controls.Add(this.addNewSchedule);
+            this._Schedule.Controls.Add(this.enableAppSchedule);
+            this._Schedule.Controls.Add(this.addNewAppSchedule);
             this._Schedule.Controls.Add(this.label19);
-            this._Schedule.Controls.Add(this.scheduleList);
+            this._Schedule.Controls.Add(this.appScheduleList);
             this._Schedule.Location = new System.Drawing.Point(99, 4);
             this._Schedule.Margin = new System.Windows.Forms.Padding(0);
             this._Schedule.Name = "_Schedule";
@@ -1371,49 +1384,131 @@ namespace ESPRGB_Client
             this._Schedule.Tag = "NotAnimationTab";
             this._Schedule.Text = "Schedule";
             // 
+            // timeScheduleList
+            // 
+            this.timeScheduleList.AutoScroll = true;
+            this.timeScheduleList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(32)))), ((int)(((byte)(54)))));
+            this.timeScheduleList.Location = new System.Drawing.Point(80, 55);
+            this.timeScheduleList.Margin = new System.Windows.Forms.Padding(0);
+            this.timeScheduleList.Name = "timeScheduleList";
+            this.timeScheduleList.selectIndex = -1;
+            this.timeScheduleList.Size = new System.Drawing.Size(480, 180);
+            this.timeScheduleList.TabIndex = 31;
+            this.timeScheduleList.timeScheduleRemoved += new System.EventHandler<Newtonsoft.Json.Linq.JObject>(this.timeScheduleList_timeScheduleRemoved);
+            this.timeScheduleList.timeScheduleEdit += new System.EventHandler<Newtonsoft.Json.Linq.JObject>(this.timeScheduleList_timeScheduleEdit);
+            this.timeScheduleList.timeScheduleEnable += new System.EventHandler<Newtonsoft.Json.Linq.JObject>(this.timeScheduleList_timeScheduleEnable);
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label24.ForeColor = System.Drawing.Color.White;
+            this.label24.Location = new System.Drawing.Point(76, 243);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(102, 20);
+            this.label24.TabIndex = 30;
+            this.label24.Tag = "DontDisable";
+            this.label24.Text = "App schedule:";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label23.ForeColor = System.Drawing.Color.White;
+            this.label23.Location = new System.Drawing.Point(574, 167);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(42, 15);
+            this.label23.TabIndex = 29;
+            this.label23.Tag = "DontDisable";
+            this.label23.Text = "Enable";
+            // 
+            // enableTimeSchedule
+            // 
+            this.enableTimeSchedule.BackColor = System.Drawing.Color.Transparent;
+            this.enableTimeSchedule.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.enableTimeSchedule.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(98)))), ((int)(((byte)(98)))));
+            this.enableTimeSchedule.CheckColor = System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(98)))), ((int)(((byte)(98)))));
+            this.enableTimeSchedule.DefaultColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(156)))));
+            this.enableTimeSchedule.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.enableTimeSchedule.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(98)))), ((int)(((byte)(98)))));
+            this.enableTimeSchedule.Location = new System.Drawing.Point(618, 164);
+            this.enableTimeSchedule.Name = "enableTimeSchedule";
+            this.enableTimeSchedule.Size = new System.Drawing.Size(41, 23);
+            this.enableTimeSchedule.SwitchColor = System.Drawing.Color.White;
+            this.enableTimeSchedule.TabIndex = 28;
+            this.enableTimeSchedule.CheckedChanged += new Zeroit.Framework.Metro.ZeroitMetroSwitch.CheckedChangedEventHandler(this.enableTimeSchedule_CheckedChanged);
+            this.enableTimeSchedule.MouseDown += new System.Windows.Forms.MouseEventHandler(this.enableTimeSchedule_MouseDown);
+            this.enableTimeSchedule.MouseUp += new System.Windows.Forms.MouseEventHandler(this.enableTimeSchedule_MouseUp);
+            // 
+            // addNewTimeSchedule
+            // 
+            this.addNewTimeSchedule.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(156)))));
+            this.addNewTimeSchedule.FlatAppearance.BorderSize = 0;
+            this.addNewTimeSchedule.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.addNewTimeSchedule.ForeColor = System.Drawing.Color.White;
+            this.addNewTimeSchedule.Location = new System.Drawing.Point(580, 195);
+            this.addNewTimeSchedule.Name = "addNewTimeSchedule";
+            this.addNewTimeSchedule.Size = new System.Drawing.Size(80, 40);
+            this.addNewTimeSchedule.TabIndex = 26;
+            this.addNewTimeSchedule.Text = "ADD NEW";
+            this.addNewTimeSchedule.UseVisualStyleBackColor = false;
+            this.addNewTimeSchedule.Click += new System.EventHandler(this.addNewTimeSchedule_Click);
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label22.ForeColor = System.Drawing.Color.White;
+            this.label22.Location = new System.Drawing.Point(76, 34);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(107, 20);
+            this.label22.TabIndex = 25;
+            this.label22.Tag = "DontDisable";
+            this.label22.Text = "Time schedule:";
+            // 
             // label20
             // 
             this.label20.AutoSize = true;
             this.label20.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label20.ForeColor = System.Drawing.Color.White;
-            this.label20.Location = new System.Drawing.Point(574, 371);
+            this.label20.Location = new System.Drawing.Point(574, 375);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(42, 15);
             this.label20.TabIndex = 24;
             this.label20.Tag = "DontDisable";
             this.label20.Text = "Enable";
             // 
-            // enableSchedule
+            // enableAppSchedule
             // 
-            this.enableSchedule.BackColor = System.Drawing.Color.Transparent;
-            this.enableSchedule.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.enableSchedule.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(98)))), ((int)(((byte)(98)))));
-            this.enableSchedule.CheckColor = System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(98)))), ((int)(((byte)(98)))));
-            this.enableSchedule.DefaultColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(156)))));
-            this.enableSchedule.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.enableSchedule.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(98)))), ((int)(((byte)(98)))));
-            this.enableSchedule.Location = new System.Drawing.Point(618, 372);
-            this.enableSchedule.Name = "enableSchedule";
-            this.enableSchedule.Size = new System.Drawing.Size(41, 23);
-            this.enableSchedule.SwitchColor = System.Drawing.Color.White;
-            this.enableSchedule.TabIndex = 23;
-            this.enableSchedule.CheckedChanged += new Zeroit.Framework.Metro.ZeroitMetroSwitch.CheckedChangedEventHandler(this.enableSchedule_CheckedChanged);
-            this.enableSchedule.MouseDown += new System.Windows.Forms.MouseEventHandler(this.enableSchedule_MouseDown);
-            this.enableSchedule.MouseUp += new System.Windows.Forms.MouseEventHandler(this.enableSchedule_MouseUp);
+            this.enableAppSchedule.BackColor = System.Drawing.Color.Transparent;
+            this.enableAppSchedule.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.enableAppSchedule.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(98)))), ((int)(((byte)(98)))));
+            this.enableAppSchedule.CheckColor = System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(98)))), ((int)(((byte)(98)))));
+            this.enableAppSchedule.DefaultColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(156)))));
+            this.enableAppSchedule.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.enableAppSchedule.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(98)))), ((int)(((byte)(98)))));
+            this.enableAppSchedule.Location = new System.Drawing.Point(618, 373);
+            this.enableAppSchedule.Name = "enableAppSchedule";
+            this.enableAppSchedule.Size = new System.Drawing.Size(41, 23);
+            this.enableAppSchedule.SwitchColor = System.Drawing.Color.White;
+            this.enableAppSchedule.TabIndex = 23;
+            this.enableAppSchedule.CheckedChanged += new Zeroit.Framework.Metro.ZeroitMetroSwitch.CheckedChangedEventHandler(this.enableSchedule_CheckedChanged);
+            this.enableAppSchedule.MouseDown += new System.Windows.Forms.MouseEventHandler(this.enableSchedule_MouseDown);
+            this.enableAppSchedule.MouseUp += new System.Windows.Forms.MouseEventHandler(this.enableSchedule_MouseUp);
             // 
-            // addNewSchedule
+            // addNewAppSchedule
             // 
-            this.addNewSchedule.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(156)))));
-            this.addNewSchedule.FlatAppearance.BorderSize = 0;
-            this.addNewSchedule.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.addNewSchedule.ForeColor = System.Drawing.Color.White;
-            this.addNewSchedule.Location = new System.Drawing.Point(580, 403);
-            this.addNewSchedule.Name = "addNewSchedule";
-            this.addNewSchedule.Size = new System.Drawing.Size(80, 40);
-            this.addNewSchedule.TabIndex = 18;
-            this.addNewSchedule.Text = "ADD NEW";
-            this.addNewSchedule.UseVisualStyleBackColor = false;
-            this.addNewSchedule.Click += new System.EventHandler(this.addNewSchedule_Click);
+            this.addNewAppSchedule.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(156)))));
+            this.addNewAppSchedule.FlatAppearance.BorderSize = 0;
+            this.addNewAppSchedule.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.addNewAppSchedule.ForeColor = System.Drawing.Color.White;
+            this.addNewAppSchedule.Location = new System.Drawing.Point(580, 404);
+            this.addNewAppSchedule.Name = "addNewAppSchedule";
+            this.addNewAppSchedule.Size = new System.Drawing.Size(80, 40);
+            this.addNewAppSchedule.TabIndex = 18;
+            this.addNewAppSchedule.Text = "ADD NEW";
+            this.addNewAppSchedule.UseVisualStyleBackColor = false;
+            this.addNewAppSchedule.Click += new System.EventHandler(this.addNewAppSchedule_Click);
             // 
             // label19
             // 
@@ -1427,27 +1522,31 @@ namespace ESPRGB_Client
             this.label19.Tag = "DontDisable";
             this.label19.Text = "Schedule";
             // 
-            // scheduleList
+            // appScheduleList
             // 
-            this.scheduleList.AutoScroll = true;
-            this.scheduleList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(32)))), ((int)(((byte)(54)))));
-            this.scheduleList.Location = new System.Drawing.Point(80, 49);
-            this.scheduleList.Margin = new System.Windows.Forms.Padding(0);
-            this.scheduleList.Name = "scheduleList";
-            this.scheduleList.selectIndex = -1;
-            this.scheduleList.Size = new System.Drawing.Size(480, 394);
-            this.scheduleList.TabIndex = 22;
-            this.scheduleList.SelectChanged += new System.EventHandler(this.scheduleList_SelectChanged);
-            this.scheduleList.OrderChanged += new System.EventHandler(this.scheduleList_OrderChanged);
+            this.appScheduleList.AutoScroll = true;
+            this.appScheduleList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(32)))), ((int)(((byte)(54)))));
+            this.appScheduleList.Location = new System.Drawing.Point(80, 264);
+            this.appScheduleList.Margin = new System.Windows.Forms.Padding(0);
+            this.appScheduleList.Name = "appScheduleList";
+            this.appScheduleList.selectIndex = -1;
+            this.appScheduleList.Size = new System.Drawing.Size(480, 180);
+            this.appScheduleList.TabIndex = 22;
+            this.appScheduleList.SelectChanged += new System.EventHandler(this.scheduleList_SelectChanged);
+            this.appScheduleList.OrderChanged += new System.EventHandler(this.scheduleList_OrderChanged);
+            this.appScheduleList.appScheduleEdit += new System.EventHandler<Newtonsoft.Json.Linq.JObject>(this.appScheduleList_appScheduleEdit);
             // 
             // _Other
             // 
             this._Other.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(42)))), ((int)(((byte)(71)))));
+            this._Other.Controls.Add(this.removeDevice);
+            this._Other.Controls.Add(this.espVersion);
+            this._Other.Controls.Add(this.label25);
             this._Other.Controls.Add(this.powerConectedButton);
             this._Other.Controls.Add(this.restartButton);
             this._Other.Controls.Add(this.configButton);
             this._Other.Controls.Add(this.syncButton);
-            this._Other.Controls.Add(this.removeDevice);
+            this._Other.Controls.Add(this.removeUserConfig);
             this._Other.Controls.Add(this.formatButton);
             this._Other.Controls.Add(this.connectButton);
             this._Other.Location = new System.Drawing.Point(99, 4);
@@ -1457,6 +1556,49 @@ namespace ESPRGB_Client
             this._Other.TabIndex = 4;
             this._Other.Tag = "NotAnimationTab";
             this._Other.Text = "Other";
+            // 
+            // removeDevice
+            // 
+            this.removeDevice.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(46)))), ((int)(((byte)(54)))));
+            this.removeDevice.FlatAppearance.BorderSize = 0;
+            this.removeDevice.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.removeDevice.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.removeDevice.ForeColor = System.Drawing.Color.White;
+            this.removeDevice.Image = global::ESPRGB_Client.Properties.Resources.remove;
+            this.removeDevice.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.removeDevice.Location = new System.Drawing.Point(25, 145);
+            this.removeDevice.Name = "removeDevice";
+            this.removeDevice.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
+            this.removeDevice.Size = new System.Drawing.Size(80, 95);
+            this.removeDevice.TabIndex = 18;
+            this.removeDevice.Tag = "DontDisable";
+            this.removeDevice.Text = "\r\n\r\n\r\nRemove\r\nDevice\r\n";
+            this.removeDevice.UseVisualStyleBackColor = false;
+            this.removeDevice.Click += new System.EventHandler(this.removeDevice_Click);
+            // 
+            // espVersion
+            // 
+            this.espVersion.AutoSize = true;
+            this.espVersion.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.espVersion.ForeColor = System.Drawing.Color.White;
+            this.espVersion.Location = new System.Drawing.Point(660, 430);
+            this.espVersion.Name = "espVersion";
+            this.espVersion.Size = new System.Drawing.Size(45, 17);
+            this.espVersion.TabIndex = 17;
+            this.espVersion.Tag = "DontDisable";
+            this.espVersion.Text = "0.0.0.0";
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label25.ForeColor = System.Drawing.Color.White;
+            this.label25.Location = new System.Drawing.Point(551, 430);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(103, 17);
+            this.label25.TabIndex = 16;
+            this.label25.Tag = "DontDisable";
+            this.label25.Text = "ESPRGB Version:";
             // 
             // powerConectedButton
             // 
@@ -1530,24 +1672,24 @@ namespace ESPRGB_Client
             this.syncButton.UseVisualStyleBackColor = false;
             this.syncButton.Click += new System.EventHandler(this.syncButton_Click);
             // 
-            // removeDevice
+            // removeUserConfig
             // 
-            this.removeDevice.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(46)))), ((int)(((byte)(54)))));
-            this.removeDevice.FlatAppearance.BorderSize = 0;
-            this.removeDevice.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.removeDevice.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.removeDevice.ForeColor = System.Drawing.Color.White;
-            this.removeDevice.Image = global::ESPRGB_Client.Properties.Resources.remove;
-            this.removeDevice.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.removeDevice.Location = new System.Drawing.Point(625, 25);
-            this.removeDevice.Name = "removeDevice";
-            this.removeDevice.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
-            this.removeDevice.Size = new System.Drawing.Size(80, 95);
-            this.removeDevice.TabIndex = 7;
-            this.removeDevice.Tag = "DontDisable";
-            this.removeDevice.Text = "\r\n\r\n\r\nRemove\r\nDevice\r\n";
-            this.removeDevice.UseVisualStyleBackColor = false;
-            this.removeDevice.Click += new System.EventHandler(this.removeDevice_Click);
+            this.removeUserConfig.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(46)))), ((int)(((byte)(54)))));
+            this.removeUserConfig.FlatAppearance.BorderSize = 0;
+            this.removeUserConfig.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.removeUserConfig.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.removeUserConfig.ForeColor = System.Drawing.Color.White;
+            this.removeUserConfig.Image = global::ESPRGB_Client.Properties.Resources.userConfig;
+            this.removeUserConfig.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.removeUserConfig.Location = new System.Drawing.Point(625, 25);
+            this.removeUserConfig.Name = "removeUserConfig";
+            this.removeUserConfig.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
+            this.removeUserConfig.Size = new System.Drawing.Size(80, 95);
+            this.removeUserConfig.TabIndex = 7;
+            this.removeUserConfig.Tag = "DontDisable";
+            this.removeUserConfig.Text = "\r\n\r\n\rRemove User Data";
+            this.removeUserConfig.UseVisualStyleBackColor = false;
+            this.removeUserConfig.Click += new System.EventHandler(this.removeUserData_Click);
             // 
             // formatButton
             // 
@@ -1638,6 +1780,7 @@ namespace ESPRGB_Client
             this._Schedule.ResumeLayout(false);
             this._Schedule.PerformLayout();
             this._Other.ResumeLayout(false);
+            this._Other.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.wifiImageBox)).EndInit();
             this.ResumeLayout(false);
 
@@ -1666,7 +1809,7 @@ namespace ESPRGB_Client
         private System.Windows.Forms.TabPage _Breathing;
         private System.Windows.Forms.TabPage _Disco;
         private System.Windows.Forms.TabPage _Other;
-        private System.Windows.Forms.Button removeDevice;
+        private System.Windows.Forms.Button removeUserConfig;
         private System.Windows.Forms.Button formatButton;
         private System.Windows.Forms.Button connectButton;
         private Zeroit.Framework.Metro.ZeroitMetroTabControl tabctrl;
@@ -1730,16 +1873,25 @@ namespace ESPRGB_Client
         public Cyotek.Windows.Forms.ColorWheel morseColor;
         private System.Windows.Forms.TabPage _Ambilight;
         private System.Windows.Forms.TabPage _Schedule;
-        private System.Windows.Forms.Button addNewSchedule;
+        private System.Windows.Forms.Button addNewAppSchedule;
         private System.Windows.Forms.Label label19;
-        public WindowsFormsApp2.scheduleList scheduleList;
+        public WindowsFormsApp2.scheduleList appScheduleList;
         private System.Windows.Forms.Label label20;
-        public Zeroit.Framework.Metro.ZeroitMetroSwitch enableSchedule;
+        public Zeroit.Framework.Metro.ZeroitMetroSwitch enableAppSchedule;
         private System.Windows.Forms.Button powerConectedButton;
         private System.Windows.Forms.Label label21;
         public Zeroit.Framework.Metro.ZeroitMetroTrackbar ambilightSpeed;
         public System.Windows.Forms.CheckBox startAmbilight;
         public ScreenSampler screenSampler;
         private System.Windows.Forms.CheckBox startDisco;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label label23;
+        public Zeroit.Framework.Metro.ZeroitMetroSwitch enableTimeSchedule;
+        private System.Windows.Forms.Button addNewTimeSchedule;
+        private System.Windows.Forms.Label label22;
+        private WindowsFormsApp2.scheduleList timeScheduleList;
+        private System.Windows.Forms.Label espVersion;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Button removeDevice;
     }
 }

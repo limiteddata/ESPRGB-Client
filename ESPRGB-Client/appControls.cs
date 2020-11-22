@@ -12,7 +12,7 @@ using System.Threading;
 using System.Net.Http;
 using Cyotek.Windows.Forms;
 using System.Diagnostics;
-using System.Windows.Navigation;
+using System.Threading.Tasks;
 
 namespace ESPRGB_Client
 {
@@ -28,8 +28,8 @@ namespace ESPRGB_Client
 
         int timeout;
         private float[] _fft = new float[1024];
-        int[] spectrum = new int[16];                
- 
+        int[] spectrum = new int[16];
+
         public bool sync_device
         {
             get { return _sync_device; }
@@ -81,7 +81,7 @@ namespace ESPRGB_Client
         }
         private bool _powerConected;
         public appControls()
-        { 
+        {
             InitializeComponent();
             tabctrl.Visible = false;
             tabctrl.Visible = true;
@@ -102,7 +102,7 @@ namespace ESPRGB_Client
 
             InitializeBitmapAndGraphics();
             initializeSolidDiscoVisualizer();
-          
+
         }
         private void appControls_Load(object sender, EventArgs e)
         {
@@ -138,7 +138,7 @@ namespace ESPRGB_Client
             {
                 foreach (Control ctrl in page.Controls)
                 {
-                    if((string)ctrl.Tag != "DontDisable") ctrl.Enabled = enable;
+                    if ((string)ctrl.Tag != "DontDisable") ctrl.Enabled = enable;
                 }
             }
             stripSolidColor.Enabled = enable;
@@ -151,12 +151,73 @@ namespace ESPRGB_Client
             discoGfx.Clear(Color.FromArgb(255, 21, 32, 54));
             gfxSolidDisco.Clear(Color.FromArgb(255, 21, 32, 54));
             ResultColor.BackColor = Color.Black;
-        }     
-        public void ConnectDevice()
+        }
+        public async Task ConnectDevice()
         {
             reconnectTimer.Enabled = false;
-            statusLabel.Text = "Connecting...";           
-            ws = new WebSocket("ws://"+ipaddress+":81/");            
+            statusLabel.Text = "Connecting...";
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    var result = await client.GetAsync($"http://{ipaddress}/getVersion");
+                    var responseBody = JObject.Parse(await result.Content.ReadAsStringAsync());
+                    if (responseBody.ContainsKey("ESPRGB_VERSION"))
+                    {
+                        var esp_vers = new Version((string)responseBody["ESPRGB_VERSION"]);
+                        espVersion.Text = (string)responseBody["ESPRGB_VERSION"];
+
+                        Version curr = typeof(ESPRGB).Assembly.GetName().Version;
+                        if (curr != esp_vers)
+                        {
+                            exceptions msg = new exceptions(1, "ESPRGB-FirmwareUpdate", "ESPRGB Version is not compatible with the client.\n Want to update to " + curr.ToString() + " ?", 10);
+                            msg.StartPosition = FormStartPosition.CenterParent;
+                            msg.ShowDialog();
+
+                            if (msg.DialogResult == DialogResult.Yes)
+                            {
+                                firmwareUpdater fu = new firmwareUpdater(ipaddress, curr.ToString());
+                                fu.StartPosition = FormStartPosition.CenterParent;
+                                fu.ShowDialog();
+
+
+                            }
+                        }
+                    }
+                }
+            }
+            catch (System.Net.Http.HttpRequestException e)
+            {
+                statusLabel.Text = "Can't resolve ipaddress";
+                await Task.Delay(2000);
+                reconnectTimer.Enabled = true;
+                timeout++;
+                switch (timeout)
+                {
+                    case 1:
+                        index = 3;
+                        break;
+                    case 2:
+                        index = 15;
+                        break;
+                    case 3:
+                        index = 30;
+                        break;
+                    case 4:
+                        index = 60;
+                        break;
+                    default:
+                        index = 60;
+                        break;
+                }
+                return;
+            }
+            catch (Exception e)
+            {
+                statusLabel.Text = "Can't find version";
+                return;
+            }
+            ws = new WebSocket("ws://" + ipaddress + ":81/");
 
             ws.OnOpen += (senders, es) =>
             {
@@ -177,17 +238,16 @@ namespace ESPRGB_Client
                     connectButton.Image = Properties.Resources.wifi_green;
                     connectButton.Text = "\n \n Disconnect";
                     enableControls(true);
-                    if(enableSchedule.Checked) scheduleTimer.Start();
+                    if (enableAppSchedule.Checked) scheduleTimer.Start();
                 });
                 string data = "{\"command\":\"restartAnimation\"}";
                 if (sync_device) ESPRGB.broadcastTxT(this, data, false);
                 else ws.SendAsync(data, null);
-                
+
             };
             ws.OnMessage += (ids, messages) =>
             {
-                Console.WriteLine(messages.Data);
-                setControls(messages.Data);               
+                setControls(messages.Data);
             };
             ws.OnClose += (senders, es) =>
             {
@@ -203,13 +263,13 @@ namespace ESPRGB_Client
                     this.statusLabel.Text = "Disconnected";
                     connectButton.Image = Properties.Resources.wifi_white;
                     connectButton.ForeColor = Color.White;
-                    this.connectButton.Text = "\n \n Connect";            
+                    this.connectButton.Text = "\n \n Connect";
                     enableControls(false);
                 });
                 if (!es.WasClean && es.Code == (ushort)CloseStatusCode.Abnormal)
-                {            
+                {
                     reconnectTimer.Enabled = true;
-                    timeout++;                        
+                    timeout++;
                     switch (timeout)
                     {
                         case 1:
@@ -231,19 +291,25 @@ namespace ESPRGB_Client
                 }
             };
 
-            ws.OnError += (sender, e) =>
+            ws.OnError += (sender, es) =>
             {
-                Console.WriteLine("Error: {0}", e.Message);
+                if (sync_device) ESPRGB._syncDevices.Remove(this);
                 this.Invoke((MethodInvoker)delegate
                 {
                     connAlive = false;
                     rssiTimer.Stop();
+                    discoTimer.Enabled = false;
+                    solidDiscoTimer.Enabled = false;
+                    scheduleTimer.Stop();
                     wifiImageBox.Image = null;
                     this.statusLabel.Text = "Disconnected";
+                    connectButton.Image = Properties.Resources.wifi_white;
                     connectButton.ForeColor = Color.White;
                     this.connectButton.Text = "\n \n Connect";
                     enableControls(false);
                 });
+                reconnectTimer.Enabled = true;
+                index = 15;          
             };
             ws.WaitTime = TimeSpan.FromSeconds(3);
             ws.ConnectAsync();
@@ -265,23 +331,16 @@ namespace ESPRGB_Client
                 setControls(parameters);
                 SendData = JObject.Parse(parameters);
             }
-            string data = "{\"playAnimation\":\"" + animation + "\"}";
-            switch (animation)
-            {
-                case "PowerOff":
-                    data = "{\"Animations\":{\"PowerState\":false}}";
-                    break;
-                case "PowerOn":
-                    data = "{\"Animations\":{\"PowerState\":true}}";
-                    break;
-            }
+            string data = "{\"Animations\":{\"playingAnimation\":\"" + animation + "\"}}";
             SendData.Merge(JObject.Parse(data));
             if (sync_device) ESPRGB.broadcastTxT(this, SendData.ToString(Newtonsoft.Json.Formatting.None), true);
             else ws.SendAsync(SendData.ToString(Newtonsoft.Json.Formatting.None), null);
         }
-        public string playingAnimation {
+        public string playingAnimation
+        {
             get { return _playingAnimation; }
-            set {
+            set
+            {
                 stripSolidColor.Checked = false;
                 stripColorCycle.Checked = false;
                 stripBreathing.Checked = false;
@@ -328,7 +387,6 @@ namespace ESPRGB_Client
                         stripAmbilight.Checked = true;
                         break;
                 }
-
                 statusLabel.Text = "Playing: \n" + value;
                 _playingAnimation = value;
             }
@@ -381,170 +439,175 @@ namespace ESPRGB_Client
         public void setControls(string msg)
         {
             var json = JObject.Parse(msg);
-            if(json.ContainsKey("Animations"))json = json["Animations"].ToObject<JObject>();
+            if (json.ContainsKey("Animations")) json = json["Animations"].ToObject<JObject>();
+
             this.Invoke((MethodInvoker)delegate
             {
-            if (json.ContainsKey("SolidColor"))
-            {
-                JObject SolidColor = json["SolidColor"].ToObject<JObject>();
-                if (SolidColor.ContainsKey("Color"))
+                if (json.ContainsKey("parameters"))
                 {
-                    Color newColor = Color.FromArgb(255, (int)SolidColor["Color"][0] / 4, (int)SolidColor["Color"][1] / 4, (int)SolidColor["Color"][2] / 4);
-                    colorWheel.Color = newColor;
-                    brightnessSlide.RegionColor = newColor;
-                    brightnessSlide.LeftColor = newColor;
-                    brightnessSlide.GradientColor = newColor;
-                    brightnessSlide.Update();         
-                }
-                if (SolidColor.ContainsKey("Brightness"))
-                {
-                    float brightness = (float)SolidColor["Brightness"];
-                    brightnessSlide.Value = (int)(brightness * 100);
-                    Color newColor = Color.FromArgb(255, (int)(colorWheel.Color.R * brightness), (int)(colorWheel.Color.G * brightness), (int)(colorWheel.Color.B * brightness));
-                    brightnessSlide.LeftColor = newColor;
-                    brightnessSlide.RegionColor = newColor;
-                    brightnessSlide.GradientColor = newColor;
-                    brightnessSlide.Update();
-                }
-            }
-            if (json.ContainsKey("PowerState"))
-            {
-                powerButton.Checked = (bool)json["PowerState"];
-            }
-            if (json.ContainsKey("ColorCycle"))
-            {
-                JObject ColorCycle = json["ColorCycle"].ToObject<JObject>();
-                if (ColorCycle.ContainsKey("ColorCycleSpeed"))
-                {
-                    ColorCycleSpeed.Value = (int)ColorCycle["ColorCycleSpeed"];
-                    ColorCycleSpeedText.Text = (string)ColorCycle["ColorCycleSpeed"];
-                }
-            }
-            if (json.ContainsKey("Breathing"))
-            {
-                JObject Breathing = json["Breathing"].ToObject<JObject>();
-                if (Breathing.ContainsKey("breathingSpeed"))
-                {
-                    breathingSpeed.Value = (int)Breathing["breathingSpeed"];
-                    breathingSpeedText.Text = (string)Breathing["breathingSpeed"];
-                }
-                if (Breathing.ContainsKey("staticColorBreathing")) colorBreathing.Color = Color.FromArgb(255, (int)Breathing["staticColorBreathing"][0] / 4, (int)Breathing["staticColorBreathing"][1] / 4, (int)Breathing["staticColorBreathing"][2] / 4);
-                
-                if (Breathing.ContainsKey("colorListBreathing"))
-                {
-                    List<Color> col = new List<Color>();
-                    JArray colArray = (JArray)Breathing["colorListBreathing"];
-                    if (colArray.Count > 0)
+                    var param = json["parameters"].ToObject<JObject>();
+                    if (param.ContainsKey("SolidColor"))
                     {
-                        foreach (JArray item in colArray)
+                        JObject SolidColor = param["SolidColor"].ToObject<JObject>();
+                        if (SolidColor.ContainsKey("Color"))
                         {
-                            if (item.Count == 3) col.Add(Color.FromArgb(255, (int)item[0] / 4, (int)item[1] / 4, (int)item[2] / 4));
+                            Color newColor = Color.FromArgb(255, (int)SolidColor["Color"][0] / 4, (int)SolidColor["Color"][1] / 4, (int)SolidColor["Color"][2] / 4);
+                            colorWheel.Color = newColor;
+                            brightnessSlide.RegionColor = newColor;
+                            brightnessSlide.LeftColor = newColor;
+                            brightnessSlide.GradientColor = newColor;
+                            brightnessSlide.Update();
                         }
-                        colorListResult.addListColor(col);
-                    }
-                }
-                    if (Breathing.ContainsKey("addColortoList"))
-                    {
-                        if (colorListResult.colorList.Count < 25)
+                        if (SolidColor.ContainsKey("Brightness"))
                         {
-                            colorListResult.addColor(Color.FromArgb(255, (int)Breathing["addColortoList"][0] / 4, (int)Breathing["addColortoList"][1] / 4, (int)Breathing["addColortoList"][2] / 4));
-                        }
-                        else
-                        {
-                            exceptions exitMessage = new exceptions("ESPRGB-Exception", "25 colors limit");
-                            exitMessage.StartPosition = FormStartPosition.CenterParent;
-                            exitMessage.ShowDialog();
+                            float brightness = (float)SolidColor["Brightness"];
+                            brightnessSlide.Value = (int)(brightness * 100);
+                            Color newColor = Color.FromArgb(255, (int)(colorWheel.Color.R * brightness), (int)(colorWheel.Color.G * brightness), (int)(colorWheel.Color.B * brightness));
+                            brightnessSlide.LeftColor = newColor;
+                            brightnessSlide.RegionColor = newColor;
+                            brightnessSlide.GradientColor = newColor;
+                            brightnessSlide.Update();
                         }
                     }
-                    if (Breathing.ContainsKey("removeLastfromList"))
+                    if (param.ContainsKey("ColorCycle"))
                     {
-                        colorListResult.removeLastColor();
-                    }
-                    if (Breathing.ContainsKey("clearColorList"))
-                    {
-                        colorListResult.clearAll();
-                    }
-              if (Breathing.ContainsKey("useColorList")) useColorList.Checked = (bool)Breathing["useColorList"];
-            }
-                if (json.ContainsKey("MorseCode"))
-                {
-                    JObject MorseCode = json["MorseCode"].ToObject<JObject>();
-                    if (MorseCode.ContainsKey("useBuzzer")) useBuzzer.Checked = (bool)MorseCode["useBuzzer"];
-                    if (MorseCode.ContainsKey("colorMorseCode")) morseColor.Color = Color.FromArgb(255, (int)MorseCode["colorMorseCode"][0] / 4, (int)MorseCode["colorMorseCode"][1] / 4, (int)MorseCode["colorMorseCode"][2] / 4);
-                    if (MorseCode.ContainsKey("unitTimeMorseCode")) unitTime.Value = (int)MorseCode["unitTimeMorseCode"];                  
-                    if (MorseCode.ContainsKey("encodedMorseCode"))
-                    {
-                        morsePlainText.Text = decodeMessage((string)MorseCode["encodedMorseCode"]);
-                        encodedMsgResult.Text = (string)MorseCode["encodedMorseCode"];
-                    }
-                    if (MorseCode.ContainsKey("startMorseCode")) startMorseCode.Checked = (bool)MorseCode["startMorseCode"];
-                }
-
-                if (json.ContainsKey("Disco"))
-                {
-                    JObject Disco = json["Disco"].ToObject<JObject>();
-
-                    if (Disco.ContainsKey("DiscoColors"))
-                    {
-                        colorslider1.color1.Color = Color.FromArgb(255, (int)Disco["DiscoColors"][0][0], (int)Disco["DiscoColors"][0][1], (int)Disco["DiscoColors"][0][2]);
-                        colorslider1.color2.Color = Color.FromArgb(255, (int)Disco["DiscoColors"][1][0], (int)Disco["DiscoColors"][1][1], (int)Disco["DiscoColors"][1][2]);
-                        colorslider1.color3.Color = Color.FromArgb(255, (int)Disco["DiscoColors"][2][0], (int)Disco["DiscoColors"][2][1], (int)Disco["DiscoColors"][2][2]);
-                        colorslider1.Refresh();
-                    }
-                    if (Disco.ContainsKey("DiscoRange"))
-                    {
-                        colorslider1.SelectedMin = (int)Disco["DiscoRange"][0];
-                        colorslider1.SelectedMax = (int)Disco["DiscoRange"][1];
-                        colorslider1.Refresh();
-                    }
-                    if (Disco.ContainsKey("DiscoSensitivity"))
-                    {
-                        lowSensitivity.Value = (int)Disco["DiscoSensitivity"][0];
-                        midSensitivity.Value = (int)Disco["DiscoSensitivity"][1];
-                        highSensitivity.Value = (int)Disco["DiscoSensitivity"][2];
-                    }
-
-                    if (Disco.ContainsKey("DiscoLowsBrightness")) lowsBrightness.Value = (int)Disco["DiscoLowsBrightness"];
-                    if (Disco.ContainsKey("DiscoMidsBrightness")) midsBrightness.Value = (int)Disco["DiscoMidsBrightness"];
-                    if (Disco.ContainsKey("DiscoHighsBrightness")) highsBrightness.Value = (int)Disco["DiscoHighsBrightness"];
-
-                }
-                if (json.ContainsKey("SolidDisco")){
-                    JObject SolidDisco = json["SolidDisco"].ToObject<JObject>();
-                    if (SolidDisco.ContainsKey("colorSolidDisco"))
-                    {
-                        colorWheel_SolidDisco.Color = Color.FromArgb((int)SolidDisco["colorSolidDisco"][0] / 4, (int)SolidDisco["colorSolidDisco"][1] / 4, (int)SolidDisco["colorSolidDisco"][2] / 4);
-                        colorslider_simple.color.Color = Color.FromArgb((int)SolidDisco["colorSolidDisco"][0] / 4, (int)SolidDisco["colorSolidDisco"][1] / 4, (int)SolidDisco["colorSolidDisco"][2] / 4);
-                        colorslider_simple.Refresh(); 
-                    }
-                    if (SolidDisco.ContainsKey("SolidDiscoRandom")) randomColor.Checked = (bool)SolidDisco["SolidDiscoRandom"];
-                    if (SolidDisco.ContainsKey("SolidDiscoRange"))
-                    {
-                        colorslider_simple.SelectedMin = (int)SolidDisco["SolidDiscoRange"][0];
-                        colorslider_simple.SelectedMax = (int)SolidDisco["SolidDiscoRange"][1];
-                        colorslider_simple.Refresh();
-                    }
-
-                }
-                if (json.ContainsKey("Ambilight"))
-                {
-                    JObject Ambilight = json["Ambilight"].ToObject<JObject>();
-                    if (Ambilight.ContainsKey("AmbilightImage")) screenSampler.openImage((string)Ambilight["AmbilightImage"]);
-                    if (Ambilight.ContainsKey("AmbilightSelections"))
-                    {                        
-                        var selections = (JArray)Ambilight["AmbilightSelections"];
-                        if (selections.Count > 0)
+                        JObject ColorCycle = param["ColorCycle"].ToObject<JObject>();
+                        if (ColorCycle.ContainsKey("ColorCycleSpeed"))
                         {
-                            screenSampler.removeAllSelections();
-                            foreach (var sel in selections)
-                                screenSampler.createPanel((string)sel["AmbilightTitle"], (int)sel["AmbilightX"], (int)sel["AmbilightY"], (int)sel["AmbilightW"], (int)sel["AmbilightH"], false);
+                            ColorCycleSpeed.Value = (int)ColorCycle["ColorCycleSpeed"];
+                            ColorCycleSpeedText.Text = (string)ColorCycle["ColorCycleSpeed"];
                         }
-                        else screenSampler.CreateDefaultSelections();
-                    }                   
-                    if (Ambilight.ContainsKey("AmbilightScreen")) screenSampler.selectedScreen = (int)Ambilight["AmbilightScreen"];
+                    }
+                        if (param.ContainsKey("Breathing"))
+                        {
+                            JObject Breathing = param["Breathing"].ToObject<JObject>();
+                            if (Breathing.ContainsKey("breathingSpeed"))
+                            {
+                                breathingSpeed.Value = (int)Breathing["breathingSpeed"];
+                                breathingSpeedText.Text = (string)Breathing["breathingSpeed"];
+                            }
+                            if (Breathing.ContainsKey("staticColorBreathing")) colorBreathing.Color = Color.FromArgb(255, (int)Breathing["staticColorBreathing"][0] / 4, (int)Breathing["staticColorBreathing"][1] / 4, (int)Breathing["staticColorBreathing"][2] / 4);
+
+                            if (Breathing.ContainsKey("colorListBreathing"))
+                            {
+                                List<Color> col = new List<Color>();
+                                JArray colArray = (JArray)Breathing["colorListBreathing"];
+                                colorListResult.clearAll();
+                                if (colArray.Count > 0)
+                                {
+                                    foreach (JArray item in colArray)
+                                    {
+                                        if (item.Count == 3) col.Add(Color.FromArgb(255, (int)item[0] / 4, (int)item[1] / 4, (int)item[2] / 4));
+                                    }
+                                    colorListResult.addListColor(col);
+                                }
+                            }
+                            if (Breathing.ContainsKey("useColorList")) useColorList.Checked = (bool)Breathing["useColorList"];
+                        }
+
+                        if (param.ContainsKey("MorseCode"))
+                        {
+                            JObject MorseCode = param["MorseCode"].ToObject<JObject>();
+                            if (MorseCode.ContainsKey("useBuzzer")) useBuzzer.Checked = (bool)MorseCode["useBuzzer"];
+                            if (MorseCode.ContainsKey("colorMorseCode")) morseColor.Color = Color.FromArgb(255, (int)MorseCode["colorMorseCode"][0] / 4, (int)MorseCode["colorMorseCode"][1] / 4, (int)MorseCode["colorMorseCode"][2] / 4);
+                            if (MorseCode.ContainsKey("unitTimeMorseCode")) unitTime.Value = (int)MorseCode["unitTimeMorseCode"];
+                            if (MorseCode.ContainsKey("encodedMorseCode"))
+                            {
+                                morsePlainText.Text = decodeMessage((string)MorseCode["encodedMorseCode"]);
+                                encodedMsgResult.Text = (string)MorseCode["encodedMorseCode"];
+                            }
+                            if (MorseCode.ContainsKey("startMorseCode")) startMorseCode.Checked = (bool)MorseCode["startMorseCode"];
+                        }
+                        if (param.ContainsKey("Disco"))
+                        {
+                            JObject Disco = param["Disco"].ToObject<JObject>();
+
+                            if (Disco.ContainsKey("DiscoColors"))
+                            {
+                                colorslider1.color1.Color = Color.FromArgb(255, (int)Disco["DiscoColors"][0][0], (int)Disco["DiscoColors"][0][1], (int)Disco["DiscoColors"][0][2]);
+                                colorslider1.color2.Color = Color.FromArgb(255, (int)Disco["DiscoColors"][1][0], (int)Disco["DiscoColors"][1][1], (int)Disco["DiscoColors"][1][2]);
+                                colorslider1.color3.Color = Color.FromArgb(255, (int)Disco["DiscoColors"][2][0], (int)Disco["DiscoColors"][2][1], (int)Disco["DiscoColors"][2][2]);
+                                colorslider1.Refresh();
+                            }
+                            if (Disco.ContainsKey("DiscoRange"))
+                            {
+                                colorslider1.SelectedMin = (int)Disco["DiscoRange"][0];
+                                colorslider1.SelectedMax = (int)Disco["DiscoRange"][1];
+                                colorslider1.Refresh();
+                            }
+                            if (Disco.ContainsKey("DiscoSensitivity"))
+                            {
+                                lowSensitivity.Value = (int)Disco["DiscoSensitivity"][0];
+                                midSensitivity.Value = (int)Disco["DiscoSensitivity"][1];
+                                highSensitivity.Value = (int)Disco["DiscoSensitivity"][2];
+                            }
+
+                            if (Disco.ContainsKey("DiscoLowsBrightness")) lowsBrightness.Value = (int)Disco["DiscoLowsBrightness"];
+                            if (Disco.ContainsKey("DiscoMidsBrightness")) midsBrightness.Value = (int)Disco["DiscoMidsBrightness"];
+                            if (Disco.ContainsKey("DiscoHighsBrightness")) highsBrightness.Value = (int)Disco["DiscoHighsBrightness"];
+                            if (Disco.ContainsKey("DiscoAudioDevice"))
+                            {
+                                ESPRGB.InitializeAudioDevice((string)Disco["DiscoAudioDevice"]);
+                            }
+                        }
+                        if (param.ContainsKey("SolidDisco"))
+                        {
+                            JObject SolidDisco = param["SolidDisco"].ToObject<JObject>();
+                            if (SolidDisco.ContainsKey("colorSolidDisco"))
+                            {
+                                colorWheel_SolidDisco.Color = Color.FromArgb((int)SolidDisco["colorSolidDisco"][0] / 4, (int)SolidDisco["colorSolidDisco"][1] / 4, (int)SolidDisco["colorSolidDisco"][2] / 4);
+                                colorslider_simple.color.Color = Color.FromArgb((int)SolidDisco["colorSolidDisco"][0] / 4, (int)SolidDisco["colorSolidDisco"][1] / 4, (int)SolidDisco["colorSolidDisco"][2] / 4);
+                                colorslider_simple.Refresh();
+                            }
+                            if (SolidDisco.ContainsKey("SolidDiscoRandom")) randomColor.Checked = (bool)SolidDisco["SolidDiscoRandom"];
+                            if (SolidDisco.ContainsKey("SolidDiscoRange"))
+                            {
+                                colorslider_simple.SelectedMin = (int)SolidDisco["SolidDiscoRange"][0];
+                                colorslider_simple.SelectedMax = (int)SolidDisco["SolidDiscoRange"][1];
+                                colorslider_simple.Refresh();
+                            }
+                            if (SolidDisco.ContainsKey("SolidDiscoAudioDevice"))
+                            {
+                                ESPRGB.InitializeAudioDevice((string)SolidDisco["SolidDiscoAudioDevice"]);
+                            }
+                        }
+                        if (param.ContainsKey("Ambilight"))
+                        {
+                            JObject Ambilight = param["Ambilight"].ToObject<JObject>();
+                            if (Ambilight.ContainsKey("AmbilightImage")) screenSampler.openImage((string)Ambilight["AmbilightImage"]);
+                            if (Ambilight.ContainsKey("AmbilightSelections"))
+                            {
+                                var selections = (JArray)Ambilight["AmbilightSelections"];
+                                if (selections.Count > 0)
+                                {
+                                    screenSampler.removeAllSelections();
+                                    foreach (var sel in selections)
+                                        screenSampler.createPanel((string)sel["AmbilightTitle"], (int)sel["AmbilightX"], (int)sel["AmbilightY"], (int)sel["AmbilightW"], (int)sel["AmbilightH"], false);
+                                }
+                                else screenSampler.CreateDefaultSelections();
+                            }
+                            if (Ambilight.ContainsKey("AmbilightScreen")) screenSampler.selectedScreen = (int)Ambilight["AmbilightScreen"];
+                        }
+                    }
+
+                if (json.ContainsKey("Schedules"))
+                {
+                    JObject Schedules = json["Schedules"].ToObject<JObject>();
+                    if (Schedules.ContainsKey("enableScheduler"))
+                    {
+                        enableTimeSchedule.Checked = (bool)json["Schedules"]["enableScheduler"];
+                        enableTimeSchedule.Refresh();
+                    }
+                    if (Schedules.ContainsKey("timeSchedule"))
+                    {
+                        timeScheduleList.Items = (JArray)json["Schedules"]["timeSchedule"];
+                        timeScheduleList.createAllTimeItems();
+                    }
                 }
                 if (json.ContainsKey("playingAnimation")) playingAnimation = (string)json["playingAnimation"];
-                if (json.ContainsKey("powerConected")) powerConected = (bool)json["powerConected"];  
+                if (json.ContainsKey("powerConected")) powerConected = (bool)json["powerConected"];
+                if (json.ContainsKey("PowerState")) powerButton.Checked = (bool)json["PowerState"];
+
             });
         }
         private void setPreset(object sender, MouseEventArgs e)
@@ -555,8 +618,8 @@ namespace ESPRGB_Client
                 brightnessSlide.RegionColor = (sender as Panel).BackColor;
                 brightnessSlide.LeftColor = (sender as Panel).BackColor;
                 brightnessSlide.GradientColor = (sender as Panel).BackColor;
-                brightnessSlide.Update();       
-                string p = "{\"Animations\":{\"SolidColor\":{\"Color\":[" + (sender as Panel).BackColor.R * 4 + "," + (sender as Panel).BackColor.G * 4 + "," + (sender as Panel).BackColor.B * 4 + "]}}}";
+                brightnessSlide.Update();
+                string p = "{\"Animations\":{\"parameters\":{\"SolidColor\":{\"Color\":[" + (sender as Panel).BackColor.R * 4 + "," + (sender as Panel).BackColor.G * 4 + "," + (sender as Panel).BackColor.B * 4 + "]}}}}";
                 selectAnimation("SolidColor", p);
             }
             else if (e.Button == MouseButtons.Right)
@@ -567,30 +630,30 @@ namespace ESPRGB_Client
         }
         private void formatButton_Click(object sender, EventArgs e)
         {
-            exitMessage exitMessage = new exitMessage("ESPRGB-Format device", "You want to format this device?");
+            exceptions exitMessage = new exceptions(1,"ESPRGB-Format device", "You want to format this device?");
             exitMessage.StartPosition = FormStartPosition.CenterParent;
             exitMessage.ShowDialog();
             if (exitMessage.DialogResult == DialogResult.Yes)
             {
                 string format_data = "{\"command\":\"formatDevice\"}";
-                ws.SendAsync(format_data,null);
+                ws.SendAsync(format_data, null);
                 ESPRGB.removeThisTab(this);
             }
         }
         private void removeDevice_Click(object sender, EventArgs e)
         {
-            exitMessage exitMessage = new exitMessage("ESPRGB-Remove device","You want to remove this device?");
+            exceptions exitMessage = new exceptions(1,"ESPRGB-Remove device", "You want to remove this device?");
             exitMessage.StartPosition = FormStartPosition.CenterParent;
             exitMessage.ShowDialog();
             if (exitMessage.DialogResult == DialogResult.Yes)
             {
                 ESPRGB.removeSyncDevice(this);
                 ESPRGB.removeThisTab(this);
-            }            
-                
+            }
+
         }
 
-        bool colorWheel1_changed=false;
+        bool colorWheel1_changed = false;
         private void colorWheel_MouseDown(object sender, MouseEventArgs e)
         {
             colorWheel1_changed = true;
@@ -610,9 +673,9 @@ namespace ESPRGB_Client
                 brightnessSlide.GradientColor = newColor;
                 brightnessSlide.Update();
 
-                string data = "{\"Animations\":{\"SolidColor\":{\"Color\":[" + colorWheel.Color.R * 4 + "," + colorWheel.Color.G * 4 + "," + colorWheel.Color.B * 4 + "]}}}";
-                
-                selectAnimation("Solid Color",data);
+                string data = "{\"Animations\":{\"parameters\":{\"SolidColor\":{\"Color\":[" + colorWheel.Color.R * 4 + "," + colorWheel.Color.G * 4 + "," + colorWheel.Color.B * 4 + "]}}}}";
+
+                selectAnimation("Solid Color", data);
             }
         }
         private void brightnessSlide_Scroll(object sender, Zeroit.Framework.Metro.ZeroitMetroTrackbar.TrackbarEventArgs e)
@@ -624,18 +687,18 @@ namespace ESPRGB_Client
             brightnessSlide.LeftColor = newColor;
             brightnessSlide.RegionColor = newColor;
             brightnessSlide.Update();
-            string data = "{\"Animations\":{\"SolidColor\":{\"Brightness\":" + brightness + "}}}";
+            string data = "{\"Animations\":{\"parameters\":{\"SolidColor\":{\"Brightness\":" + brightness + "}}}}";
             selectAnimation("Solid Color", data);
         }
         private void powerButton_CheckedChanged(object sender, EventArgs e)
         {
-            if (powerButton.Checked) powerButton.Image = Properties.Resources.power_1;           
+            if (powerButton.Checked) powerButton.Image = Properties.Resources.power_1;
             else powerButton.Image = Properties.Resources.power_0;
         }
         private void powerButton_Click(object sender, EventArgs e)
         {
-            if (powerButton.Checked) selectAnimation("PowerOn");
-            else selectAnimation("PowerOff");
+            if (powerButton.Checked) selectAnimation("Power On");
+            else selectAnimation("Power Off");
         }
         private void startColorCycle_CheckedChanged(object sender, EventArgs e)
         {
@@ -646,20 +709,20 @@ namespace ESPRGB_Client
         }
         private void startColorCycle_Click(object sender, EventArgs e)
         {
-           if(startColorCycle.Checked) selectAnimation("Color Cycle");
-           else selectAnimation("Solid Color");
+            if (startColorCycle.Checked) selectAnimation("Color Cycle");
+            else selectAnimation("Solid Color");
         }
         private void ColorCycleSpeed_Scroll(object sender, Zeroit.Framework.Metro.ZeroitMetroTrackbar.TrackbarEventArgs e)
         {
             ColorCycleSpeedText.Text = ColorCycleSpeed.Value.ToString();
-            string data = "{\"Animations\":{\"ColorCycle\":{\"ColorCycleSpeed\":" + ColorCycleSpeed.Value + "}}}";
+            string data = "{\"Animations\":{\"parameters\":{\"ColorCycle\":{\"ColorCycleSpeed\":" + ColorCycleSpeed.Value + "}}}}";
             if (sync_device) ESPRGB.broadcastTxT(this, data, true);
-            else ws.SendAsync(data, null);           
+            else ws.SendAsync(data, null);
         }
         private void breathingSpeed_Scroll(object sender, Zeroit.Framework.Metro.ZeroitMetroTrackbar.TrackbarEventArgs e)
         {
             breathingSpeedText.Text = breathingSpeed.Value.ToString();
-            string data = "{\"Animations\":{\"Breathing\":{\"breathingSpeed\":" + breathingSpeed.Value+ "}}}";
+            string data = "{\"Animations\":{\"parameters\":{\"Breathing\":{\"breathingSpeed\":" + breathingSpeed.Value + "}}}}";
             if (sync_device) ESPRGB.broadcastTxT(this, data, true);
             else ws.SendAsync(data, null);
         }
@@ -688,7 +751,7 @@ namespace ESPRGB_Client
         {
             if (breathing_colorWheel_changed)
             {
-                string data = "{\"Animations\":{\"Breathing\":{\"staticColorBreathing\":[" + colorBreathing.Color.R * 4 + ","+ colorBreathing.Color.G * 4 + ","+ colorBreathing.Color.B * 4 + "]}}}";
+                string data = "{\"Animations\":{\"parameters\":{\"Breathing\":{\"staticColorBreathing\":[" + colorBreathing.Color.R * 4 + "," + colorBreathing.Color.G * 4 + "," + colorBreathing.Color.B * 4 + "]}}}}";
                 if (sync_device) ESPRGB.broadcastTxT(this, data, true);
                 else ws.SendAsync(data, null);
             }
@@ -705,7 +768,7 @@ namespace ESPRGB_Client
         Pen pen = new Pen(Color.White, 20);
 
         int audiotimeout;
-        
+
         private void discoTimer_Tick(object sender, EventArgs e)
         {
             try
@@ -771,7 +834,7 @@ namespace ESPRGB_Client
                 if (audiotimeout > 6000) audiotimeout = 0;
                 if (audiotimeout < 200)
                 {
-                    string data = "{\"Animations\":{\"Disco\":{\"colorDisco\":[" + finalc[0] * 4 + "," + finalc[1] * 4 + "," + finalc[2] * 4 + "]}}}";
+                    string data = "{\"Animations\":{\"parameters\":{\"Disco\":{\"colorDisco\":[" + finalc[0] * 4 + "," + finalc[1] * 4 + "," + finalc[2] * 4 + "]}}}}";
                     if (sync_device)
                     {
                         if (this == ESPRGB._syncDevices[0]) ESPRGB.broadcastTxT(this, data, false);
@@ -781,18 +844,18 @@ namespace ESPRGB_Client
             }
             catch
             {
-            }              
+            }
         }
-        public int[] ColortoList(int value , Color c)
+        public int[] ColortoList(int value, Color c)
         {
             int[] color = new int[3];
             color[0] = c.R > 0 ? value : 0;
             color[1] = c.G > 0 ? value : 0;
             color[2] = c.B > 0 ? value : 0;
-            
+
             return color;
         }
-        public int[] CombineColors(int[] c1,int[] c2,int[] c3)
+        public int[] CombineColors(int[] c1, int[] c2, int[] c3)
         {
             int[] combinedColor = new int[3];
             int x = 0;
@@ -804,7 +867,7 @@ namespace ESPRGB_Client
                 int sum = c1[i] + c2[i] + c3[i];
                 combinedColor[i] = sum > 0 ? sum / x : 0;
                 x = 0;
-            }            
+            }
             return combinedColor;
         }
         private void startDisco_Click(object sender, EventArgs e)
@@ -819,7 +882,13 @@ namespace ESPRGB_Client
             if (connAlive)
                 ws.CloseAsync();
             else
-                if (ws.ReadyState == WebSocketState.Closed && ws.ReadyState != WebSocketState.Connecting ) ConnectDevice();
+            {
+                if (ws == null) ConnectDevice();
+                else
+                {
+                    if (ws.ReadyState == WebSocketState.Closed && ws.ReadyState != WebSocketState.Connecting) ConnectDevice();
+                }              
+            }             
         }
 
         private void sel_Click(object sender, EventArgs e)
@@ -837,7 +906,7 @@ namespace ESPRGB_Client
                     break;
             }
             ESPRGB.syncLocalControls(this);
-            colorslider1.Refresh();      
+            colorslider1.Refresh();
         }
         bool colorslider1_click = false;
         private void colorslider1_MouseDown(object sender, MouseEventArgs e)
@@ -850,7 +919,7 @@ namespace ESPRGB_Client
         }
         private void colorslider1_SelectionChanged(object sender, EventArgs e)
         {
-            if(colorslider1_click) ESPRGB.syncLocalControls(this);
+            if (colorslider1_click) ESPRGB.syncLocalControls(this);
         }
         private void startDisco_CheckedChanged(object sender, EventArgs e)
         {
@@ -937,19 +1006,19 @@ namespace ESPRGB_Client
                         colorslider_simple.color = new SolidBrush(hslColor);
                         colorslider_simple.Refresh();
 
-                        string color = "{\"Animations\":{\"SolidDisco\":{\"colorSolidDisco\":[" + col.R * 4 + "," + col.G * 4 + "," + col.B * 4 + "]}}}";
+                        string color = "{\"Animations\":{\"parameters\":{\"SolidDisco\":{\"colorSolidDisco\":[" + col.R * 4 + "," + col.G * 4 + "," + col.B * 4 + "]}}}}";
                         if (sync_device) ESPRGB.broadcastTxT(this, color, true);
                         else ws.SendAsync(color, null);
                         changed = true;
                     }
-                    string data = "{\"Animations\":{\"SolidDisco\":{\"pulseSolidDisco\":" + avg / 255 + "}}}";
+                    string data = "{\"Animations\":{\"parameters\":{\"SolidDisco\":{\"pulseSolidDisco\":" + avg / 255 + "}}}}";
                     if (sync_device) ESPRGB.broadcastTxT(this, data, false);
                     else ws.SendAsync(data, null);
                 }
             }
             catch
             {
-            }           
+            }
         }
         bool solidDisco_colorWheel_changed = false;
         private void colorWheel_SolidDisco_MouseDown(object sender, MouseEventArgs e)
@@ -968,7 +1037,7 @@ namespace ESPRGB_Client
                 colorslider_simple.color = new SolidBrush(colorWheel_SolidDisco.HslColor);
                 colorslider_simple.Refresh();
 
-                string data = "{\"Animations\":{\"SolidDisco\":{\"colorSolidDisco\":["+ colorWheel_SolidDisco.Color.R * 4 + "," + colorWheel_SolidDisco.Color.G * 4 + "," + colorWheel_SolidDisco.Color.B * 4 + "]}}}";
+                string data = "{\"Animations\":{\"parameters\":{\"SolidDisco\":{\"colorSolidDisco\":[" + colorWheel_SolidDisco.Color.R * 4 + "," + colorWheel_SolidDisco.Color.G * 4 + "," + colorWheel_SolidDisco.Color.B * 4 + "]}}}}";
                 if (sync_device) ESPRGB.broadcastTxT(this, data, true);
                 else ws.SendAsync(data, null);
             }
@@ -984,14 +1053,14 @@ namespace ESPRGB_Client
         }
         private void colorslider_simple_SelectionChanged(object sender, EventArgs e)
         {
-            if(colorslider_simple_click) ESPRGB.syncLocalControls(this);
+            if (colorslider_simple_click) ESPRGB.syncLocalControls(this);
         }
         private void discoSensitivity(object sender, Zeroit.Framework.Metro.ZeroitMetroTrackbar.TrackbarEventArgs e)
         {
             ESPRGB.syncLocalControls(this);
         }
         private void solidDiscoSensitivity_Scroll(object sender, Zeroit.Framework.Metro.ZeroitMetroTrackbar.TrackbarEventArgs e)
-        {        
+        {
             ESPRGB.syncLocalControls(this);
         }
         private void randomBeat_Scroll(object sender, Zeroit.Framework.Metro.ZeroitMetroTrackbar.TrackbarEventArgs e)
@@ -1018,7 +1087,7 @@ namespace ESPRGB_Client
         {
             sync_device = !sync_device;
             if (sync_device) ESPRGB.addSyncDevice(this);
-            else ESPRGB.removeSyncDevice(this);          
+            else ESPRGB.removeSyncDevice(this);
         }
         private void configButton_Click(object sender, EventArgs e)
         {
@@ -1033,7 +1102,7 @@ namespace ESPRGB_Client
             {
                 using (var client = new HttpClient())
                 {
-                    var result = await client.GetAsync("http://"+ ipaddress + "/getSignalStrenght");
+                    var result = await client.GetAsync("http://" + ipaddress + "/getSignalStrenght");
                     var responseBody = JObject.Parse(await result.Content.ReadAsStringAsync());
                     if (responseBody.ContainsKey("RSSI"))
                     {
@@ -1051,48 +1120,45 @@ namespace ESPRGB_Client
         }
         private void useColorList_Click(object sender, EventArgs e)
         {
-            string data = "{\"Animations\":{\"Breathing\":{\"useColorList\":" + useColorList.Checked.ToString().ToLower() + "}}}";
+            string data = "{\"Animations\":{\"parameters\":{\"Breathing\":{\"useColorList\":" + useColorList.Checked.ToString().ToLower() + "}}}}";
             if (sync_device) ESPRGB.broadcastTxT(this, data, true);
             else ws.SendAsync(data, null);
         }
         private void br_addCurrentColor_Click(object sender, EventArgs e)
         {
-            if(colorListResult.colorList.Count < 25)
+            if (colorListResult.colorList.Count < 25)
             {
-                colorListResult.addColor(colorBreathing.Color);
-                string data = "{\"Animations\":{\"Breathing\":{\"addColortoList\":[" + colorBreathing.Color.R*4+ "," + colorBreathing.Color.G*4+ "," + colorBreathing.Color.B*4+ "]}}}";
+                string data = "{\"Animations\":{\"parameters\":{\"Breathing\":{\"addColortoList\":[" + colorBreathing.Color.R * 4 + "," + colorBreathing.Color.G * 4 + "," + colorBreathing.Color.B * 4 + "]}}}}";
                 if (sync_device) ESPRGB.broadcastTxT(this, data, true);
                 else ws.SendAsync(data, null);
             }
             else
             {
-                exceptions exitMessage = new exceptions("ESPRGB-Exception", "25 colors limit");
+                exceptions exitMessage = new exceptions(0,"ESPRGB-Exception", "25 colors limit");
                 exitMessage.StartPosition = FormStartPosition.CenterParent;
                 exitMessage.ShowDialog();
             }
-            
+
         }
         private void br_removeLastColor_Click(object sender, EventArgs e)
         {
-            colorListResult.removeLastColor();
-            string data = "{\"Animations\":{\"Breathing\":{\"removeLastfromList\":true}}}";
+            string data = "{\"Animations\":{\"parameters\":{\"Breathing\":{\"removeLastfromList\":true}}}}";
             if (sync_device) ESPRGB.broadcastTxT(this, data, true);
             else ws.SendAsync(data, null);
         }
         private void br_clearColorlist_Click(object sender, EventArgs e)
         {
-            colorListResult.clearAll();
-            string data = "{\"Animations\":{\"Breathing\":{\"clearColorList\":true}}}";
+            string data = "{\"Animations\":{\"parameters\":{\"Breathing\":{\"clearColorList\":true}}}}";
             if (sync_device) ESPRGB.broadcastTxT(this, data, true);
             else ws.SendAsync(data, null);
         }
         private async void restartButton_Click(object sender, EventArgs e)
         {
-            exitMessage exitMessage = new exitMessage("ESPRGB-Format device", "You want to restart this device?");
+            exceptions exitMessage = new exceptions(1,"ESPRGB-Format device", "You want to restart this device?");
             exitMessage.StartPosition = FormStartPosition.CenterParent;
             exitMessage.ShowDialog();
             if (exitMessage.DialogResult == DialogResult.Yes)
-            {             
+            {
                 using (var client = new HttpClient())
                 {
                     try
@@ -1108,12 +1174,12 @@ namespace ESPRGB_Client
                     {
                     }
                 }
-                
+
             }
         }
 
         List<string> alphabet = new List<string> { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "!", "@", "&", "(", ")", "-", "_", "=", "+", ".", ",", "/", "?", ";", ":", "\"", "\'" };
-        List<string> morse = new List<string> { ".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--..",".----","..---","...--","....-","-....","--...","---..","----.","-----","-.-.--",".--.-.", ".....", ".-...", "-.--.", "-.--.-", "-....-", "..--.-", "-...-", ".-.-.", ".-.-.-", "--..--", "-..-.", "..--..", "-.-.-.", "---...", ".----.", ".-..-." };   
+        List<string> morse = new List<string> { ".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..", "--", "-.", "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--..", ".----", "..---", "...--", "....-", "-....", "--...", "---..", "----.", "-----", "-.-.--", ".--.-.", ".....", ".-...", "-.--.", "-.--.-", "-....-", "..--.-", "-...-", ".-.-.", ".-.-.-", "--..--", "-..-.", "..--..", "-.-.-.", "---...", ".----.", ".-..-." };
         public string encodeMessage(string message)
         {
             string encoded = "";
@@ -1121,7 +1187,7 @@ namespace ESPRGB_Client
             for (int i = 0; i < words.Length; i++)
             {
                 var characters = words[i].ToCharArray();
-                
+
                 for (int j = 0; j < characters.Length; j++)
                 {
                     if (alphabet.Contains(characters[j].ToString()))
@@ -1144,9 +1210,9 @@ namespace ESPRGB_Client
                 var ch = encodedWords[i].Split(new char[] { '*' }, StringSplitOptions.RemoveEmptyEntries);
                 for (int j = 0; j < ch.Length; j++)
                 {
-                    if(morse.Contains(ch[j])) decoded += alphabet[morse.IndexOf(ch[j])];
+                    if (morse.Contains(ch[j])) decoded += alphabet[morse.IndexOf(ch[j])];
                 }
-                if (i + 1 != encodedWords.Length)  decoded += " ";
+                if (i + 1 != encodedWords.Length) decoded += " ";
             }
 
             return decoded;
@@ -1164,7 +1230,7 @@ namespace ESPRGB_Client
         {
             if (morsecolorChanged)
             {
-                string data = "{\"Animations\":{\"MorseCode\":{\"colorMorseCode\":[" + morseColor.Color.R * 4 + "," + morseColor.Color.G * 4 + "," + morseColor.Color.B * 4 + "]}}}";
+                string data = "{\"Animations\":{\"parameters\":{\"MorseCode\":{\"colorMorseCode\":[" + morseColor.Color.R * 4 + "," + morseColor.Color.G * 4 + "," + morseColor.Color.B * 4 + "]}}}}";
                 if (sync_device) ESPRGB.broadcastTxT(this, data, true);
                 else ws.SendAsync(data, null);
             }
@@ -1183,59 +1249,60 @@ namespace ESPRGB_Client
         }
         private void useBuzzer_Click(object sender, EventArgs e)
         {
-            string data = "{\"Animations\":{\"MorseCode\":{\"useBuzzer\":" + useBuzzer.Checked.ToString().ToLower() + "}}}";
+            string data = "{\"Animations\":{\"parameters\":{\"MorseCode\":{\"useBuzzer\":" + useBuzzer.Checked.ToString().ToLower() + "}}}}";
             if (sync_device) ESPRGB.broadcastTxT(this, data, true);
-            else ws.SendAsync(data, null);         
+            else ws.SendAsync(data, null);
         }
 
         private void textBoxTimer_Tick(object sender, EventArgs e)
         {
             textBoxTimer.Stop();
-            string data = "{\"Animations\":{\"MorseCode\":{\"encodedMorseCode\": \"" + encodedMsgResult.Text + "\"}}}";
+            string data = "{\"Animations\":{\"parameters\":{\"MorseCode\":{\"encodedMorseCode\": \"" + encodedMsgResult.Text + "\"}}}}";
             if (sync_device) ESPRGB.broadcastTxT(this, data, true);
             else ws.SendAsync(data, null);
         }
         private void unitTime_MouseUp(object sender, MouseEventArgs e)
         {
-            string data = "{\"Animations\":{\"MorseCode\":{\"unitTimeMorseCode\": \"" + unitTime.Value + "\"}}}";
+            string data = "{\"Animations\":{\"parameters\":{\"MorseCode\":{\"unitTimeMorseCode\": " + unitTime.Value + "}}}}";
             if (sync_device) ESPRGB.broadcastTxT(this, data, true);
             else ws.SendAsync(data, null);
         }
+
         private void scheduleList_SelectChanged(object sender, EventArgs e)
         {
             if (sync_device && ESPRGB._syncDevices.Any() && this != ESPRGB._syncDevices[0])
             {
-              return;
+                return;
             }
-            if (scheduleTimer.Enabled && scheduleList.selectedItem != null)
+            if (scheduleTimer.Enabled && appScheduleList.selectedItem != null)
             {
-                string par = "{\"Animations\":"+scheduleList.selectedItem["parameters"].ToString(Newtonsoft.Json.Formatting.None)+"}";
-                selectAnimation((string)scheduleList.selectedItem["animName"],par);
+                string par = "{\"Animations\":{\"parameters\":" + appScheduleList.selectedItem["parameters"].ToString(Newtonsoft.Json.Formatting.None) + "}}";
+                selectAnimation((string)appScheduleList.selectedItem["playingAnimation"], par);
                 ESPRGB.syncLocalControls(this);
-            }                      
+            }
         }
         private void schTimer_Tick(object sender, EventArgs e)
         {
             try
             {
-                if (scheduleList.Items.Count == 0 || (sync_device && ESPRGB._syncDevices.Any() && this != ESPRGB._syncDevices[0]))
+                if (appScheduleList.Items.Count == 0 || (sync_device && ESPRGB._syncDevices.Any() && this != ESPRGB._syncDevices[0]))
                 {
                     return;
                 }
-                for (int i = 0; i < scheduleList.Items.Count; i++)
+                for (int i = 0; i < appScheduleList.Items.Count; i++)
                 {
-                    if ((bool)scheduleList.Items[i]["enabled"] != false)
+                    if ((bool)appScheduleList.Items[i]["enable"] != false)
                     {
-                        if ((string)scheduleList.Items[i]["appName"] == "DEFAULT APP")
+                        if ((string)appScheduleList.Items[i]["appName"] == "DEFAULT APP")
                         {
-                            scheduleList.selectIndex = i;
+                            appScheduleList.selectIndex = i;
                             return;
                         }
-                        using (var proc = Process.GetProcessesByName((string)scheduleList.Items[i]["appName"]).FirstOrDefault())
+                        using (var proc = Process.GetProcessesByName((string)appScheduleList.Items[i]["appName"]).FirstOrDefault())
                         {
                             if (proc != null)
                             {
-                                scheduleList.selectIndex = i;
+                                appScheduleList.selectIndex = i;
                                 proc.Close();
                                 return;
                             }
@@ -1245,23 +1312,27 @@ namespace ESPRGB_Client
             }
             catch
             {
-            }           
+            }
+        }
+        private void addNewAppSchedule_Click(object sender, EventArgs e)
+        {
+            newScheduleWindow sw = new newScheduleWindow(0,appScheduleList.Items);
+            sw.StartPosition = FormStartPosition.CenterParent;
+            var res = sw.ShowDialog();
+
+            if (res == DialogResult.OK)
+            {
+                if (!appScheduleList.Items.Contains(sw.result))
+                {
+                    appScheduleList.Items.Add(sw.result);
+                    appScheduleList.createAllAppItems();
+                    ESPRGB.syncLocalControls(this);
+                }
+            }
         }
         private void PowerIfConnected_Click(object sender, EventArgs e)
         {
             powerConected = !powerConected;
-        }
-        private void addNewSchedule_Click(object sender, EventArgs e)
-        {
-            addnewProcess addWindow = new addnewProcess(scheduleList.Items);
-            addWindow.StartPosition = FormStartPosition.CenterParent;
-            var res =  addWindow.ShowDialog();
-            if(res == DialogResult.OK)
-            {
-                scheduleList.addItem(addWindow.result);
-                scheduleList.createAllItems();
-                ESPRGB.syncLocalControls(this);
-            }
         }
         private void scheduleList_OrderChanged(object sender, EventArgs e)
         {
@@ -1276,19 +1347,136 @@ namespace ESPRGB_Client
         {
             enableScheduleClick = false;
         }
+
+        private void addNewTimeSchedule_Click(object sender, EventArgs e)
+        {
+            if (timeScheduleList.Items.Count < 10)
+            {
+                newScheduleWindow sw = new newScheduleWindow(1);
+                sw.StartPosition = FormStartPosition.CenterParent;
+                var res = sw.ShowDialog();
+
+                if (res == DialogResult.OK)
+                {
+                    string data = "{\"Animations\":{\"Schedules\":{\"newTimeSchedule\":" + sw.result.ToString(Newtonsoft.Json.Formatting.None) + "}}}";
+                    if (sync_device) ESPRGB.broadcastTxT(this, data, true);
+                    else ws.SendAsync(data, null);
+                }
+            }
+            else
+            {
+                exceptions exitMessage = new exceptions(0,"ESPRGB-Format device", "10 schedules limit");
+                exitMessage.StartPosition = FormStartPosition.CenterParent;
+                exitMessage.ShowDialog();
+            }
+        }
+
+        private void timeScheduleList_timeScheduleRemoved(object sender, JObject e)
+        {
+            string data = "{\"Animations\":{\"Schedules\":{\"removeTimeSchedule\":{\"Timestamp\":" + e["Timestamp"] + "}}}}";
+            if (sync_device) ESPRGB.broadcastTxT(this, data, true);
+            else ws.SendAsync(data, null);
+        }
+        bool enableTimeScheduleClick = false;
+        private void enableTimeSchedule_MouseDown(object sender, MouseEventArgs e)
+        {
+            enableTimeScheduleClick = true;
+        }
+
+        private void enableTimeSchedule_MouseUp(object sender, MouseEventArgs e)
+        {
+            enableTimeScheduleClick = false;
+        }
+
+        private void enableTimeSchedule_CheckedChanged(object sender, EventArgs e)
+        {
+            if (enableTimeScheduleClick)
+            {               
+                string data = "{\"Animations\":{\"Schedules\":{\"enableScheduler\":" + enableTimeSchedule.Checked.ToString().ToLower() + "}}}";
+                if (sync_device) ESPRGB.broadcastTxT(this, data, true);
+                else ws.SendAsync(data, null);
+            }
+        }
+
+        private void timeScheduleList_timeScheduleEnable(object sender, JObject e)
+        {
+            JObject editJson = new JObject();
+            JObject obj = new JObject();
+            obj["oldTimestamp"] = e["Timestamp"];
+            JObject newData = new JObject();
+            newData["enable"] = e["enable"];
+            obj["newData"] = newData;
+            editJson["editTimeSchedule"] = obj;
+            string data = "{\"Animations\":{\"Schedules\":"+editJson.ToString(Newtonsoft.Json.Formatting.None)+"}}";
+            if (sync_device) ESPRGB.broadcastTxT(this, data, true);
+            else ws.SendAsync(data, null);
+        }
+
+        private void timeScheduleList_timeScheduleEdit(object sender, JObject e)
+        {
+            newScheduleWindow sw = new newScheduleWindow(1,e);
+            sw.StartPosition = FormStartPosition.CenterParent;
+            var res = sw.ShowDialog();
+
+            if (res == DialogResult.OK)
+            {
+                JObject editJson = new JObject();
+                JObject obj = new JObject();
+                obj["oldTimestamp"] = e["Timestamp"];
+                obj["newData"] = sw.result;
+                editJson["editTimeSchedule"] = obj;
+                string data = "{\"Animations\":{\"Schedules\":" + editJson.ToString(Newtonsoft.Json.Formatting.None) + "}}";
+                if (sync_device) ESPRGB.broadcastTxT(this, data, true);
+                else ws.SendAsync(data, null);
+            }
+        }
+
+        private void appScheduleList_appScheduleEdit(object sender, JObject e)
+        {
+            newScheduleWindow sw = new newScheduleWindow(0, e,appScheduleList.Items);
+            sw.StartPosition = FormStartPosition.CenterParent;
+            var res = sw.ShowDialog();
+
+            if (res == DialogResult.OK)
+            {
+                for (int i = 0; i < appScheduleList.Items.Count(); i++)
+                {
+                    if (appScheduleList.Items[i] == e)
+                    {
+                        appScheduleList.Items[i] = sw.result;
+                        appScheduleList.createAllAppItems();
+                        break;
+                    }
+                }
+            }
+        }
+
+        private async void removeUserData_Click(object sender, EventArgs e)
+        {
+            exceptions removeUserData = new exceptions(1, "ESPRGB-Format device", "You want to remove all the user data from this device?");
+            removeUserData.StartPosition = FormStartPosition.CenterParent;
+            removeUserData.ShowDialog();
+            if (removeUserData.DialogResult == DialogResult.Yes)
+            {
+                using (var client = new HttpClient())
+                {
+                   await client.GetAsync("http://" + ipaddress + "/removeUserData");
+                }
+            }
+        }
+
         private void enableSchedule_CheckedChanged(object sender, EventArgs e)
         {
-            scheduleTimer.Enabled = enableSchedule.Checked;
+            scheduleTimer.Enabled = enableAppSchedule.Checked;
             if (enableScheduleClick)
-            {                
-                if (!enableSchedule.Checked) scheduleList.selectIndex = -1;
+            {
+                if (!enableAppSchedule.Checked) appScheduleList.selectIndex = -1;
                 ESPRGB.syncLocalControls(this);
-            }     
+            }
         }
         private void ambilightSpeed_Scroll(object sender, Zeroit.Framework.Metro.ZeroitMetroTrackbar.TrackbarEventArgs e)
         {
             screenSampler.liveTimer.Interval = ambilightSpeed.Value;
-            Console.WriteLine(ambilightSpeed.Value);
         }
         private void startAmbilight_CheckedChanged(object sender, EventArgs e)
         {
@@ -1299,7 +1487,7 @@ namespace ESPRGB_Client
             else screenSampler.enable = startAmbilight.Checked;
             if (screenSampler.enable)
             {
-                string data = "{\"Animations\":{\"Ambilight\":{\"AmbilightColor\":[" + screenSampler.ScreenColor.R * 4 + "," + screenSampler.ScreenColor.G * 4 + "," + screenSampler.ScreenColor.B * 4 + "]}}}";
+                string data = "{\"Animations\":{\"parameters\":{\"Ambilight\":{\"AmbilightColor\":[" + screenSampler.ScreenColor.R * 4 + "," + screenSampler.ScreenColor.G * 4 + "," + screenSampler.ScreenColor.B * 4 + "]}}}}";
                 if (sync_device) ESPRGB.broadcastTxT(this, data, true);
                 else ws.SendAsync(data, null);
             }
@@ -1307,20 +1495,19 @@ namespace ESPRGB_Client
         private void startAmbilight_Click(object sender, EventArgs e)
         {
             if (startAmbilight.Checked) selectAnimation("Ambilight");
-            else selectAnimation("Solid Color");          
+            else selectAnimation("Solid Color");
         }
         private void screenSampler_OnColorChanged(object sender, Color e)
         {
             if (screenSampler.enable && ws != null)
             {
-                string data = "{\"Animations\":{\"Ambilight\":{\"AmbilightColor\":[" + e.R * 4 + "," + e.G * 4 + "," + e.B * 4 + "]}}}";
+                string data = "{\"Animations\":{\"parameters\":{\"Ambilight\":{\"AmbilightColor\":[" + e.R * 4 + "," + e.G * 4 + "," + e.B * 4 + "]}}}}";
                 if (sync_device) ESPRGB.broadcastTxT(this, data, true);
                 else ws.SendAsync(data, null);
             }
-
         }
         private void screenSampler_OnScreenChanged(object sender, EventArgs e)
-        {          
+        {
             ESPRGB.syncLocalControls(this);
         }
         private void ambilightSpeed_MouseUp(object sender, MouseEventArgs e)

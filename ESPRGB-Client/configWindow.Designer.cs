@@ -122,6 +122,7 @@
             // 
             // dns
             // 
+            this.dns.Enabled = false;
             this.dns.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dns.Location = new System.Drawing.Point(91, 445);
             this.dns.Name = "dns";
@@ -130,6 +131,7 @@
             // 
             // subnet
             // 
+            this.subnet.Enabled = false;
             this.subnet.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.subnet.Location = new System.Drawing.Point(91, 417);
             this.subnet.Name = "subnet";
@@ -138,6 +140,7 @@
             // 
             // gateway
             // 
+            this.gateway.Enabled = false;
             this.gateway.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gateway.Location = new System.Drawing.Point(91, 387);
             this.gateway.Name = "gateway";
@@ -146,6 +149,7 @@
             // 
             // local_IP
             // 
+            this.local_IP.Enabled = false;
             this.local_IP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.local_IP.Location = new System.Drawing.Point(91, 358);
             this.local_IP.Name = "local_IP";

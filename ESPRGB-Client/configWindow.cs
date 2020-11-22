@@ -42,7 +42,7 @@ namespace ESPRGB_Client
                             savedSSID = (string)dataJson["SSID"];
                         }
                         if (dataJson.ContainsKey("PASSWORD")) PASSWORD.Text = (string)dataJson["PASSWORD"];
-                        if (dataJson.ContainsKey("HOSTNAME")) HOSTNAME.Text = (string)dataJson["HOSTNAME"];
+                        if (dataJson.ContainsKey("HOSTNAME")) HOSTNAME.Text = dataJson["HOSTNAME"].ToString().Split('-')[1];
                         if (dataJson.ContainsKey("REDPIN")) REDPIN.Text = (string)dataJson["REDPIN"];
                         if (dataJson.ContainsKey("GREENPIN")) GREENPIN.Text = (string)dataJson["GREENPIN"];
                         if (dataJson.ContainsKey("BLUEPIN")) BLUEPIN.Text = (string)dataJson["BLUEPIN"];
@@ -106,75 +106,75 @@ namespace ESPRGB_Client
         {
             if (string.IsNullOrWhiteSpace(SSID.Text))
             {
-                exceptions exitMessage = new exceptions("ESPRGB-Exception", "Please enter a valid SSID");
+                exceptions exitMessage = new exceptions(0,"ESPRGB-Exception", "Please enter a valid SSID");
                 exitMessage.StartPosition = FormStartPosition.CenterParent;
                 exitMessage.ShowDialog();
                 return;
             }
             if (string.IsNullOrWhiteSpace(PASSWORD.Text) && PASSWORD.Enabled)
             {
-                exceptions exitMessage = new exceptions("ESPRGB-Exception", "Please enter a valid PASSWORD");
+                exceptions exitMessage = new exceptions(0,"ESPRGB-Exception", "Please enter a valid PASSWORD");
                 exitMessage.StartPosition = FormStartPosition.CenterParent;
                 exitMessage.ShowDialog();
                 return;
             }
             if (string.IsNullOrWhiteSpace(HOSTNAME.Text))
             {
-                exceptions exitMessage = new exceptions("ESPRGB-Exception", "Please enter a HOSTNAME");
+                exceptions exitMessage = new exceptions(0,"ESPRGB-Exception", "Please enter a HOSTNAME");
                 exitMessage.StartPosition = FormStartPosition.CenterParent;
                 exitMessage.ShowDialog();
                 return;
             }
             if (string.IsNullOrWhiteSpace(REDPIN.Text))
             {
-                exceptions exitMessage = new exceptions("ESPRGB-Exception", "Please enter a REDPIN");
+                exceptions exitMessage = new exceptions(0,"ESPRGB-Exception", "Please enter a REDPIN");
                 exitMessage.StartPosition = FormStartPosition.CenterParent;
                 exitMessage.ShowDialog();
                 return;
             }
             if (string.IsNullOrWhiteSpace(GREENPIN.Text))
             {
-                exceptions exitMessage = new exceptions("ESPRGB-Exception", "Please enter a GREENPIN");
+                exceptions exitMessage = new exceptions(0,"ESPRGB-Exception", "Please enter a GREENPIN");
                 exitMessage.StartPosition = FormStartPosition.CenterParent;
                 exitMessage.ShowDialog();
                 return;
             }
             if (string.IsNullOrWhiteSpace(BLUEPIN.Text))
             {
-                exceptions exitMessage = new exceptions("ESPRGB-Exception", "Please enter a BLUEPIN");
+                exceptions exitMessage = new exceptions(0,"ESPRGB-Exception", "Please enter a BLUEPIN");
                 exitMessage.StartPosition = FormStartPosition.CenterParent;
                 exitMessage.ShowDialog();
                 return;
             }
             if (string.IsNullOrWhiteSpace(local_IP.Text) && local_IP.Enabled)
             {
-                exceptions exitMessage = new exceptions("ESPRGB-Exception", "Please enter a valid local IP");
+                exceptions exitMessage = new exceptions(0,"ESPRGB-Exception", "Please enter a valid local IP");
                 exitMessage.StartPosition = FormStartPosition.CenterParent;
                 exitMessage.ShowDialog();
                 return;
             }
             if (string.IsNullOrWhiteSpace(gateway.Text)&& gateway.Enabled)
             {
-                exceptions exitMessage = new exceptions("ESPRGB-Exception", "Please enter a valid gateway");
+                exceptions exitMessage = new exceptions(0,"ESPRGB-Exception", "Please enter a valid gateway");
                 exitMessage.StartPosition = FormStartPosition.CenterParent;
                 exitMessage.ShowDialog();
                 return;
             }
             if (string.IsNullOrWhiteSpace(subnet.Text) && subnet.Enabled)
             {
-                exceptions exitMessage = new exceptions("ESPRGB-Exception", "Please enter a valid subnet");
+                exceptions exitMessage = new exceptions(0,"ESPRGB-Exception", "Please enter a valid subnet");
                 exitMessage.StartPosition = FormStartPosition.CenterParent;
                 exitMessage.ShowDialog();
                 return;
             }
             if (string.IsNullOrWhiteSpace(dns.Text) && dns.Enabled)
             {
-                exceptions exitMessage = new exceptions("ESPRGB-Exception", "Please enter a valid dns");
+                exceptions exitMessage = new exceptions(0,"ESPRGB-Exception", "Please enter a valid dns");
                 exitMessage.StartPosition = FormStartPosition.CenterParent;
                 exitMessage.ShowDialog();
                 return;
             }
-            exitMessage confirm = new exitMessage("ESPRGB-Exit", "Are you sure you want to save this config?");
+            exceptions confirm = new exceptions(1,"ESPRGB-Exit", "Are you sure you want to save this config?");
             confirm.StartPosition = FormStartPosition.CenterParent;
             confirm.ShowDialog();
             if (confirm.DialogResult == DialogResult.Yes)
@@ -185,7 +185,7 @@ namespace ESPRGB_Client
                          new JObject(
                                 new JProperty("SSID", new JValue(SSID.Text)),
                                 new JProperty("PASSWORD", new JValue(PASSWORD.Text)),
-                                new JProperty("HOSTNAME", new JValue(HOSTNAME.Text)),
+                                new JProperty("HOSTNAME", new JValue("esprgb-"+HOSTNAME.Text)),
                                 new JProperty("REDPIN", new JValue(REDPIN.Text)),
                                 new JProperty("GREENPIN", new JValue(GREENPIN.Text)),
                                 new JProperty("BLUEPIN", new JValue(BLUEPIN.Text)),

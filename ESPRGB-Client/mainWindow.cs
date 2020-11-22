@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using githubUpdaterApp;
+using Microsoft.Win32;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Un4seen.Bass;
 using Un4seen.BassWasapi;
@@ -19,15 +21,18 @@ namespace ESPRGB_Client
         public static FileInfo fileLocation;
         public static List<appControls> _appControls = new List<appControls>();
         public static List<appControls> _syncDevices = new List<appControls>();
-        settingsWindow settingsWindow;
+        private static settingsWindow settingsWindow;
         addDeviceControl addDevice;
         public static WASAPIPROC _process;
         public static FormWindowState windowState;
+        public static JObject audioDevices = new JObject();
+        public static JObject selectedaudioDevices = defaultAudio();
+        public static Version curVersion;
         public ESPRGB()
         {
             if (System.Diagnostics.Process.GetProcessesByName(System.IO.Path.GetFileNameWithoutExtension(System.Reflection.Assembly.GetEntryAssembly().Location)).Length > 1)
             {
-                exceptions exitMessage = new exceptions("ESPRGB-Exception", "App is already opened!");
+                exceptions exitMessage = new exceptions(0,"ESPRGB-Exception", "App is already opened!");
                 exitMessage.StartPosition = FormStartPosition.CenterParent;
                 exitMessage.ShowDialog();
                 System.Diagnostics.Process.GetCurrentProcess().Kill();
@@ -44,31 +49,27 @@ namespace ESPRGB_Client
                     JObject settings = (JObject)loadedData["Settings"];
                     if(settings.ContainsKey("startApp")) settingsWindow.startState.SelectedItem = (string)settings["startApp"];
                     if (settings.ContainsKey("closeButtonMinimize")) settingsWindow.exitButtonBehavior.Checked = (bool)settings["closeButtonMinimize"];
-                    if (settings.ContainsKey("savedAudioDevice")) settingsWindow.savedDevice = (string)settings["savedAudioDevice"];
+                    if (settings.ContainsKey("savedAudioDevice")) selectedaudioDevices["fullName"] = (string)settings["savedAudioDevice"];
                 }
             }
             settingsWindow.StartPosition = FormStartPosition.CenterParent;
             BassNet.Registration("limiteddata09@gmail.com", "2X5291323152222");
+            updateAudioDevices();
             InitializeComponent();  
             tabDevices.Visible = false;
             tabDevices.Visible = true;  
             tabDevices.TabPages.Clear();
             _process = new WASAPIPROC(Process);
-            Bass.BASS_SetConfig(BASSConfig.BASS_CONFIG_UPDATETHREADS, false);
-            Bass.BASS_Init(0, 44100, BASSInit.BASS_DEVICE_DEFAULT, IntPtr.Zero);
-            if (settingsWindow.DeviceBox.Items.Count > 0)
-            {
-                BassWasapi.BASS_WASAPI_Init(Convert.ToInt32(settingsWindow.DeviceBox.SelectedItem.ToString().Split('-')[0]), 0, 0, BASSWASAPIInit.BASS_WASAPI_BUFFER, 1f, 0.05f, _process, IntPtr.Zero);
-                BassWasapi.BASS_WASAPI_Start();
-            }
-
+            InitializeAudioDevice((string)selectedaudioDevices["fullName"]);      
             windowState = this.WindowState;
-        }
+            curVersion = typeof(ESPRGB).Assembly.GetName().Version;
+            settingsWindow.versionLabel.Text = curVersion.ToString();
+        } 
 
         private async void ESPRGB_Load(object sender, EventArgs e)
         {
             try
-            {
+            {               
                 if (!File.Exists(fileLocation.FullName))
                 {
                     using (FileStream fs = File.Create(fileLocation.FullName))
@@ -153,10 +154,10 @@ namespace ESPRGB_Client
                         if (device.ContainsKey("AmbilightScreen")) _appControls[i].screenSampler.selectedScreen = (int)device["AmbilightScreen"];                       
                         if (device.ContainsKey("Schedules"))
                         {
-                            _appControls[i].scheduleList.Items = (JArray)device["Schedules"];
-                            _appControls[i].scheduleList.createAllItems();
+                            _appControls[i].appScheduleList.Items = (JArray)device["Schedules"];
+                            _appControls[i].appScheduleList.createAllAppItems();
                         }
-                        if (device.ContainsKey("enableSchedule")) _appControls[i].enableSchedule.Checked = (bool)device["enableSchedule"];
+                        if (device.ContainsKey("enableSchedule")) _appControls[i].enableAppSchedule.Checked = (bool)device["enableSchedule"];
 
                         TabPage page = new TabPage((string)items[i]["name"]);
                         page.BackColor = Color.FromArgb(255, 27, 42, 71);
@@ -209,7 +210,7 @@ namespace ESPRGB_Client
                 tabDevices.SelectedIndex = old + 1;
                 tabDevices.SelectedIndex = old;
                 tabDevices.Visible = true;
-            }
+            }           
         }
         public static void syncLocalControls(appControls sender)
         {           
@@ -243,10 +244,10 @@ namespace ESPRGB_Client
             obj1.solidDiscoSensitivity.Refresh();
             obj1.gfxSolidDisco.Clear(Color.FromArgb(255, 21, 32, 54));
             obj1.discoGfx.Clear(Color.FromArgb(255, 21, 32, 54));
-            obj1.enableSchedule.Checked = obj2.enableSchedule.Checked;
-            obj1.scheduleList.Items = obj2.scheduleList.Items;
-            obj1.scheduleList.createAllItems();
-            obj1.scheduleList.selectIndex = obj2.scheduleList.selectIndex;
+            obj1.enableAppSchedule.Checked = obj2.enableAppSchedule.Checked;
+            obj1.appScheduleList.Items = obj2.appScheduleList.Items;
+            obj1.appScheduleList.createAllAppItems();
+            obj1.appScheduleList.selectIndex = obj2.appScheduleList.selectIndex;
             obj1.screenSampler.openImage(obj2.screenSampler.imageFileLocation);
             obj1.screenSampler.removeAllSelections();
             foreach (var sel in obj2.screenSampler.selectionPanels)
@@ -261,6 +262,9 @@ namespace ESPRGB_Client
             {
                 string jsonString = File.ReadAllText(fileLocation.FullName);
                 JObject loadedData = JObject.Parse(jsonString);
+                loadedData["Settings"]["startApp"] = settingsWindow.startState.SelectedItem.ToString();
+                loadedData["Settings"]["closeButtonMinimize"] = settingsWindow.exitButtonBehavior.Checked;
+                loadedData["Settings"]["savedAudioDevice"] = selectedaudioDevices["fullName"];
                 for (int i = 0; i < _appControls.Count; i++)
                 {
                     JObject device = (JObject)loadedData["Devices"][i];
@@ -295,8 +299,8 @@ namespace ESPRGB_Client
                     device["AmbilightSelections"] = selections;
                     device["AmbilightInterval"] = _appControls[i].screenSampler.liveTimer.Interval;
                     device["AmbilightScreen"] = _appControls[i].screenSampler.selectedScreen;
-                    device["Schedules"] = _appControls[i].scheduleList.Items;
-                    device["enableSchedule"] = _appControls[i].enableSchedule.Checked;
+                    device["Schedules"] = _appControls[i].appScheduleList.Items;
+                    device["enableSchedule"] = _appControls[i].enableAppSchedule.Checked;
                 }
                 File.WriteAllText(fileLocation.FullName, loadedData.ToString());
             }
@@ -308,7 +312,7 @@ namespace ESPRGB_Client
         {
             _syncDevices.Add(sender);
             syncAllDevices();
-            syncObjects(sender, _syncDevices[0]);
+            if (_syncDevices[0] != null)   syncObjects(sender, _syncDevices[0]);
             SaveData();
         }
         public static void removeSyncDevice(appControls device)
@@ -318,53 +322,61 @@ namespace ESPRGB_Client
             c.Start();
         }
         public static async void syncAllDevices()
-        {
-            JObject responseBody;
-
-            using (var client = new HttpClient())
+        {        
+            if (_syncDevices[0] != null)
             {
-                var result = await client.GetAsync("http://" + _syncDevices[0].ipaddress + "/syncData");
-                string resp = await result.Content.ReadAsStringAsync();
-                responseBody = JObject.Parse(resp);
-            }
-            foreach (var sync in _syncDevices)
-            {
-                sync.ws.Send(responseBody.ToString(Newtonsoft.Json.Formatting.None));
-                sync.ws.Send("{\"playAnimation\":\"" + responseBody["Animations"]["playingAnimation"] + "\"}");
-                sync.ws.Send("{\"command\":\"restartAnimation\"}");
-                sync.setControls(responseBody.ToString(Newtonsoft.Json.Formatting.None));
-            }           
+                JObject responseBody;
+                using (var client = new HttpClient())
+                {
+                    var result = await client.GetAsync("http://" + _syncDevices[0].ipaddress + "/syncData");
+                    string resp = await result.Content.ReadAsStringAsync();
+                    responseBody = JObject.Parse(resp);
+                }
+                foreach (var sync in _syncDevices)
+                {               
+                    sync.ws.Send(responseBody.ToString(Newtonsoft.Json.Formatting.None));
+                    sync.ws.Send("{\"Animations\":{\"playingAnimation\":\"" + responseBody["Animations"]["playingAnimation"] + "\"}}");
+                    sync.ws.Send("{\"command\":\"restartAnimation\"}");
+                    sync.setControls(responseBody.ToString(Newtonsoft.Json.Formatting.None));
+                }
+            }         
         }
         public static bool checkSyncDevices()
-        {    
+        {
+        try
+        {
             using (var client = new HttpClient())
             {
                 
                 string old = null;
                 for (int i = 0; i < _syncDevices.Count; i++)
                 {
-                    try
-                    {
-                        var result = client.GetAsync("http://" + _syncDevices[i].ipaddress + "/syncData").Result;
-                        if (result.IsSuccessStatusCode)
+                    if(_syncDevices[i] != null)
                         {
-                            var responseContent = result.Content;
-                            string responseString = responseContent.ReadAsStringAsync().Result;
-                            if (old != null && old !="" && old != responseString)
+                            var result = client.GetAsync("http://" + _syncDevices[i].ipaddress + "/syncData").Result;
+                            if (result.IsSuccessStatusCode)
                             {
-                                Console.WriteLine("Devices are not in sync");
-                                return false;
+                                var responseContent = result.Content;
+                                string responseString = responseContent.ReadAsStringAsync().Result;
+                                if (old != null && old != "" && old != responseString)
+                                {
+                                    Console.WriteLine("Devices are not in sync");
+                                    return false;
+                                }
+                                old = responseString;
                             }
-                            old = responseString;
                         }
+
                     }
-                    catch (Exception)
-                    {
-                    }
+
                 }          
                 Console.WriteLine("Devices are in sync");
-                return true;
-            } 
+                
+            }
+            catch (Exception)
+            {
+            }
+            return true;
         }
 
         public static void broadcastTxT(appControls sender, string payload,bool syncControls)
@@ -441,7 +453,7 @@ namespace ESPRGB_Client
                 if (item.connAlive)
                 {
                     item.powerButton.Checked = false;
-                    item.ws.SendAsync("{\"Animations\":{\"PowerState\":false}}", null);
+                    item.ws.SendAsync("{\"Animations\":{\"playingAnimation\":\"Power Off\"}}", null);
                 }
             }
         }
@@ -452,7 +464,7 @@ namespace ESPRGB_Client
                 if (item.connAlive)
                 {
                     item.powerButton.Checked = true;
-                    item.ws.SendAsync("{\"Animations\":{\"PowerState\":true}}", null);
+                    item.ws.SendAsync("{\"Animations\":{\"playingAnimation\":\"Power On\"}}", null);
                 }
             }
         }
@@ -470,7 +482,7 @@ namespace ESPRGB_Client
             }
             else
             {
-                exitMessage exitMessage = new exitMessage("ESPRGB-Exit", "Are you sure you want to close?");
+                exceptions exitMessage = new exceptions(1,"ESPRGB-Exit", "Are you sure you want to close?");
                 exitMessage.StartPosition = FormStartPosition.CenterParent;
                 exitMessage.ShowDialog();
                 if (exitMessage.DialogResult == DialogResult.Yes) Application.Exit();
@@ -503,6 +515,7 @@ namespace ESPRGB_Client
 
             }
         }
+        bool showUpdate = false;
         private void ESPRGB_Resize(object sender, EventArgs e)
         {
             windowState = this.WindowState;
@@ -522,9 +535,42 @@ namespace ESPRGB_Client
                 tabDevices.SelectedIndex = old + 1;
                 tabDevices.SelectedIndex = old;
                 tabDevices.Visible = true;
+
+                if (showUpdate == false)
+                {
+                    checkForUpdates();
+                    showUpdate = true;
+                }
             }
         }
-
+        public void checkForUpdates()
+        {
+            Thread updateChecker = new Thread(() => {
+                githubUpdater updater = new githubUpdater("limiteddata", "ESPRGB-Client", Path.GetTempPath());
+                Task<bool> newUpdate = updater.checkForUpdates(curVersion);
+                if (newUpdate.Result)
+                {
+                    exceptions updateMessage = new exceptions(1, "ESPRGB-Update", "Version " + updater.latestVersion.ToString() + " is available.\n Do you want to update?");
+                    updateMessage.StartPosition = FormStartPosition.CenterParent;
+                    updateMessage.ShowDialog();
+                    if (updateMessage.DialogResult == DialogResult.Yes)
+                    {
+                        Task<bool> download = updater.downloadNewVersion();
+                        if (download.Result)
+                        {
+                            exceptions msg = new exceptions(0, "ESPRGB-Update", "Finished downloading. Continue installing the new version");
+                            msg.StartPosition = FormStartPosition.CenterParent;
+                            msg.ShowDialog();
+                            if(msg.DialogResult == DialogResult.OK)
+                            {
+                                if (updater.Install())  this.Invoke((MethodInvoker)delegate{Application.Exit();});
+                            }
+                        }
+                    }
+                }
+            });
+            updateChecker.Start();
+        }
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
@@ -547,6 +593,64 @@ namespace ESPRGB_Client
         private int Process(IntPtr buffer, int length, IntPtr user)
         {
             return length;
+        }
+        public static void InitializeAudioDevice(string device)
+        {
+            try
+            {
+                if (audioDevices.ContainsKey(device)) selectedaudioDevices = (JObject)audioDevices[device];
+                else selectedaudioDevices = defaultAudio();
+                BassWasapi.BASS_WASAPI_Stop(true);
+                BassWasapi.BASS_WASAPI_Free();
+                Bass.BASS_Free();
+
+                Bass.BASS_Init(0, 44100, BASSInit.BASS_DEVICE_DEFAULT, IntPtr.Zero);
+                BassWasapi.BASS_WASAPI_Init((int)selectedaudioDevices["id"], 0, 0, BASSWASAPIInit.BASS_WASAPI_BUFFER, 1f, 0.05f, ESPRGB._process, IntPtr.Zero);
+                BassWasapi.BASS_WASAPI_Start();
+            }
+            catch
+            {
+                selectedaudioDevices = defaultAudio();
+                BassWasapi.BASS_WASAPI_Stop(true);
+                BassWasapi.BASS_WASAPI_Free();
+                Bass.BASS_Free();
+
+                Bass.BASS_Init(0, 44100, BASSInit.BASS_DEVICE_DEFAULT, IntPtr.Zero);
+                BassWasapi.BASS_WASAPI_Init((int)selectedaudioDevices["id"], 0, 0, BASSWASAPIInit.BASS_WASAPI_BUFFER, 1f, 0.05f, ESPRGB._process, IntPtr.Zero);
+                BassWasapi.BASS_WASAPI_Start();
+            }
+        }
+        static JObject _defaultAudio;
+        private static JObject defaultAudio()
+        {
+            _defaultAudio = new JObject();
+            _defaultAudio["id"] = -3;
+            _defaultAudio["fullName"] = "Default";
+            _defaultAudio["firstName"] = "Default";
+            _defaultAudio["secondName"] = "Default";
+            _defaultAudio["isDefault"] = true;
+            return _defaultAudio;
+        }
+        public static JObject updateAudioDevices()
+        {
+            audioDevices.RemoveAll();
+            audioDevices.Add("Default", defaultAudio());
+            BASS_WASAPI_DEVICEINFO item = new BASS_WASAPI_DEVICEINFO();
+            for (int n = 0; BassWasapi.BASS_WASAPI_GetDeviceInfo(n, item); n++)
+            {
+                if (item.IsEnabled && item.IsLoopback)
+                {
+                    var device = item.name.Split('(');
+                    JObject deviceJson = new JObject();
+                    deviceJson["id"] = n;
+                    deviceJson["fullName"] = item.name;
+                    deviceJson["firstName"] = device[0];
+                    deviceJson["secondName"] = device[1].Remove(device[1].Length - 1, 1);
+                    deviceJson["isDefault"] = item.IsDefault;
+                    audioDevices.Add(item.name, deviceJson);
+                }
+            }
+            return audioDevices;
         }
         private void settingsButton_Click(object sender, EventArgs e)
         {

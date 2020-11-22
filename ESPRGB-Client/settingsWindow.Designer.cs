@@ -40,12 +40,16 @@
             this.startupCheckbox = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.closeButton = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.versionLabel = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(42)))), ((int)(((byte)(71)))));
+            this.panel1.Controls.Add(this.versionLabel);
+            this.panel1.Controls.Add(this.label6);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.DeviceBox);
             this.panel1.Controls.Add(this.label4);
@@ -59,7 +63,7 @@
             this.panel1.Location = new System.Drawing.Point(10, 10);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(380, 230);
+            this.panel1.Size = new System.Drawing.Size(380, 248);
             this.panel1.TabIndex = 0;
             this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.messageBox_MouseDown);
             this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.messageBox_MouseMove);
@@ -86,7 +90,6 @@
             this.DeviceBox.Name = "DeviceBox";
             this.DeviceBox.Size = new System.Drawing.Size(174, 23);
             this.DeviceBox.TabIndex = 39;
-            this.DeviceBox.DropDown += new System.EventHandler(this.DeviceBox_DropDown);
             this.DeviceBox.SelectionChangeCommitted += new System.EventHandler(this.DeviceBox_SelectionChangeCommitted);
             // 
             // label4
@@ -148,7 +151,6 @@
             this.startState.Name = "startState";
             this.startState.Size = new System.Drawing.Size(110, 23);
             this.startState.TabIndex = 35;
-            this.startState.SelectedIndexChanged += new System.EventHandler(this.startState_SelectedIndexChanged);
             // 
             // label2
             // 
@@ -203,13 +205,35 @@
             this.closeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.closeButton.Font = new System.Drawing.Font("Microsoft PhagsPa", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.closeButton.ForeColor = System.Drawing.Color.White;
-            this.closeButton.Location = new System.Drawing.Point(150, 178);
+            this.closeButton.Location = new System.Drawing.Point(150, 206);
             this.closeButton.Name = "closeButton";
             this.closeButton.Size = new System.Drawing.Size(80, 30);
             this.closeButton.TabIndex = 5;
             this.closeButton.Text = "Close";
             this.closeButton.UseVisualStyleBackColor = false;
             this.closeButton.Click += new System.EventHandler(this.closeButton_Click);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.Color.White;
+            this.label6.Location = new System.Drawing.Point(77, 173);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(62, 18);
+            this.label6.TabIndex = 41;
+            this.label6.Text = "Version:";
+            // 
+            // versionLabel
+            // 
+            this.versionLabel.AutoSize = true;
+            this.versionLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.versionLabel.ForeColor = System.Drawing.Color.White;
+            this.versionLabel.Location = new System.Drawing.Point(155, 173);
+            this.versionLabel.Name = "versionLabel";
+            this.versionLabel.Size = new System.Drawing.Size(40, 18);
+            this.versionLabel.TabIndex = 42;
+            this.versionLabel.Text = "0.0.0";
             // 
             // settingsWindow
             // 
@@ -218,7 +242,7 @@
             this.AutoSize = true;
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnablePreventFocusChange;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(32)))), ((int)(((byte)(54)))));
-            this.ClientSize = new System.Drawing.Size(400, 250);
+            this.ClientSize = new System.Drawing.Size(400, 267);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -246,5 +270,7 @@
         public System.Windows.Forms.CheckBox exitButtonBehavior;
         private System.Windows.Forms.Label label5;
         public System.Windows.Forms.ComboBox DeviceBox;
+        public System.Windows.Forms.Label versionLabel;
+        private System.Windows.Forms.Label label6;
     }
 }

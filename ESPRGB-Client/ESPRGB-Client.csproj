@@ -14,6 +14,8 @@
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -26,10 +28,8 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -96,6 +96,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Windows" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
@@ -129,6 +130,20 @@
     </Compile>
     <Compile Include="breathingSlider.Designer.cs">
       <DependentUpon>breathingSlider.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ESPOTA.cs" />
+    <Compile Include="firmwareUpdater.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="firmwareUpdater.Designer.cs">
+      <DependentUpon>firmwareUpdater.cs</DependentUpon>
+    </Compile>
+    <Compile Include="githubUpdater.cs" />
+    <Compile Include="newScheduleWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="newScheduleWindow.Designer.cs">
+      <DependentUpon>newScheduleWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -170,12 +185,6 @@
     </Compile>
     <Compile Include="HslColor.cs" />
     <Compile Include="IColorEditor.cs" />
-    <Compile Include="addnewProcess.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="addnewProcess.Designer.cs">
-      <DependentUpon>addnewProcess.cs</DependentUpon>
-    </Compile>
     <Compile Include="ScreenSampler.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -187,12 +196,6 @@
     </Compile>
     <Compile Include="settingsWindow.Designer.cs">
       <DependentUpon>settingsWindow.cs</DependentUpon>
-    </Compile>
-    <Compile Include="exitMessage.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="exitMessage.Designer.cs">
-      <DependentUpon>exitMessage.cs</DependentUpon>
     </Compile>
     <Compile Include="mainWindow.cs">
       <SubType>Form</SubType>
@@ -288,6 +291,12 @@
     <EmbeddedResource Include="breathingSlider.resx">
       <DependentUpon>breathingSlider.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="firmwareUpdater.resx">
+      <DependentUpon>firmwareUpdater.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="newScheduleWindow.resx">
+      <DependentUpon>newScheduleWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="scheduleList.resx">
       <DependentUpon>scheduleList.cs</DependentUpon>
     </EmbeddedResource>
@@ -303,17 +312,11 @@
     <EmbeddedResource Include="exceptions.resx">
       <DependentUpon>exceptions.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="addnewProcess.resx">
-      <DependentUpon>addnewProcess.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="ScreenSampler.resx">
       <DependentUpon>ScreenSampler.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="settingsWindow.resx">
       <DependentUpon>settingsWindow.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="exitMessage.resx">
-      <DependentUpon>exitMessage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="mainWindow.resx">
       <DependentUpon>mainWindow.cs</DependentUpon>
@@ -374,6 +377,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="esprgb_icon_128.ico" />
+    <None Include="Resources\userConfig.png" />
     <Content Include="websocket-sharp\doc\.gitignore" />
   </ItemGroup>
   <ItemGroup>

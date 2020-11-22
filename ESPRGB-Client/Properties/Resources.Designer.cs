@@ -253,6 +253,16 @@ namespace ESPRGB_Client.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap userConfig {
+            get {
+                object obj = ResourceManager.GetObject("userConfig", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap wifi_1 {
             get {
                 object obj = ResourceManager.GetObject("wifi_1", resourceCulture);

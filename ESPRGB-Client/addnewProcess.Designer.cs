@@ -31,30 +31,13 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(addnewProcess));
             this.panel1 = new System.Windows.Forms.Panel();
-            this.parametersAmbilight = new System.Windows.Forms.Panel();
-            this.ambilightSpeed = new Zeroit.Framework.Metro.ZeroitMetroTrackbar();
-            this.label24 = new System.Windows.Forms.Label();
             this.backButton = new System.Windows.Forms.Button();
             this.nextButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.closeButton = new System.Windows.Forms.Button();
             this.finishButton = new System.Windows.Forms.Button();
-            this.parametersMorseCode = new System.Windows.Forms.Panel();
-            this.useBuzzer = new System.Windows.Forms.CheckBox();
-            this.unitTime = new Zeroit.Framework.Metro.ZeroitMetroTrackbar();
-            this.label18 = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
-            this.encodedMsgResult = new System.Windows.Forms.TextBox();
-            this.label16 = new System.Windows.Forms.Label();
-            this.morsePlainText = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.parametersSolidDisco = new System.Windows.Forms.Panel();
-            this.SolidDiscoVisualizer = new System.Windows.Forms.PictureBox();
-            this.randomColor = new System.Windows.Forms.CheckBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.solidDiscoSensitivity = new Zeroit.Framework.Metro.ZeroitMetroTrackbar();
-            this.label9 = new System.Windows.Forms.Label();
             this.parametersDisco = new System.Windows.Forms.Panel();
+            this.discoAudioDevice = new System.Windows.Forms.ComboBox();
             this.label15 = new System.Windows.Forms.Label();
             this.highsBrightness = new Zeroit.Framework.Metro.ZeroitMetroTrackbar();
             this.label14 = new System.Windows.Forms.Label();
@@ -74,15 +57,18 @@
             this.sel_red = new System.Windows.Forms.Button();
             this.ResultColor = new System.Windows.Forms.PictureBox();
             this.pictureBoxTop = new System.Windows.Forms.PictureBox();
+            this.colorslider1 = new WindowsFormsApp2.colorslider();
             this.label8 = new System.Windows.Forms.Label();
             this.parametersBreathing = new System.Windows.Forms.Panel();
             this.useColorList = new System.Windows.Forms.CheckBox();
+            this.colorBreathing = new Cyotek.Windows.Forms.ColorWheel();
             this.label4 = new System.Windows.Forms.Label();
             this.br_clearColorlist = new System.Windows.Forms.Button();
             this.breathingSpeedText = new System.Windows.Forms.Label();
             this.breathingSpeed = new Zeroit.Framework.Metro.ZeroitMetroTrackbar();
             this.br_removeLastColor = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
+            this.colorListResult = new ESPRGB_Client.breathingSlider();
             this.br_addCurrentColor = new System.Windows.Forms.Button();
             this.parametersColorCycle = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
@@ -90,33 +76,49 @@
             this.label6 = new System.Windows.Forms.Label();
             this.ColorCycleSpeed = new Zeroit.Framework.Metro.ZeroitMetroTrackbar();
             this.parametersSolidColor = new System.Windows.Forms.Panel();
+            this.colorWheel = new Cyotek.Windows.Forms.ColorWheel();
             this.brightnessSlide = new Zeroit.Framework.Metro.ZeroitMetroTrackbar();
             this.label2 = new System.Windows.Forms.Label();
-            this.procList = new System.Windows.Forms.ListBox();
             this.animList = new System.Windows.Forms.ListBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.solidDiscoTimer = new System.Windows.Forms.Timer(this.components);
-            this.discoTimer = new System.Windows.Forms.Timer(this.components);
+            this.parametersAmbilight = new System.Windows.Forms.Panel();
+            this.ambilightSpeed = new Zeroit.Framework.Metro.ZeroitMetroTrackbar();
+            this.label24 = new System.Windows.Forms.Label();
             this.screenSampler1 = new ESPRGB_Client.ScreenSampler();
+            this.parametersMorseCode = new System.Windows.Forms.Panel();
             this.morseColor = new Cyotek.Windows.Forms.ColorWheel();
+            this.useBuzzer = new System.Windows.Forms.CheckBox();
+            this.unitTime = new Zeroit.Framework.Metro.ZeroitMetroTrackbar();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.encodedMsgResult = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.morsePlainText = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.breathingSlider3 = new ESPRGB_Client.breathingSlider();
+            this.parametersSolidDisco = new System.Windows.Forms.Panel();
+            this.solidDiscoAudioDevice = new System.Windows.Forms.ComboBox();
+            this.SolidDiscoVisualizer = new System.Windows.Forms.PictureBox();
             this.colorslider_simple = new ESPRGB_Client.colorslider_simple();
             this.colorWheel_SolidDisco = new Cyotek.Windows.Forms.ColorWheel();
-            this.colorslider1 = new WindowsFormsApp2.colorslider();
-            this.colorBreathing = new Cyotek.Windows.Forms.ColorWheel();
-            this.colorListResult = new ESPRGB_Client.breathingSlider();
-            this.colorWheel = new Cyotek.Windows.Forms.ColorWheel();
+            this.randomColor = new System.Windows.Forms.CheckBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.solidDiscoSensitivity = new Zeroit.Framework.Metro.ZeroitMetroTrackbar();
+            this.label9 = new System.Windows.Forms.Label();
+            this.solidDiscoTimer = new System.Windows.Forms.Timer(this.components);
+            this.discoTimer = new System.Windows.Forms.Timer(this.components);
+            this.procList = new System.Windows.Forms.ListBox();
             this.panel1.SuspendLayout();
-            this.parametersAmbilight.SuspendLayout();
-            this.parametersMorseCode.SuspendLayout();
-            this.parametersSolidDisco.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.SolidDiscoVisualizer)).BeginInit();
             this.parametersDisco.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ResultColor)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTop)).BeginInit();
             this.parametersBreathing.SuspendLayout();
             this.parametersColorCycle.SuspendLayout();
             this.parametersSolidColor.SuspendLayout();
+            this.parametersAmbilight.SuspendLayout();
+            this.parametersMorseCode.SuspendLayout();
+            this.parametersSolidDisco.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SolidDiscoVisualizer)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -127,16 +129,16 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.closeButton);
             this.panel1.Controls.Add(this.finishButton);
+            this.panel1.Controls.Add(this.parametersSolidColor);
+            this.panel1.Controls.Add(this.procList);
+            this.panel1.Controls.Add(this.animList);
+            this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.parametersAmbilight);
             this.panel1.Controls.Add(this.parametersMorseCode);
             this.panel1.Controls.Add(this.parametersSolidDisco);
             this.panel1.Controls.Add(this.parametersDisco);
             this.panel1.Controls.Add(this.parametersBreathing);
             this.panel1.Controls.Add(this.parametersColorCycle);
-            this.panel1.Controls.Add(this.parametersSolidColor);
-            this.panel1.Controls.Add(this.procList);
-            this.panel1.Controls.Add(this.animList);
-            this.panel1.Controls.Add(this.label5);
             this.panel1.Location = new System.Drawing.Point(10, 10);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
@@ -144,51 +146,6 @@
             this.panel1.TabIndex = 0;
             this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.messageBox_MouseDown);
             this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.messageBox_MouseMove);
-            // 
-            // parametersAmbilight
-            // 
-            this.parametersAmbilight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(32)))), ((int)(((byte)(54)))));
-            this.parametersAmbilight.Controls.Add(this.ambilightSpeed);
-            this.parametersAmbilight.Controls.Add(this.screenSampler1);
-            this.parametersAmbilight.Controls.Add(this.label24);
-            this.parametersAmbilight.Location = new System.Drawing.Point(15, 42);
-            this.parametersAmbilight.Name = "parametersAmbilight";
-            this.parametersAmbilight.Size = new System.Drawing.Size(735, 472);
-            this.parametersAmbilight.TabIndex = 76;
-            this.parametersAmbilight.Visible = false;
-            // 
-            // ambilightSpeed
-            // 
-            this.ambilightSpeed.BackColor = System.Drawing.Color.Transparent;
-            this.ambilightSpeed.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ambilightSpeed.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(98)))), ((int)(((byte)(98)))));
-            this.ambilightSpeed.GradientColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(215)))));
-            this.ambilightSpeed.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(156)))));
-            this.ambilightSpeed.LeftColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(156)))));
-            this.ambilightSpeed.Location = new System.Drawing.Point(18, 439);
-            this.ambilightSpeed.Maximum = 1200;
-            this.ambilightSpeed.Minimum = 1;
-            this.ambilightSpeed.Name = "ambilightSpeed";
-            this.ambilightSpeed.RailWidth = 20;
-            this.ambilightSpeed.RegionColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(156)))));
-            this.ambilightSpeed.RightColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(190)))), ((int)(((byte)(190)))));
-            this.ambilightSpeed.Size = new System.Drawing.Size(700, 23);
-            this.ambilightSpeed.SliderColor = System.Drawing.Color.White;
-            this.ambilightSpeed.SliderWidth = 20;
-            this.ambilightSpeed.TabIndex = 41;
-            this.ambilightSpeed.TabStop = false;
-            this.ambilightSpeed.Value = 15;
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.Font = new System.Drawing.Font("Segoe UI", 11.25F);
-            this.label24.ForeColor = System.Drawing.Color.White;
-            this.label24.Location = new System.Drawing.Point(19, 13);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(75, 20);
-            this.label24.TabIndex = 39;
-            this.label24.Text = "Ambilight";
             // 
             // backButton
             // 
@@ -264,219 +221,10 @@
             this.finishButton.Visible = false;
             this.finishButton.Click += new System.EventHandler(this.finishButton_Click);
             // 
-            // parametersMorseCode
-            // 
-            this.parametersMorseCode.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(32)))), ((int)(((byte)(54)))));
-            this.parametersMorseCode.Controls.Add(this.morseColor);
-            this.parametersMorseCode.Controls.Add(this.useBuzzer);
-            this.parametersMorseCode.Controls.Add(this.unitTime);
-            this.parametersMorseCode.Controls.Add(this.label18);
-            this.parametersMorseCode.Controls.Add(this.label17);
-            this.parametersMorseCode.Controls.Add(this.encodedMsgResult);
-            this.parametersMorseCode.Controls.Add(this.label16);
-            this.parametersMorseCode.Controls.Add(this.morsePlainText);
-            this.parametersMorseCode.Controls.Add(this.label10);
-            this.parametersMorseCode.Controls.Add(this.breathingSlider3);
-            this.parametersMorseCode.Location = new System.Drawing.Point(15, 42);
-            this.parametersMorseCode.Name = "parametersMorseCode";
-            this.parametersMorseCode.Size = new System.Drawing.Size(735, 472);
-            this.parametersMorseCode.TabIndex = 48;
-            this.parametersMorseCode.Visible = false;
-            // 
-            // useBuzzer
-            // 
-            this.useBuzzer.AutoSize = true;
-            this.useBuzzer.ForeColor = System.Drawing.Color.White;
-            this.useBuzzer.Location = new System.Drawing.Point(369, 326);
-            this.useBuzzer.Name = "useBuzzer";
-            this.useBuzzer.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.useBuzzer.Size = new System.Drawing.Size(79, 17);
-            this.useBuzzer.TabIndex = 74;
-            this.useBuzzer.TabStop = false;
-            this.useBuzzer.Text = "Use buzzer";
-            this.useBuzzer.UseVisualStyleBackColor = true;
-            // 
-            // unitTime
-            // 
-            this.unitTime.BackColor = System.Drawing.Color.Transparent;
-            this.unitTime.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.unitTime.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(98)))), ((int)(((byte)(98)))));
-            this.unitTime.GradientColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(215)))));
-            this.unitTime.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(156)))));
-            this.unitTime.LeftColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(156)))));
-            this.unitTime.Location = new System.Drawing.Point(137, 327);
-            this.unitTime.Maximum = 550;
-            this.unitTime.Minimum = 35;
-            this.unitTime.Name = "unitTime";
-            this.unitTime.RailWidth = 20;
-            this.unitTime.RegionColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(156)))));
-            this.unitTime.RightColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(190)))), ((int)(((byte)(190)))));
-            this.unitTime.Size = new System.Drawing.Size(226, 16);
-            this.unitTime.SliderColor = System.Drawing.Color.White;
-            this.unitTime.TabIndex = 73;
-            this.unitTime.TabStop = false;
-            this.unitTime.Value = 35;
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.ForeColor = System.Drawing.Color.White;
-            this.label18.Location = new System.Drawing.Point(88, 326);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(45, 17);
-            this.label18.TabIndex = 72;
-            this.label18.Text = "Speed";
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label17.ForeColor = System.Drawing.Color.White;
-            this.label17.Location = new System.Drawing.Point(84, 206);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(132, 20);
-            this.label17.TabIndex = 71;
-            this.label17.Tag = "DontDisable";
-            this.label17.Text = "Encoded message:";
-            // 
-            // encodedMsgResult
-            // 
-            this.encodedMsgResult.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(32)))), ((int)(((byte)(54)))));
-            this.encodedMsgResult.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.encodedMsgResult.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.encodedMsgResult.ForeColor = System.Drawing.Color.White;
-            this.encodedMsgResult.Location = new System.Drawing.Point(88, 231);
-            this.encodedMsgResult.Margin = new System.Windows.Forms.Padding(0);
-            this.encodedMsgResult.MaxLength = 200;
-            this.encodedMsgResult.Multiline = true;
-            this.encodedMsgResult.Name = "encodedMsgResult";
-            this.encodedMsgResult.ReadOnly = true;
-            this.encodedMsgResult.Size = new System.Drawing.Size(360, 85);
-            this.encodedMsgResult.TabIndex = 70;
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label16.ForeColor = System.Drawing.Color.White;
-            this.label16.Location = new System.Drawing.Point(87, 91);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(106, 20);
-            this.label16.TabIndex = 69;
-            this.label16.Tag = "DontDisable";
-            this.label16.Text = "Plain message:";
-            // 
-            // morsePlainText
-            // 
-            this.morsePlainText.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(32)))), ((int)(((byte)(54)))));
-            this.morsePlainText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.morsePlainText.CharacterCasing = System.Windows.Forms.CharacterCasing.Lower;
-            this.morsePlainText.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.morsePlainText.ForeColor = System.Drawing.Color.White;
-            this.morsePlainText.Location = new System.Drawing.Point(88, 116);
-            this.morsePlainText.Margin = new System.Windows.Forms.Padding(0);
-            this.morsePlainText.MaxLength = 200;
-            this.morsePlainText.Multiline = true;
-            this.morsePlainText.Name = "morsePlainText";
-            this.morsePlainText.Size = new System.Drawing.Size(360, 85);
-            this.morsePlainText.TabIndex = 68;
-            this.morsePlainText.KeyUp += new System.Windows.Forms.KeyEventHandler(this.morsePlainText_KeyUp);
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Segoe UI", 11.25F);
-            this.label10.ForeColor = System.Drawing.Color.White;
-            this.label10.Location = new System.Drawing.Point(19, 13);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(89, 20);
-            this.label10.TabIndex = 39;
-            this.label10.Text = "Morse Code";
-            // 
-            // parametersSolidDisco
-            // 
-            this.parametersSolidDisco.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(32)))), ((int)(((byte)(54)))));
-            this.parametersSolidDisco.Controls.Add(this.SolidDiscoVisualizer);
-            this.parametersSolidDisco.Controls.Add(this.colorslider_simple);
-            this.parametersSolidDisco.Controls.Add(this.colorWheel_SolidDisco);
-            this.parametersSolidDisco.Controls.Add(this.randomColor);
-            this.parametersSolidDisco.Controls.Add(this.label11);
-            this.parametersSolidDisco.Controls.Add(this.solidDiscoSensitivity);
-            this.parametersSolidDisco.Controls.Add(this.label9);
-            this.parametersSolidDisco.Location = new System.Drawing.Point(15, 42);
-            this.parametersSolidDisco.Name = "parametersSolidDisco";
-            this.parametersSolidDisco.Size = new System.Drawing.Size(735, 472);
-            this.parametersSolidDisco.TabIndex = 47;
-            this.parametersSolidDisco.Visible = false;
-            // 
-            // SolidDiscoVisualizer
-            // 
-            this.SolidDiscoVisualizer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(32)))), ((int)(((byte)(54)))));
-            this.SolidDiscoVisualizer.Location = new System.Drawing.Point(165, 74);
-            this.SolidDiscoVisualizer.Name = "SolidDiscoVisualizer";
-            this.SolidDiscoVisualizer.Size = new System.Drawing.Size(405, 127);
-            this.SolidDiscoVisualizer.TabIndex = 68;
-            this.SolidDiscoVisualizer.TabStop = false;
-            // 
-            // randomColor
-            // 
-            this.randomColor.AutoSize = true;
-            this.randomColor.ForeColor = System.Drawing.Color.White;
-            this.randomColor.Location = new System.Drawing.Point(477, 242);
-            this.randomColor.Name = "randomColor";
-            this.randomColor.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.randomColor.Size = new System.Drawing.Size(93, 17);
-            this.randomColor.TabIndex = 66;
-            this.randomColor.TabStop = false;
-            this.randomColor.Text = "Random Color";
-            this.randomColor.UseVisualStyleBackColor = true;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.ForeColor = System.Drawing.Color.White;
-            this.label11.Location = new System.Drawing.Point(506, 262);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(64, 17);
-            this.label11.TabIndex = 65;
-            this.label11.Text = "Sensitivity";
-            // 
-            // solidDiscoSensitivity
-            // 
-            this.solidDiscoSensitivity.BackColor = System.Drawing.Color.Transparent;
-            this.solidDiscoSensitivity.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.solidDiscoSensitivity.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(98)))), ((int)(((byte)(98)))));
-            this.solidDiscoSensitivity.GradientColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(215)))));
-            this.solidDiscoSensitivity.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(156)))));
-            this.solidDiscoSensitivity.LeftColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(156)))));
-            this.solidDiscoSensitivity.Location = new System.Drawing.Point(459, 283);
-            this.solidDiscoSensitivity.Maximum = 255;
-            this.solidDiscoSensitivity.Name = "solidDiscoSensitivity";
-            this.solidDiscoSensitivity.RailWidth = 20;
-            this.solidDiscoSensitivity.RegionColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(156)))));
-            this.solidDiscoSensitivity.RightColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(190)))), ((int)(((byte)(190)))));
-            this.solidDiscoSensitivity.Size = new System.Drawing.Size(111, 16);
-            this.solidDiscoSensitivity.SliderColor = System.Drawing.Color.White;
-            this.solidDiscoSensitivity.TabIndex = 64;
-            this.solidDiscoSensitivity.TabStop = false;
-            this.solidDiscoSensitivity.Value = 10;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Segoe UI", 11.25F);
-            this.label9.ForeColor = System.Drawing.Color.White;
-            this.label9.Location = new System.Drawing.Point(19, 13);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(84, 20);
-            this.label9.TabIndex = 39;
-            this.label9.Text = "Solid Disco";
-            // 
             // parametersDisco
             // 
             this.parametersDisco.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(32)))), ((int)(((byte)(54)))));
+            this.parametersDisco.Controls.Add(this.discoAudioDevice);
             this.parametersDisco.Controls.Add(this.label15);
             this.parametersDisco.Controls.Add(this.highsBrightness);
             this.parametersDisco.Controls.Add(this.label14);
@@ -503,6 +251,18 @@
             this.parametersDisco.Size = new System.Drawing.Size(735, 472);
             this.parametersDisco.TabIndex = 46;
             this.parametersDisco.Visible = false;
+            // 
+            // discoAudioDevice
+            // 
+            this.discoAudioDevice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.discoAudioDevice.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.discoAudioDevice.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.discoAudioDevice.FormattingEnabled = true;
+            this.discoAudioDevice.IntegralHeight = false;
+            this.discoAudioDevice.Location = new System.Drawing.Point(438, 264);
+            this.discoAudioDevice.Name = "discoAudioDevice";
+            this.discoAudioDevice.Size = new System.Drawing.Size(132, 23);
+            this.discoAudioDevice.TabIndex = 89;
             // 
             // label15
             // 
@@ -692,6 +452,8 @@
             this.selectionColor.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
             this.selectionColor.DisplayMember = "Lows";
             this.selectionColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.selectionColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.selectionColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
             this.selectionColor.Items.AddRange(new object[] {
             "Lows",
             "Mids",
@@ -699,7 +461,7 @@
             this.selectionColor.Location = new System.Drawing.Point(165, 262);
             this.selectionColor.Name = "selectionColor";
             this.selectionColor.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.selectionColor.Size = new System.Drawing.Size(122, 21);
+            this.selectionColor.Size = new System.Drawing.Size(122, 23);
             this.selectionColor.TabIndex = 76;
             this.selectionColor.TabStop = false;
             this.selectionColor.ValueMember = "Lows";
@@ -781,6 +543,18 @@
             this.pictureBoxTop.TabIndex = 69;
             this.pictureBoxTop.TabStop = false;
             // 
+            // colorslider1
+            // 
+            this.colorslider1.Location = new System.Drawing.Point(165, 203);
+            this.colorslider1.Max = 16;
+            this.colorslider1.Min = 0;
+            this.colorslider1.Name = "colorslider1";
+            this.colorslider1.SelectedMax = 12;
+            this.colorslider1.SelectedMin = 4;
+            this.colorslider1.Size = new System.Drawing.Size(404, 20);
+            this.colorslider1.TabIndex = 75;
+            this.colorslider1.TabStop = false;
+            // 
             // label8
             // 
             this.label8.AutoSize = true;
@@ -824,6 +598,16 @@
             this.useColorList.Text = "Use Color List";
             this.useColorList.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.useColorList.UseVisualStyleBackColor = true;
+            // 
+            // colorBreathing
+            // 
+            this.colorBreathing.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.colorBreathing.ColorStep = 1;
+            this.colorBreathing.Location = new System.Drawing.Point(260, 178);
+            this.colorBreathing.Name = "colorBreathing";
+            this.colorBreathing.Size = new System.Drawing.Size(190, 190);
+            this.colorBreathing.TabIndex = 44;
+            this.colorBreathing.TabStop = false;
             // 
             // label4
             // 
@@ -916,6 +700,15 @@
             this.label7.Size = new System.Drawing.Size(41, 13);
             this.label7.TabIndex = 27;
             this.label7.Text = "Speed:";
+            // 
+            // colorListResult
+            // 
+            this.colorListResult.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(42)))), ((int)(((byte)(71)))));
+            this.colorListResult.Location = new System.Drawing.Point(153, 150);
+            this.colorListResult.Name = "colorListResult";
+            this.colorListResult.Size = new System.Drawing.Size(430, 20);
+            this.colorListResult.TabIndex = 43;
+            this.colorListResult.TabStop = false;
             // 
             // br_addCurrentColor
             // 
@@ -1015,6 +808,17 @@
             this.parametersSolidColor.TabIndex = 42;
             this.parametersSolidColor.Visible = false;
             // 
+            // colorWheel
+            // 
+            this.colorWheel.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.colorWheel.ColorStep = 1;
+            this.colorWheel.Location = new System.Drawing.Point(223, 83);
+            this.colorWheel.Name = "colorWheel";
+            this.colorWheel.Size = new System.Drawing.Size(290, 290);
+            this.colorWheel.TabIndex = 42;
+            this.colorWheel.TabStop = false;
+            this.colorWheel.ColorChanged += new System.EventHandler(this.colorWheel_ColorChanged);
+            // 
             // brightnessSlide
             // 
             this.brightnessSlide.BackColor = System.Drawing.Color.White;
@@ -1047,23 +851,6 @@
             this.label2.Size = new System.Drawing.Size(86, 20);
             this.label2.TabIndex = 41;
             this.label2.Text = "Solid Color:";
-            // 
-            // procList
-            // 
-            this.procList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(32)))), ((int)(((byte)(54)))));
-            this.procList.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.procList.Cursor = System.Windows.Forms.Cursors.Default;
-            this.procList.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.procList.ForeColor = System.Drawing.Color.White;
-            this.procList.FormattingEnabled = true;
-            this.procList.HorizontalScrollbar = true;
-            this.procList.ItemHeight = 20;
-            this.procList.Location = new System.Drawing.Point(148, 42);
-            this.procList.Margin = new System.Windows.Forms.Padding(0);
-            this.procList.Name = "procList";
-            this.procList.Size = new System.Drawing.Size(470, 460);
-            this.procList.Sorted = true;
-            this.procList.TabIndex = 1;
             // 
             // animList
             // 
@@ -1103,26 +890,81 @@
             this.label5.TabIndex = 43;
             this.label5.Text = "No parameters for this animation";
             // 
-            // solidDiscoTimer
+            // parametersAmbilight
             // 
-            this.solidDiscoTimer.Interval = 10;
-            this.solidDiscoTimer.Tick += new System.EventHandler(this.solidDiscoTimer_Tick);
+            this.parametersAmbilight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(32)))), ((int)(((byte)(54)))));
+            this.parametersAmbilight.Controls.Add(this.ambilightSpeed);
+            this.parametersAmbilight.Controls.Add(this.label24);
+            this.parametersAmbilight.Controls.Add(this.screenSampler1);
+            this.parametersAmbilight.Location = new System.Drawing.Point(15, 42);
+            this.parametersAmbilight.Name = "parametersAmbilight";
+            this.parametersAmbilight.Size = new System.Drawing.Size(735, 472);
+            this.parametersAmbilight.TabIndex = 76;
+            this.parametersAmbilight.Visible = false;
             // 
-            // discoTimer
+            // ambilightSpeed
             // 
-            this.discoTimer.Interval = 10;
-            this.discoTimer.Tick += new System.EventHandler(this.discoTimer_Tick);
+            this.ambilightSpeed.BackColor = System.Drawing.Color.Transparent;
+            this.ambilightSpeed.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.ambilightSpeed.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(98)))), ((int)(((byte)(98)))));
+            this.ambilightSpeed.GradientColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(215)))));
+            this.ambilightSpeed.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(156)))));
+            this.ambilightSpeed.LeftColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(156)))));
+            this.ambilightSpeed.Location = new System.Drawing.Point(18, 439);
+            this.ambilightSpeed.Maximum = 1200;
+            this.ambilightSpeed.Minimum = 1;
+            this.ambilightSpeed.Name = "ambilightSpeed";
+            this.ambilightSpeed.RailWidth = 20;
+            this.ambilightSpeed.RegionColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(156)))));
+            this.ambilightSpeed.RightColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(190)))), ((int)(((byte)(190)))));
+            this.ambilightSpeed.Size = new System.Drawing.Size(700, 23);
+            this.ambilightSpeed.SliderColor = System.Drawing.Color.White;
+            this.ambilightSpeed.SliderWidth = 20;
+            this.ambilightSpeed.TabIndex = 41;
+            this.ambilightSpeed.TabStop = false;
+            this.ambilightSpeed.Value = 15;
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Font = new System.Drawing.Font("Segoe UI", 11.25F);
+            this.label24.ForeColor = System.Drawing.Color.White;
+            this.label24.Location = new System.Drawing.Point(19, 13);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(75, 20);
+            this.label24.TabIndex = 39;
+            this.label24.Text = "Ambilight";
             // 
             // screenSampler1
             // 
             this.screenSampler1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(32)))), ((int)(((byte)(54)))));
+            this.screenSampler1.enable = false;
             this.screenSampler1.Location = new System.Drawing.Point(18, 43);
             this.screenSampler1.Margin = new System.Windows.Forms.Padding(0);
             this.screenSampler1.Name = "screenSampler1";
-            this.screenSampler1.ScreenColor = System.Drawing.Color.Empty;
+            this.screenSampler1.ScreenColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(51)))), ((int)(((byte)(58)))));
             this.screenSampler1.selectedScreen = 0;
             this.screenSampler1.Size = new System.Drawing.Size(700, 385);
             this.screenSampler1.TabIndex = 40;
+            // 
+            // parametersMorseCode
+            // 
+            this.parametersMorseCode.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(32)))), ((int)(((byte)(54)))));
+            this.parametersMorseCode.Controls.Add(this.morseColor);
+            this.parametersMorseCode.Controls.Add(this.useBuzzer);
+            this.parametersMorseCode.Controls.Add(this.unitTime);
+            this.parametersMorseCode.Controls.Add(this.label18);
+            this.parametersMorseCode.Controls.Add(this.label17);
+            this.parametersMorseCode.Controls.Add(this.encodedMsgResult);
+            this.parametersMorseCode.Controls.Add(this.label16);
+            this.parametersMorseCode.Controls.Add(this.morsePlainText);
+            this.parametersMorseCode.Controls.Add(this.label10);
+            this.parametersMorseCode.Controls.Add(this.breathingSlider3);
+            this.parametersMorseCode.Location = new System.Drawing.Point(15, 42);
+            this.parametersMorseCode.Name = "parametersMorseCode";
+            this.parametersMorseCode.Size = new System.Drawing.Size(735, 472);
+            this.parametersMorseCode.TabIndex = 48;
+            this.parametersMorseCode.Visible = false;
             // 
             // morseColor
             // 
@@ -1134,6 +976,117 @@
             this.morseColor.TabIndex = 75;
             this.morseColor.TabStop = false;
             // 
+            // useBuzzer
+            // 
+            this.useBuzzer.AutoSize = true;
+            this.useBuzzer.ForeColor = System.Drawing.Color.White;
+            this.useBuzzer.Location = new System.Drawing.Point(369, 326);
+            this.useBuzzer.Name = "useBuzzer";
+            this.useBuzzer.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.useBuzzer.Size = new System.Drawing.Size(79, 17);
+            this.useBuzzer.TabIndex = 74;
+            this.useBuzzer.TabStop = false;
+            this.useBuzzer.Text = "Use buzzer";
+            this.useBuzzer.UseVisualStyleBackColor = true;
+            // 
+            // unitTime
+            // 
+            this.unitTime.BackColor = System.Drawing.Color.Transparent;
+            this.unitTime.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.unitTime.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(98)))), ((int)(((byte)(98)))));
+            this.unitTime.GradientColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(215)))));
+            this.unitTime.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(156)))));
+            this.unitTime.LeftColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(156)))));
+            this.unitTime.Location = new System.Drawing.Point(137, 327);
+            this.unitTime.Maximum = 550;
+            this.unitTime.Minimum = 35;
+            this.unitTime.Name = "unitTime";
+            this.unitTime.RailWidth = 20;
+            this.unitTime.RegionColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(156)))));
+            this.unitTime.RightColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(190)))), ((int)(((byte)(190)))));
+            this.unitTime.Size = new System.Drawing.Size(226, 16);
+            this.unitTime.SliderColor = System.Drawing.Color.White;
+            this.unitTime.TabIndex = 73;
+            this.unitTime.TabStop = false;
+            this.unitTime.Value = 35;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label18.ForeColor = System.Drawing.Color.White;
+            this.label18.Location = new System.Drawing.Point(88, 326);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(45, 17);
+            this.label18.TabIndex = 72;
+            this.label18.Text = "Speed";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.ForeColor = System.Drawing.Color.White;
+            this.label17.Location = new System.Drawing.Point(84, 206);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(132, 20);
+            this.label17.TabIndex = 71;
+            this.label17.Tag = "DontDisable";
+            this.label17.Text = "Encoded message:";
+            // 
+            // encodedMsgResult
+            // 
+            this.encodedMsgResult.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(32)))), ((int)(((byte)(54)))));
+            this.encodedMsgResult.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.encodedMsgResult.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.encodedMsgResult.ForeColor = System.Drawing.Color.White;
+            this.encodedMsgResult.Location = new System.Drawing.Point(88, 231);
+            this.encodedMsgResult.Margin = new System.Windows.Forms.Padding(0);
+            this.encodedMsgResult.MaxLength = 200;
+            this.encodedMsgResult.Multiline = true;
+            this.encodedMsgResult.Name = "encodedMsgResult";
+            this.encodedMsgResult.ReadOnly = true;
+            this.encodedMsgResult.Size = new System.Drawing.Size(360, 85);
+            this.encodedMsgResult.TabIndex = 70;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.ForeColor = System.Drawing.Color.White;
+            this.label16.Location = new System.Drawing.Point(87, 91);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(106, 20);
+            this.label16.TabIndex = 69;
+            this.label16.Tag = "DontDisable";
+            this.label16.Text = "Plain message:";
+            // 
+            // morsePlainText
+            // 
+            this.morsePlainText.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(32)))), ((int)(((byte)(54)))));
+            this.morsePlainText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.morsePlainText.CharacterCasing = System.Windows.Forms.CharacterCasing.Lower;
+            this.morsePlainText.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.morsePlainText.ForeColor = System.Drawing.Color.White;
+            this.morsePlainText.Location = new System.Drawing.Point(88, 116);
+            this.morsePlainText.Margin = new System.Windows.Forms.Padding(0);
+            this.morsePlainText.MaxLength = 200;
+            this.morsePlainText.Multiline = true;
+            this.morsePlainText.Name = "morsePlainText";
+            this.morsePlainText.Size = new System.Drawing.Size(360, 85);
+            this.morsePlainText.TabIndex = 68;
+            this.morsePlainText.KeyUp += new System.Windows.Forms.KeyEventHandler(this.morsePlainText_KeyUp);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Segoe UI", 11.25F);
+            this.label10.ForeColor = System.Drawing.Color.White;
+            this.label10.Location = new System.Drawing.Point(19, 13);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(89, 20);
+            this.label10.TabIndex = 39;
+            this.label10.Text = "Morse Code";
+            // 
             // breathingSlider3
             // 
             this.breathingSlider3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(32)))), ((int)(((byte)(54)))));
@@ -1142,6 +1095,44 @@
             this.breathingSlider3.Size = new System.Drawing.Size(380, 20);
             this.breathingSlider3.TabIndex = 43;
             this.breathingSlider3.TabStop = false;
+            // 
+            // parametersSolidDisco
+            // 
+            this.parametersSolidDisco.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(32)))), ((int)(((byte)(54)))));
+            this.parametersSolidDisco.Controls.Add(this.solidDiscoAudioDevice);
+            this.parametersSolidDisco.Controls.Add(this.SolidDiscoVisualizer);
+            this.parametersSolidDisco.Controls.Add(this.colorslider_simple);
+            this.parametersSolidDisco.Controls.Add(this.colorWheel_SolidDisco);
+            this.parametersSolidDisco.Controls.Add(this.randomColor);
+            this.parametersSolidDisco.Controls.Add(this.label11);
+            this.parametersSolidDisco.Controls.Add(this.solidDiscoSensitivity);
+            this.parametersSolidDisco.Controls.Add(this.label9);
+            this.parametersSolidDisco.Location = new System.Drawing.Point(15, 42);
+            this.parametersSolidDisco.Name = "parametersSolidDisco";
+            this.parametersSolidDisco.Size = new System.Drawing.Size(735, 472);
+            this.parametersSolidDisco.TabIndex = 47;
+            this.parametersSolidDisco.Visible = false;
+            // 
+            // solidDiscoAudioDevice
+            // 
+            this.solidDiscoAudioDevice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.solidDiscoAudioDevice.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.solidDiscoAudioDevice.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.solidDiscoAudioDevice.FormattingEnabled = true;
+            this.solidDiscoAudioDevice.IntegralHeight = false;
+            this.solidDiscoAudioDevice.Location = new System.Drawing.Point(396, 231);
+            this.solidDiscoAudioDevice.Name = "solidDiscoAudioDevice";
+            this.solidDiscoAudioDevice.Size = new System.Drawing.Size(174, 23);
+            this.solidDiscoAudioDevice.TabIndex = 70;
+            // 
+            // SolidDiscoVisualizer
+            // 
+            this.SolidDiscoVisualizer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(32)))), ((int)(((byte)(54)))));
+            this.SolidDiscoVisualizer.Location = new System.Drawing.Point(165, 74);
+            this.SolidDiscoVisualizer.Name = "SolidDiscoVisualizer";
+            this.SolidDiscoVisualizer.Size = new System.Drawing.Size(405, 127);
+            this.SolidDiscoVisualizer.TabIndex = 68;
+            this.SolidDiscoVisualizer.TabStop = false;
             // 
             // colorslider_simple
             // 
@@ -1159,54 +1150,94 @@
             // 
             this.colorWheel_SolidDisco.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.colorWheel_SolidDisco.ColorStep = 1;
-            this.colorWheel_SolidDisco.Location = new System.Drawing.Point(271, 241);
+            this.colorWheel_SolidDisco.Location = new System.Drawing.Point(271, 248);
             this.colorWheel_SolidDisco.Name = "colorWheel_SolidDisco";
             this.colorWheel_SolidDisco.Size = new System.Drawing.Size(170, 170);
             this.colorWheel_SolidDisco.TabIndex = 67;
             this.colorWheel_SolidDisco.TabStop = false;
             this.colorWheel_SolidDisco.ColorChanged += new System.EventHandler(this.colorWheel_SolidDisco_ColorChanged);
             // 
-            // colorslider1
+            // randomColor
             // 
-            this.colorslider1.Location = new System.Drawing.Point(165, 203);
-            this.colorslider1.Max = 16;
-            this.colorslider1.Min = 0;
-            this.colorslider1.Name = "colorslider1";
-            this.colorslider1.SelectedMax = 12;
-            this.colorslider1.SelectedMin = 4;
-            this.colorslider1.Size = new System.Drawing.Size(404, 20);
-            this.colorslider1.TabIndex = 75;
-            this.colorslider1.TabStop = false;
+            this.randomColor.AutoSize = true;
+            this.randomColor.ForeColor = System.Drawing.Color.White;
+            this.randomColor.Location = new System.Drawing.Point(477, 317);
+            this.randomColor.Name = "randomColor";
+            this.randomColor.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.randomColor.Size = new System.Drawing.Size(93, 17);
+            this.randomColor.TabIndex = 66;
+            this.randomColor.TabStop = false;
+            this.randomColor.Text = "Random Color";
+            this.randomColor.UseVisualStyleBackColor = true;
             // 
-            // colorBreathing
+            // label11
             // 
-            this.colorBreathing.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.colorBreathing.ColorStep = 1;
-            this.colorBreathing.Location = new System.Drawing.Point(260, 178);
-            this.colorBreathing.Name = "colorBreathing";
-            this.colorBreathing.Size = new System.Drawing.Size(190, 190);
-            this.colorBreathing.TabIndex = 44;
-            this.colorBreathing.TabStop = false;
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.ForeColor = System.Drawing.Color.White;
+            this.label11.Location = new System.Drawing.Point(506, 262);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(64, 17);
+            this.label11.TabIndex = 65;
+            this.label11.Text = "Sensitivity";
             // 
-            // colorListResult
+            // solidDiscoSensitivity
             // 
-            this.colorListResult.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(42)))), ((int)(((byte)(71)))));
-            this.colorListResult.Location = new System.Drawing.Point(153, 150);
-            this.colorListResult.Name = "colorListResult";
-            this.colorListResult.Size = new System.Drawing.Size(430, 20);
-            this.colorListResult.TabIndex = 43;
-            this.colorListResult.TabStop = false;
+            this.solidDiscoSensitivity.BackColor = System.Drawing.Color.Transparent;
+            this.solidDiscoSensitivity.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.solidDiscoSensitivity.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(98)))), ((int)(((byte)(98)))));
+            this.solidDiscoSensitivity.GradientColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(215)))));
+            this.solidDiscoSensitivity.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(156)))));
+            this.solidDiscoSensitivity.LeftColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(156)))));
+            this.solidDiscoSensitivity.Location = new System.Drawing.Point(459, 283);
+            this.solidDiscoSensitivity.Maximum = 255;
+            this.solidDiscoSensitivity.Name = "solidDiscoSensitivity";
+            this.solidDiscoSensitivity.RailWidth = 20;
+            this.solidDiscoSensitivity.RegionColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(156)))));
+            this.solidDiscoSensitivity.RightColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(190)))), ((int)(((byte)(190)))));
+            this.solidDiscoSensitivity.Size = new System.Drawing.Size(111, 16);
+            this.solidDiscoSensitivity.SliderColor = System.Drawing.Color.White;
+            this.solidDiscoSensitivity.TabIndex = 64;
+            this.solidDiscoSensitivity.TabStop = false;
+            this.solidDiscoSensitivity.Value = 10;
             // 
-            // colorWheel
+            // label9
             // 
-            this.colorWheel.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.colorWheel.ColorStep = 1;
-            this.colorWheel.Location = new System.Drawing.Point(223, 83);
-            this.colorWheel.Name = "colorWheel";
-            this.colorWheel.Size = new System.Drawing.Size(290, 290);
-            this.colorWheel.TabIndex = 42;
-            this.colorWheel.TabStop = false;
-            this.colorWheel.ColorChanged += new System.EventHandler(this.colorWheel_ColorChanged);
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Segoe UI", 11.25F);
+            this.label9.ForeColor = System.Drawing.Color.White;
+            this.label9.Location = new System.Drawing.Point(19, 13);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(84, 20);
+            this.label9.TabIndex = 39;
+            this.label9.Text = "Solid Disco";
+            // 
+            // solidDiscoTimer
+            // 
+            this.solidDiscoTimer.Interval = 10;
+            this.solidDiscoTimer.Tick += new System.EventHandler(this.solidDiscoTimer_Tick);
+            // 
+            // discoTimer
+            // 
+            this.discoTimer.Interval = 10;
+            this.discoTimer.Tick += new System.EventHandler(this.discoTimer_Tick);
+            // 
+            // procList
+            // 
+            this.procList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(32)))), ((int)(((byte)(54)))));
+            this.procList.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.procList.Cursor = System.Windows.Forms.Cursors.Default;
+            this.procList.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.procList.ForeColor = System.Drawing.Color.White;
+            this.procList.FormattingEnabled = true;
+            this.procList.HorizontalScrollbar = true;
+            this.procList.ItemHeight = 20;
+            this.procList.Location = new System.Drawing.Point(148, 42);
+            this.procList.Margin = new System.Windows.Forms.Padding(0);
+            this.procList.Name = "procList";
+            this.procList.Size = new System.Drawing.Size(470, 460);
+            this.procList.Sorted = true;
+            this.procList.TabIndex = 1;
             // 
             // addnewProcess
             // 
@@ -1226,13 +1257,6 @@
             this.Load += new System.EventHandler(this.addnewProcess_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.parametersAmbilight.ResumeLayout(false);
-            this.parametersAmbilight.PerformLayout();
-            this.parametersMorseCode.ResumeLayout(false);
-            this.parametersMorseCode.PerformLayout();
-            this.parametersSolidDisco.ResumeLayout(false);
-            this.parametersSolidDisco.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.SolidDiscoVisualizer)).EndInit();
             this.parametersDisco.ResumeLayout(false);
             this.parametersDisco.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ResultColor)).EndInit();
@@ -1243,6 +1267,13 @@
             this.parametersColorCycle.PerformLayout();
             this.parametersSolidColor.ResumeLayout(false);
             this.parametersSolidColor.PerformLayout();
+            this.parametersAmbilight.ResumeLayout(false);
+            this.parametersAmbilight.PerformLayout();
+            this.parametersMorseCode.ResumeLayout(false);
+            this.parametersMorseCode.PerformLayout();
+            this.parametersSolidDisco.ResumeLayout(false);
+            this.parametersSolidDisco.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SolidDiscoVisualizer)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1255,7 +1286,6 @@
         private System.Windows.Forms.Button backButton;
         private System.Windows.Forms.Button nextButton;
         private System.Windows.Forms.Button finishButton;
-        public System.Windows.Forms.ListBox procList;
         public System.Windows.Forms.ListBox animList;
         public System.Windows.Forms.Panel parametersColorCycle;
         private System.Windows.Forms.Label ColorCycleSpeedText;
@@ -1325,5 +1355,8 @@
         private ScreenSampler screenSampler1;
         private System.Windows.Forms.Label label24;
         public Zeroit.Framework.Metro.ZeroitMetroTrackbar ambilightSpeed;
+        public System.Windows.Forms.ComboBox solidDiscoAudioDevice;
+        public System.Windows.Forms.ComboBox discoAudioDevice;
+        public System.Windows.Forms.ListBox procList;
     }
 }

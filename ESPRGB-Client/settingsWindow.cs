@@ -15,45 +15,9 @@ namespace ESPRGB_Client
     {
         RegistryKey startup_explorer = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\StartupApproved\\Run", true);
         RegistryKey startup_run = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-
-        public string savedDevice = "";
         public settingsWindow()
         {
             InitializeComponent();
-            setAudioDevices();
-        }
-        void setAudioDevices()
-        {
-            DeviceBox.Items.Clear();
-            var defaultDev = getDefaultDevice();
-            var OutDevices = getOutputDevices();
-            int findDev = DeviceBox.FindString(savedDevice);
-            for (int i = 0; i < OutDevices.Count; i++)
-            {
-                DeviceBox.Items.Add(OutDevices[i]);
-                if (OutDevices[i].Split('-')[1] == defaultDev && findDev == -1) DeviceBox.SelectedIndex = i;
-            }         
-            if (savedDevice != "" && findDev != -1) DeviceBox.SelectedIndex = findDev;
-        }
-        public List<string> getOutputDevices()
-        {
-            var devlist = new List<string>();
-            BASS_WASAPI_DEVICEINFO info = new BASS_WASAPI_DEVICEINFO();
-            for (int n = 0; BassWasapi.BASS_WASAPI_GetDeviceInfo(n, info); n++)
-            {
-                if (info.IsEnabled && info.IsLoopback) devlist.Add(string.Format("{0}-{1}", n, info.name));
-            }
-            return devlist;
-        }
-        public string getDefaultDevice()
-        {
-            string defaultDevice = "";
-            BASS_WASAPI_DEVICEINFO info = new BASS_WASAPI_DEVICEINFO();
-            for (int n = 0; BassWasapi.BASS_WASAPI_GetDeviceInfo(n, info); n++)
-            {
-                if (info.IsEnabled && info.IsDefault && !info.IsInput) defaultDevice = info.name;
-            }
-            return defaultDevice;
         }
         private void messageBox_MouseMove(object sender, MouseEventArgs e)
         {
@@ -95,6 +59,11 @@ namespace ESPRGB_Client
         }
         private void settingsWindow_Load(object sender, EventArgs e)
         {
+            var devices = ESPRGB.updateAudioDevices();
+            DeviceBox.Items.Clear();
+            foreach (var item in devices) DeviceBox.Items.Add(item.Key);
+            DeviceBox.SelectedItem = (string)ESPRGB.selectedaudioDevices["fullName"];
+
             byte[] value = startup_explorer.GetValue("ESPRGB-Client") as byte[];
 
             if (value != null)
@@ -103,64 +72,19 @@ namespace ESPRGB_Client
                 if (value.SequenceEqual(bytearr)) startupCheckbox.Checked = true;
                 else startupCheckbox.Checked = false;
             }
-            
-        }
-
-        private void startState_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (File.Exists(ESPRGB.fileLocation.FullName))
-            {
-                string jsonString = File.ReadAllText(ESPRGB.fileLocation.FullName);
-                var dataJson = JObject.Parse(jsonString);
-                dataJson["Settings"]["startApp"] = startState.SelectedItem.ToString();
-                File.WriteAllText(ESPRGB.fileLocation.FullName, dataJson.ToString());
-            }
         }
 
         private void exitButtonBehavior_CheckedChanged(object sender, EventArgs e)
         {
-            if (File.Exists(ESPRGB.fileLocation.FullName))
-            {
-                if (exitButtonBehavior.Checked)
-                    exitButtonBehavior.Image = Properties.Resources.bool_1;
-                else
-                    exitButtonBehavior.Image = Properties.Resources.bool_0;
-
-                string jsonString = File.ReadAllText(ESPRGB.fileLocation.FullName);
-                var dataJson = JObject.Parse(jsonString);
-                dataJson["Settings"]["closeButtonMinimize"] = exitButtonBehavior.Checked;
-                File.WriteAllText(ESPRGB.fileLocation.FullName, dataJson.ToString());
-            }
-        }
-
-        private void DeviceBox_DropDown(object sender, EventArgs e)
-        {
-            setAudioDevices();
+            if (exitButtonBehavior.Checked)
+                exitButtonBehavior.Image = Properties.Resources.bool_1;
+            else
+                exitButtonBehavior.Image = Properties.Resources.bool_0;
         }
 
         private void DeviceBox_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            BassWasapi.BASS_WASAPI_Stop(true);
-            BassWasapi.BASS_WASAPI_Free();
-            Bass.BASS_Free();
-
-            try
-            {
-                Bass.BASS_Init(0, 44100, BASSInit.BASS_DEVICE_DEFAULT, IntPtr.Zero);
-                BassWasapi.BASS_WASAPI_Init(Convert.ToInt32(DeviceBox.SelectedItem.ToString().Split('-')[0]), 0, 0, BASSWASAPIInit.BASS_WASAPI_BUFFER, 1f, 0.05f, ESPRGB._process, IntPtr.Zero);
-                BassWasapi.BASS_WASAPI_Start();
-                if (File.Exists(ESPRGB.fileLocation.FullName))
-                {
-                    string jsonString = File.ReadAllText(ESPRGB.fileLocation.FullName);
-                    var dataJson = JObject.Parse(jsonString);
-                    dataJson["Settings"]["savedAudioDevice"] = (string)DeviceBox.SelectedItem;
-                    File.WriteAllText(ESPRGB.fileLocation.FullName, dataJson.ToString());
-                }
-            }
-            catch 
-            {
-            }
-
+            ESPRGB.InitializeAudioDevice((string)DeviceBox.SelectedItem);
         }
 
 

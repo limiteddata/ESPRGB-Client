@@ -12,10 +12,12 @@
   <?define ProductName = "!(loc.ProductName_$(var.Platform))" ?>
 
 
-  <Product Id="$(var.ProductCode)" Name="$(var.ProductName)" Language="1033" Version="$(var.BuildVersion)" Manufacturer="!(loc.Company)" UpgradeCode="b888d4f3-2137-48e9-9c2a-8818c187e44e">
+  <Product Id="*" Name="$(var.ProductName)" Language="1033" Version="$(var.BuildVersion)" Manufacturer="!(loc.Company)" UpgradeCode="b888d4f3-2137-48e9-9c2a-8818c187e44e">
     <Package InstallerVersion="200" Compressed="yes"  InstallScope="perMachine" Platform="$(var.Platform)" Manufacturer="!(loc.Company)" Description="!(loc.Description)" Keywords="!(loc.Keywords)" />
+
+    <MajorUpgrade AllowDowngrades="yes" Schedule="afterInstallInitialize" />
     
-    <MajorUpgrade DowngradeErrorMessage="A newer version of $(var.ProductName) is already installed." />
+    
     <MediaTemplate EmbedCab="yes" />
     <Icon Id="icon.ico" SourceFile="$(var.ESPRGB-Client.ProjectDir)\esprgb_icon_128.ico" />
     <Property Id="ARPPRODUCTICON">icon.ico</Property>

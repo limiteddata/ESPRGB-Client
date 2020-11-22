@@ -226,7 +226,7 @@ namespace ESPRGB_Client
             }
             else
             {
-                exceptions exitMessage = new exceptions("ESPRGB-Exception", "Selections are limited to 15");
+                exceptions exitMessage = new exceptions(0,"ESPRGB-Exception", "Selections are limited to 15");
                 exitMessage.StartPosition = FormStartPosition.CenterParent;
                 exitMessage.ShowDialog();
             }          
@@ -275,7 +275,7 @@ namespace ESPRGB_Client
                 if (this.image_bmp.Width * this.image_bmp.Height > 33177600) // 8k
                 {
                     this.image_bmp.Dispose();
-                    exitMessage exitMessage = new exitMessage("ESPRGB-Format device", "Image size is too large");
+                    exceptions exitMessage = new exceptions(0,"ESPRGB-Format device", "Image size is too large");
                     exitMessage.StartPosition = FormStartPosition.CenterParent;
                     exitMessage.ShowDialog();
                     return;

@@ -99,7 +99,7 @@ namespace ESPRGB_Client
             }
             else
             {
-                exceptions exitMessage = new exceptions("ESPRGB-Exception", "Enter ipaddress");
+                exceptions exitMessage = new exceptions(0,"ESPRGB-Exception", "Enter ipaddress");
                 exitMessage.StartPosition = FormStartPosition.CenterParent;
                 exitMessage.ShowDialog();
             }                     
@@ -114,7 +114,7 @@ namespace ESPRGB_Client
         {
             if (ipAddress.Text == "")
             {
-                exceptions exitMessage = new exceptions("ESPRGB-Exception", "Enter ipaddress");
+                exceptions exitMessage = new exceptions(0,"ESPRGB-Exception", "Enter ipaddress");
                 exitMessage.StartPosition = FormStartPosition.CenterParent;
                 exitMessage.ShowDialog();
                 return;
@@ -123,7 +123,7 @@ namespace ESPRGB_Client
             {
                 if (item.ipaddress == ipAddress.Text)
                 {
-                    exceptions exitMessage = new exceptions("ESPRGB-Exception", "Device already exists");
+                    exceptions exitMessage = new exceptions(0,"ESPRGB-Exception", "Device already exists");
                     exitMessage.StartPosition = FormStartPosition.CenterParent;
                     exitMessage.ShowDialog();
                     return;
