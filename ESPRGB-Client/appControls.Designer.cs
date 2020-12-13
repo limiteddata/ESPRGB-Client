@@ -513,10 +513,11 @@ namespace ESPRGB_Client
             this.powerButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(42)))), ((int)(((byte)(71)))));
             this.powerButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.powerButton.ForeColor = System.Drawing.Color.Transparent;
+            this.powerButton.Image = global::ESPRGB_Client.Properties.Resources.power_0;
             this.powerButton.Location = new System.Drawing.Point(471, 318);
             this.powerButton.Margin = new System.Windows.Forms.Padding(0);
             this.powerButton.Name = "powerButton";
-            this.powerButton.Size = new System.Drawing.Size(6, 6);
+            this.powerButton.Size = new System.Drawing.Size(47, 47);
             this.powerButton.TabIndex = 14;
             this.powerButton.TabStop = false;
             this.powerButton.UseVisualStyleBackColor = false;
@@ -550,6 +551,7 @@ namespace ESPRGB_Client
             this._Color_Cycle.Size = new System.Drawing.Size(729, 462);
             this._Color_Cycle.TabIndex = 1;
             this._Color_Cycle.Text = "Color Cycle";
+            this._Color_Cycle.Click += new System.EventHandler(this._Color_Cycle_Click);
             // 
             // startColorCycle
             // 
@@ -562,9 +564,10 @@ namespace ESPRGB_Client
             this.startColorCycle.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(42)))), ((int)(((byte)(71)))));
             this.startColorCycle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.startColorCycle.ForeColor = System.Drawing.Color.Transparent;
+            this.startColorCycle.Image = global::ESPRGB_Client.Properties.Resources.bool_0;
             this.startColorCycle.Location = new System.Drawing.Point(655, 70);
             this.startColorCycle.Name = "startColorCycle";
-            this.startColorCycle.Size = new System.Drawing.Size(6, 6);
+            this.startColorCycle.Size = new System.Drawing.Size(26, 26);
             this.startColorCycle.TabIndex = 20;
             this.startColorCycle.TabStop = false;
             this.startColorCycle.UseVisualStyleBackColor = false;
@@ -697,9 +700,10 @@ namespace ESPRGB_Client
             this.startBreathing.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(42)))), ((int)(((byte)(71)))));
             this.startBreathing.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.startBreathing.ForeColor = System.Drawing.Color.Transparent;
+            this.startBreathing.Image = global::ESPRGB_Client.Properties.Resources.bool_0;
             this.startBreathing.Location = new System.Drawing.Point(655, 70);
             this.startBreathing.Name = "startBreathing";
-            this.startBreathing.Size = new System.Drawing.Size(6, 6);
+            this.startBreathing.Size = new System.Drawing.Size(26, 26);
             this.startBreathing.TabIndex = 24;
             this.startBreathing.TabStop = false;
             this.startBreathing.UseVisualStyleBackColor = false;
@@ -1328,7 +1332,7 @@ namespace ESPRGB_Client
             this.screenSampler.Location = new System.Drawing.Point(14, 38);
             this.screenSampler.Margin = new System.Windows.Forms.Padding(0);
             this.screenSampler.Name = "screenSampler";
-            this.screenSampler.ScreenColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(48)))), ((int)(((byte)(53)))));
+            this.screenSampler.ScreenColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(47)))), ((int)(((byte)(52)))));
             this.screenSampler.selectedScreen = 0;
             this.screenSampler.Size = new System.Drawing.Size(700, 385);
             this.screenSampler.TabIndex = 37;

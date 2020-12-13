@@ -1465,6 +1465,11 @@ namespace ESPRGB_Client
             }
         }
 
+        private void _Color_Cycle_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void enableSchedule_CheckedChanged(object sender, EventArgs e)
         {
             scheduleTimer.Enabled = enableAppSchedule.Checked;
