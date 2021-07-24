@@ -1,2 +1,2 @@
-D:\ESP\ESPRGB-Client\ESPRGB-Client\ESPRGB-Client_setup\bin\Release\ESPRGB_Client_setup.msi
-D:\ESP\ESPRGB-Client\ESPRGB-Client\ESPRGB-Client_setup\bin\Release\ESPRGB_Client_setup.wixpdb
+E:\ESP\ESPRGB-Client\ESPRGB-Client_setup\bin\Release\ESPRGB_Client_setup.msi
+E:\ESP\ESPRGB-Client\ESPRGB-Client_setup\bin\Release\ESPRGB_Client_setup.wixpdb

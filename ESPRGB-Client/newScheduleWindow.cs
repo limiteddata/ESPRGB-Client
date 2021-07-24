@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Un4seen.Bass;
 using Un4seen.BassWasapi;
@@ -141,6 +142,7 @@ namespace ESPRGB_Client
                         brightnessSlide.LeftColor = newColor;
                         brightnessSlide.GradientColor = newColor;
                         brightnessSlide.Update();
+                        SolidColorHex.Text = HexConverter(colorWheel.Color);
                     }
                     if (SolidColor.ContainsKey("Brightness"))
                     {
@@ -171,7 +173,11 @@ namespace ESPRGB_Client
                         breathingSpeed.Value = (int)Breathing["breathingSpeed"];
                         breathingSpeedText.Text = (string)Breathing["breathingSpeed"];
                     }
-                    if (Breathing.ContainsKey("staticColorBreathing")) colorBreathing.Color = Color.FromArgb(255, (int)Breathing["staticColorBreathing"][0] / 4, (int)Breathing["staticColorBreathing"][1] / 4, (int)Breathing["staticColorBreathing"][2] / 4);
+                    if (Breathing.ContainsKey("staticColorBreathing"))
+                    {
+                        colorBreathing.Color = Color.FromArgb(255, (int)Breathing["staticColorBreathing"][0] / 4, (int)Breathing["staticColorBreathing"][1] / 4, (int)Breathing["staticColorBreathing"][2] / 4);
+                        BreathingHex.Text = HexConverter(colorBreathing.Color);
+                    }
                     if (Breathing.ContainsKey("colorListBreathing"))
                     {
                         List<Color> col = new List<Color>();
@@ -242,6 +248,7 @@ namespace ESPRGB_Client
                         colorWheel_SolidDisco.Color = Color.FromArgb((int)SolidDisco["colorSolidDisco"][0] / 4, (int)SolidDisco["colorSolidDisco"][1] / 4, (int)SolidDisco["colorSolidDisco"][2] / 4);
                         colorslider_simple.color.Color = Color.FromArgb((int)SolidDisco["colorSolidDisco"][0] / 4, (int)SolidDisco["colorSolidDisco"][1] / 4, (int)SolidDisco["colorSolidDisco"][2] / 4);
                         colorslider_simple.Refresh();
+                        SolidDiscoHex.Text = HexConverter(colorWheel_SolidDisco.Color);
                     }
                     if (SolidDisco.ContainsKey("SolidDiscoRandom")) randomColor.Checked = (bool)SolidDisco["SolidDiscoRandom"];
                     if (SolidDisco.ContainsKey("SolidDiscoRange"))
@@ -256,7 +263,11 @@ namespace ESPRGB_Client
 
                     JObject MorseCode = animParameters["MorseCode"].ToObject<JObject>();
                     if (MorseCode.ContainsKey("useBuzzer")) useBuzzer.Checked = (bool)MorseCode["useBuzzer"];
-                    if (MorseCode.ContainsKey("colorMorseCode")) morseColor.Color = Color.FromArgb(255, (int)MorseCode["colorMorseCode"][0] / 4, (int)MorseCode["colorMorseCode"][1] / 4, (int)MorseCode["colorMorseCode"][2] / 4);
+                    if (MorseCode.ContainsKey("colorMorseCode"))
+                    {
+                        morseColor.Color = Color.FromArgb(255, (int)MorseCode["colorMorseCode"][0] / 4, (int)MorseCode["colorMorseCode"][1] / 4, (int)MorseCode["colorMorseCode"][2] / 4);
+                        MorseCodeHex.Text = HexConverter(morseColor.Color);
+                    }
                     if (MorseCode.ContainsKey("unitTimeMorseCode")) unitTime.Value = (int)MorseCode["unitTimeMorseCode"];
                     if (MorseCode.ContainsKey("encodedMorseCode"))
                     {
@@ -420,10 +431,15 @@ namespace ESPRGB_Client
             brightnessSlide.GradientColor = newColor;
             brightnessSlide.BackColor = newColor;
             brightnessSlide.Update();
+            SolidColorHex.Text = HexConverter(colorWheel.Color);
         }
         private void ColorCycleSpeed_Scroll(object sender, Zeroit.Framework.Metro.ZeroitMetroTrackbar.TrackbarEventArgs e)
         {
             ColorCycleSpeedText.Text = ColorCycleSpeed.Value.ToString();
+        }
+        private void colorBreathing_ColorChanged(object sender, EventArgs e)
+        {
+            BreathingHex.Text = HexConverter(colorBreathing.Color);
         }
         private void breathingSpeed_Scroll(object sender, Zeroit.Framework.Metro.ZeroitMetroTrackbar.TrackbarEventArgs e)
         {
@@ -629,6 +645,7 @@ namespace ESPRGB_Client
         {
             colorslider_simple.color = new SolidBrush(colorWheel_SolidDisco.HslColor);
             colorslider_simple.Refresh();
+            SolidDiscoHex.Text = HexConverter(colorWheel_SolidDisco.Color);
         }
 
         List<string> alphabet = new List<string> { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "!", "@", "&", "(", ")", "-", "_", "=", "+", ".", ",", "/", "?", ";", ":", "\"", "\'" };
@@ -669,7 +686,10 @@ namespace ESPRGB_Client
             }
             return decoded;
         }
-
+        private void morseColor_ColorChanged(object sender, EventArgs e)
+        {
+            MorseCodeHex.Text = HexConverter(morseColor.Color);
+        }
         private void morsePlainText_KeyUp(object sender, KeyEventArgs e)
         {
             encodedMsgResult.Text = encodeMessage(morsePlainText.Text);
@@ -793,5 +813,43 @@ namespace ESPRGB_Client
                 if(hourBox.Value != 23) hourBox.Value++;
             }
         }
+
+        private void SolidColorHex_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (!isHexColor(SolidColorHex.Text)) return;
+            Color color = ColorTranslator.FromHtml(SolidColorHex.Text);
+            colorWheel.Color = color;
+        }
+        private void BreathingHex_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (!isHexColor(BreathingHex.Text)) return;
+            Color color = ColorTranslator.FromHtml(BreathingHex.Text);
+            colorBreathing.Color = color;
+        }
+        private void SolidDiscoHex_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (!isHexColor(SolidDiscoHex.Text)) return;
+            Color color = ColorTranslator.FromHtml(SolidDiscoHex.Text);
+            colorWheel_SolidDisco.Color = color;
+        }
+        private void MorseCodeHex_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (!isHexColor(MorseCodeHex.Text)) return;
+            Color color = ColorTranslator.FromHtml(MorseCodeHex.Text);
+            morseColor.Color = color;
+        }
+
+        private static String HexConverter(System.Drawing.Color c)
+        {
+            return "#" + c.R.ToString("X2") + c.G.ToString("X2") + c.B.ToString("X2");
+        }
+        bool isHexColor(String hex)
+        {
+            string pattern = @"^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$";
+            return hex[0] == '#' && hex.Length == 7 && Regex.Match(hex, pattern, RegexOptions.IgnoreCase).Success;
+        }
+
+
+
     }
 }

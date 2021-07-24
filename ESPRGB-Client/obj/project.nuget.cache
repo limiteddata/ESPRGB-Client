@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "PGJubZuJ6JhUup1OkMe2k5iCZvKLeCKhbUICEYwzy7os1ZwvfyV5xOII+AoQ83SbLuaPwjeonmCovWCOEr5kgg==",
+  "dgSpecHash": "x9ynczIxWBn4s2F6Bpi9OLyyWRo5Vmh8k1xbfELJiBbTaM7qNjDLPFbMiBR6kGw3Mu87ZutAgyR81K2gXOjBxw==",
   "success": true,
-  "projectFilePath": "D:\\ESP\\ESPRGB-Client\\ESPRGB-Client\\ESPRGB-Client\\ESPRGB-Client.csproj",
+  "projectFilePath": "E:\\ESP\\ESPRGB-Client\\ESPRGB-Client\\ESPRGB-Client.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\adroi\\.nuget\\packages\\dnsclient\\1.3.2\\dnsclient.1.3.2.nupkg.sha512",
     "C:\\Users\\adroi\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",

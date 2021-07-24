@@ -13,6 +13,7 @@ using System.Net.Http;
 using Cyotek.Windows.Forms;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace ESPRGB_Client
 {
@@ -53,33 +54,33 @@ namespace ESPRGB_Client
             }
         }
         private bool _sync_device;
-        public bool powerConected
+        public bool powerConnected
         {
-            get { return _powerConected; }
+            get { return _powerConnected; }
             set
             {
-                if (_powerConected != value)
+                if (_powerConnected != value)
                 {
                     if (value)
                     {
-                        powerConectedButton.Image = Properties.Resources.power_1;
-                        powerConectedButton.ForeColor = Color.FromArgb(6, 215, 156);
+                        powerConnectedButton.Image = Properties.Resources.power_1;
+                        powerConnectedButton.ForeColor = Color.FromArgb(6, 215, 156);
                     }
                     else
                     {
-                        powerConectedButton.Image = Properties.Resources.power_0;
-                        powerConectedButton.ForeColor = Color.White;
+                        powerConnectedButton.Image = Properties.Resources.power_0;
+                        powerConnectedButton.ForeColor = Color.White;
                     }
 
-                    _powerConected = value;
+                    _powerConnected = value;
 
-                    string data = "{\"Animations\":{\"powerConected\":" + value.ToString().ToLower() + "}}";
+                    string data = "{\"Animations\":{\"powerConnected\":" + value.ToString().ToLower() + "}}";
                     if (sync_device) ESPRGB.broadcastTxT(this, data, true);
                     else ws.SendAsync(data, null);
                 }
             }
         }
-        private bool _powerConected;
+        private bool _powerConnected;
         public appControls()
         {
             InitializeComponent();
@@ -116,9 +117,9 @@ namespace ESPRGB_Client
             rssiTimer.Dispose();
             scheduleTimer.Dispose();
         }
-        private void reconnect_Tick(object sender, EventArgs e)
+        private  void reconnect_Tick(object sender, EventArgs e)
         {
-            this.Invoke((MethodInvoker)delegate
+            this.Invoke((MethodInvoker)async delegate
             {
                 if (index > 0)
                 {
@@ -128,7 +129,7 @@ namespace ESPRGB_Client
                 else
                 {
                     reconnectTimer.Enabled = false;
-                    ConnectDevice();
+                    await ConnectDevice();
                 }
             });
         }
@@ -179,8 +180,6 @@ namespace ESPRGB_Client
                                 firmwareUpdater fu = new firmwareUpdater(ipaddress, curr.ToString());
                                 fu.StartPosition = FormStartPosition.CenterParent;
                                 fu.ShowDialog();
-
-
                             }
                         }
                     }
@@ -188,6 +187,7 @@ namespace ESPRGB_Client
             }
             catch (System.Net.Http.HttpRequestException e)
             {
+                Console.WriteLine(e);
                 statusLabel.Text = "Can't resolve ipaddress";
                 await Task.Delay(2000);
                 reconnectTimer.Enabled = true;
@@ -212,7 +212,7 @@ namespace ESPRGB_Client
                 }
                 return;
             }
-            catch (Exception e)
+            catch 
             {
                 statusLabel.Text = "Can't find version";
                 return;
@@ -333,6 +333,7 @@ namespace ESPRGB_Client
             }
             string data = "{\"Animations\":{\"playingAnimation\":\"" + animation + "\"}}";
             SendData.Merge(JObject.Parse(data));
+
             if (sync_device) ESPRGB.broadcastTxT(this, SendData.ToString(Newtonsoft.Json.Formatting.None), true);
             else ws.SendAsync(SendData.ToString(Newtonsoft.Json.Formatting.None), null);
         }
@@ -457,6 +458,7 @@ namespace ESPRGB_Client
                             brightnessSlide.LeftColor = newColor;
                             brightnessSlide.GradientColor = newColor;
                             brightnessSlide.Update();
+                            SolidColorHex.Text = HexConverter(colorWheel.Color);
                         }
                         if (SolidColor.ContainsKey("Brightness"))
                         {
@@ -486,8 +488,11 @@ namespace ESPRGB_Client
                                 breathingSpeed.Value = (int)Breathing["breathingSpeed"];
                                 breathingSpeedText.Text = (string)Breathing["breathingSpeed"];
                             }
-                            if (Breathing.ContainsKey("staticColorBreathing")) colorBreathing.Color = Color.FromArgb(255, (int)Breathing["staticColorBreathing"][0] / 4, (int)Breathing["staticColorBreathing"][1] / 4, (int)Breathing["staticColorBreathing"][2] / 4);
-
+                            if (Breathing.ContainsKey("staticColorBreathing"))
+                            {
+                                colorBreathing.Color = Color.FromArgb(255, (int)Breathing["staticColorBreathing"][0] / 4, (int)Breathing["staticColorBreathing"][1] / 4, (int)Breathing["staticColorBreathing"][2] / 4);
+                                BreathingHex.Text = HexConverter(colorBreathing.Color);
+                            }
                             if (Breathing.ContainsKey("colorListBreathing"))
                             {
                                 List<Color> col = new List<Color>();
@@ -509,7 +514,11 @@ namespace ESPRGB_Client
                         {
                             JObject MorseCode = param["MorseCode"].ToObject<JObject>();
                             if (MorseCode.ContainsKey("useBuzzer")) useBuzzer.Checked = (bool)MorseCode["useBuzzer"];
-                            if (MorseCode.ContainsKey("colorMorseCode")) morseColor.Color = Color.FromArgb(255, (int)MorseCode["colorMorseCode"][0] / 4, (int)MorseCode["colorMorseCode"][1] / 4, (int)MorseCode["colorMorseCode"][2] / 4);
+                            if (MorseCode.ContainsKey("colorMorseCode"))
+                            {
+                                morseColor.Color = Color.FromArgb(255, (int)MorseCode["colorMorseCode"][0] / 4, (int)MorseCode["colorMorseCode"][1] / 4, (int)MorseCode["colorMorseCode"][2] / 4);
+                                MorseCodeHex.Text = HexConverter(morseColor.Color);
+                            }
                             if (MorseCode.ContainsKey("unitTimeMorseCode")) unitTime.Value = (int)MorseCode["unitTimeMorseCode"];
                             if (MorseCode.ContainsKey("encodedMorseCode"))
                             {
@@ -558,6 +567,7 @@ namespace ESPRGB_Client
                                 colorWheel_SolidDisco.Color = Color.FromArgb((int)SolidDisco["colorSolidDisco"][0] / 4, (int)SolidDisco["colorSolidDisco"][1] / 4, (int)SolidDisco["colorSolidDisco"][2] / 4);
                                 colorslider_simple.color.Color = Color.FromArgb((int)SolidDisco["colorSolidDisco"][0] / 4, (int)SolidDisco["colorSolidDisco"][1] / 4, (int)SolidDisco["colorSolidDisco"][2] / 4);
                                 colorslider_simple.Refresh();
+                                SolidDiscoHex.Text = HexConverter(colorWheel_SolidDisco.Color);
                             }
                             if (SolidDisco.ContainsKey("SolidDiscoRandom")) randomColor.Checked = (bool)SolidDisco["SolidDiscoRandom"];
                             if (SolidDisco.ContainsKey("SolidDiscoRange"))
@@ -605,7 +615,7 @@ namespace ESPRGB_Client
                     }
                 }
                 if (json.ContainsKey("playingAnimation")) playingAnimation = (string)json["playingAnimation"];
-                if (json.ContainsKey("powerConected")) powerConected = (bool)json["powerConected"];
+                if (json.ContainsKey("powerConnected")) powerConnected = (bool)json["powerConnected"];
                 if (json.ContainsKey("PowerState")) powerButton.Checked = (bool)json["PowerState"];
 
             });
@@ -662,22 +672,32 @@ namespace ESPRGB_Client
         {
             colorWheel1_changed = false;
         }
+        private void set_SolidColor_Color()
+        {
+            float brightness = ((float)brightnessSlide.Value / 100.0f);
+            Color newColor = Color.FromArgb(255, (int)(colorWheel.Color.R * brightness), (int)(colorWheel.Color.G * brightness), (int)(colorWheel.Color.B * brightness));
+            brightnessSlide.RegionColor = newColor;
+            brightnessSlide.LeftColor = newColor;
+            brightnessSlide.GradientColor = newColor;
+            brightnessSlide.Update();
+            SolidColorHex.Text = HexConverter(colorWheel.Color);
+
+            string data = "{\"Animations\":{\"parameters\":{\"SolidColor\":{\"Color\":[" + colorWheel.Color.R * 4 + "," + colorWheel.Color.G * 4 + "," + colorWheel.Color.B * 4 + "]}}}}";
+            selectAnimation("Solid Color", data);
+
+        }
         private void colorWheel1_ColorChanged(object sender, EventArgs e)
         {
-            if (colorWheel1_changed)
-            {
-                float brightness = ((float)brightnessSlide.Value / 100.0f);
-                Color newColor = Color.FromArgb(255, (int)(colorWheel.Color.R * brightness), (int)(colorWheel.Color.G * brightness), (int)(colorWheel.Color.B * brightness));
-                brightnessSlide.RegionColor = newColor;
-                brightnessSlide.LeftColor = newColor;
-                brightnessSlide.GradientColor = newColor;
-                brightnessSlide.Update();
-
-                string data = "{\"Animations\":{\"parameters\":{\"SolidColor\":{\"Color\":[" + colorWheel.Color.R * 4 + "," + colorWheel.Color.G * 4 + "," + colorWheel.Color.B * 4 + "]}}}}";
-
-                selectAnimation("Solid Color", data);
-            }
+            if (colorWheel1_changed) set_SolidColor_Color();
         }
+        private void SolidColorHex_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (!isHexColor(SolidColorHex.Text)) return;
+            Color color = ColorTranslator.FromHtml(SolidColorHex.Text);
+            colorWheel.Color = color;
+            set_SolidColor_Color();
+        }
+
         private void brightnessSlide_Scroll(object sender, Zeroit.Framework.Metro.ZeroitMetroTrackbar.TrackbarEventArgs e)
         {
             float brightness = ((float)brightnessSlide.Value / 100.0f);
@@ -747,15 +767,28 @@ namespace ESPRGB_Client
         {
             breathing_colorWheel_changed = false;
         }
+
+        private void set_Breathing_Color()
+        {
+            string data = "{\"Animations\":{\"parameters\":{\"Breathing\":{\"staticColorBreathing\":[" + colorBreathing.Color.R * 4 + "," + colorBreathing.Color.G * 4 + "," + colorBreathing.Color.B * 4 + "]}}}}";
+            BreathingHex.Text = HexConverter(colorBreathing.Color);
+            if (sync_device) ESPRGB.broadcastTxT(this, data, true);
+            else ws.SendAsync(data, null);
+
+        }
         private void breathing_colorWheel_ColorChanged(object sender, EventArgs e)
         {
-            if (breathing_colorWheel_changed)
-            {
-                string data = "{\"Animations\":{\"parameters\":{\"Breathing\":{\"staticColorBreathing\":[" + colorBreathing.Color.R * 4 + "," + colorBreathing.Color.G * 4 + "," + colorBreathing.Color.B * 4 + "]}}}}";
-                if (sync_device) ESPRGB.broadcastTxT(this, data, true);
-                else ws.SendAsync(data, null);
-            }
+            if (breathing_colorWheel_changed) set_Breathing_Color();
         }
+
+        private void BreathingHex_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (!isHexColor(BreathingHex.Text)) return;
+            Color color = ColorTranslator.FromHtml(BreathingHex.Text);
+            colorBreathing.Color = color;
+            set_Breathing_Color();
+        }
+
         private Bitmap bmp;
         public Graphics discoGfx;
         private void InitializeBitmapAndGraphics()
@@ -877,16 +910,16 @@ namespace ESPRGB_Client
             else selectAnimation("Solid Color");
         }
 
-        private void connectButton_Click(object sender, EventArgs e)
+        private async void connectButton_Click(object sender, EventArgs e)
         {
             if (connAlive)
                 ws.CloseAsync();
             else
             {
-                if (ws == null) ConnectDevice();
+                if (ws == null) await ConnectDevice();
                 else
                 {
-                    if (ws.ReadyState == WebSocketState.Closed && ws.ReadyState != WebSocketState.Connecting) ConnectDevice();
+                    if (ws.ReadyState == WebSocketState.Closed && ws.ReadyState != WebSocketState.Connecting) await ConnectDevice();
                 }              
             }             
         }
@@ -1002,7 +1035,7 @@ namespace ESPRGB_Client
                         HslColor hslColor = new HslColor(rnd.Next(0, 359), 1, 0.5);
                         colorWheel_SolidDisco.HslColor = hslColor;
                         Color col = hslColor.ToRgbColor();
-
+                        SolidDiscoHex.Text = HexConverter(colorWheel_SolidDisco.Color);
                         colorslider_simple.color = new SolidBrush(hslColor);
                         colorslider_simple.Refresh();
 
@@ -1029,19 +1062,28 @@ namespace ESPRGB_Client
         {
             solidDisco_colorWheel_changed = false;
         }
+        private void set_SolidDisco_Color()
+        {
+            colorslider_simple.color = new SolidBrush(colorWheel_SolidDisco.HslColor);
+            colorslider_simple.Refresh();
+            SolidDiscoHex.Text = HexConverter(colorWheel_SolidDisco.Color);
+            string data = "{\"Animations\":{\"parameters\":{\"SolidDisco\":{\"colorSolidDisco\":[" + colorWheel_SolidDisco.Color.R * 4 + "," + colorWheel_SolidDisco.Color.G * 4 + "," + colorWheel_SolidDisco.Color.B * 4 + "]}}}}";
+            if (sync_device) ESPRGB.broadcastTxT(this, data, true);
+            else ws.SendAsync(data, null);
+        }
         private void colorWheel_SolidDisco_ColorChanged(object sender, EventArgs e)
         {
-
-            if (solidDisco_colorWheel_changed)
-            {
-                colorslider_simple.color = new SolidBrush(colorWheel_SolidDisco.HslColor);
-                colorslider_simple.Refresh();
-
-                string data = "{\"Animations\":{\"parameters\":{\"SolidDisco\":{\"colorSolidDisco\":[" + colorWheel_SolidDisco.Color.R * 4 + "," + colorWheel_SolidDisco.Color.G * 4 + "," + colorWheel_SolidDisco.Color.B * 4 + "]}}}}";
-                if (sync_device) ESPRGB.broadcastTxT(this, data, true);
-                else ws.SendAsync(data, null);
-            }
+            if (solidDisco_colorWheel_changed) set_SolidDisco_Color();
         }
+        private void SolidDiscoHex_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (!isHexColor(SolidDiscoHex.Text)) return;
+            Color color = ColorTranslator.FromHtml(SolidDiscoHex.Text);
+            colorWheel_SolidDisco.Color = color;
+            set_SolidDisco_Color();
+        }
+
+
         bool colorslider_simple_click = false;
         private void colorslider_simple_MouseDown(object sender, MouseEventArgs e)
         {
@@ -1165,10 +1207,7 @@ namespace ESPRGB_Client
                     {
                         ws.Close();
                         var result = await client.GetAsync("http://" + ipaddress + "/restartESP");
-                        if (result.IsSuccessStatusCode)
-                        {
-                            ConnectDevice();
-                        }
+                        if (result.IsSuccessStatusCode) await ConnectDevice();
                     }
                     catch (Exception)
                     {
@@ -1226,14 +1265,25 @@ namespace ESPRGB_Client
         {
             morsecolorChanged = false;
         }
+
+        private void set_MorseCode_Color()
+        {
+            string data = "{\"Animations\":{\"parameters\":{\"MorseCode\":{\"colorMorseCode\":[" + morseColor.Color.R * 4 + "," + morseColor.Color.G * 4 + "," + morseColor.Color.B * 4 + "]}}}}";
+            MorseCodeHex.Text = HexConverter(morseColor.Color);
+            if (sync_device) ESPRGB.broadcastTxT(this, data, true);
+            else ws.SendAsync(data, null);
+        }
+
         private void morseColor_ColorChanged(object sender, EventArgs e)
         {
-            if (morsecolorChanged)
-            {
-                string data = "{\"Animations\":{\"parameters\":{\"MorseCode\":{\"colorMorseCode\":[" + morseColor.Color.R * 4 + "," + morseColor.Color.G * 4 + "," + morseColor.Color.B * 4 + "]}}}}";
-                if (sync_device) ESPRGB.broadcastTxT(this, data, true);
-                else ws.SendAsync(data, null);
-            }
+            if (morsecolorChanged) set_MorseCode_Color();
+        }
+        private void MorseCodeHex_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (!isHexColor(MorseCodeHex.Text)) return;
+            Color color = ColorTranslator.FromHtml(MorseCodeHex.Text);
+            morseColor.Color = color;
+            set_MorseCode_Color();
         }
         private void morsePlainText_KeyUp(object sender, KeyEventArgs e)
         {
@@ -1332,7 +1382,7 @@ namespace ESPRGB_Client
         }
         private void PowerIfConnected_Click(object sender, EventArgs e)
         {
-            powerConected = !powerConected;
+            powerConnected = !powerConnected;
         }
         private void scheduleList_OrderChanged(object sender, EventArgs e)
         {
@@ -1470,6 +1520,7 @@ namespace ESPRGB_Client
 
         }
 
+
         private void enableSchedule_CheckedChanged(object sender, EventArgs e)
         {
             scheduleTimer.Enabled = enableAppSchedule.Checked;
@@ -1483,6 +1534,9 @@ namespace ESPRGB_Client
         {
             screenSampler.liveTimer.Interval = ambilightSpeed.Value;
         }
+
+
+
         private void startAmbilight_CheckedChanged(object sender, EventArgs e)
         {
             if (sync_device)
@@ -1518,6 +1572,15 @@ namespace ESPRGB_Client
         private void ambilightSpeed_MouseUp(object sender, MouseEventArgs e)
         {
             ESPRGB.syncLocalControls(this);
+        }
+        private static String HexConverter(System.Drawing.Color c)
+        {
+            return "#" + c.R.ToString("X2") + c.G.ToString("X2") + c.B.ToString("X2");
+        }
+        bool isHexColor(String hex)
+        {
+            string pattern = @"^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$";
+            return hex[0] == '#' && hex.Length == 7 && Regex.Match(hex, pattern, RegexOptions.IgnoreCase).Success;
         }
     }
 }

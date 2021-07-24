@@ -57,11 +57,13 @@ namespace ESPRGB_Client
             this.colorslider_simple = new ESPRGB_Client.colorslider_simple();
             this.tabctrl = new Zeroit.Framework.Metro.ZeroitMetroTabControl();
             this._SolidColor = new System.Windows.Forms.TabPage();
+            this.SolidColorHex = new System.Windows.Forms.TextBox();
             this.powerButton = new System.Windows.Forms.CheckBox();
             this.colorWheel = new Cyotek.Windows.Forms.ColorWheel();
             this._Color_Cycle = new System.Windows.Forms.TabPage();
             this.startColorCycle = new System.Windows.Forms.CheckBox();
             this._Breathing = new System.Windows.Forms.TabPage();
+            this.BreathingHex = new System.Windows.Forms.TextBox();
             this.colorBreathing = new Cyotek.Windows.Forms.ColorWheel();
             this.br_clearColorlist = new System.Windows.Forms.Button();
             this.br_removeLastColor = new System.Windows.Forms.Button();
@@ -91,6 +93,7 @@ namespace ESPRGB_Client
             this.ResultColor = new System.Windows.Forms.PictureBox();
             this.pictureBoxTop = new System.Windows.Forms.PictureBox();
             this._SolidDisco = new System.Windows.Forms.TabPage();
+            this.SolidDiscoHex = new System.Windows.Forms.TextBox();
             this.colorWheel_SolidDisco = new Cyotek.Windows.Forms.ColorWheel();
             this.randomColor = new System.Windows.Forms.CheckBox();
             this.label11 = new System.Windows.Forms.Label();
@@ -99,6 +102,7 @@ namespace ESPRGB_Client
             this.label1 = new System.Windows.Forms.Label();
             this.SolidDiscoVisualizer = new System.Windows.Forms.PictureBox();
             this._MorseCode = new System.Windows.Forms.TabPage();
+            this.MorseCodeHex = new System.Windows.Forms.TextBox();
             this.morseColor = new Cyotek.Windows.Forms.ColorWheel();
             this.useBuzzer = new System.Windows.Forms.CheckBox();
             this.unitTime = new Zeroit.Framework.Metro.ZeroitMetroTrackbar();
@@ -129,7 +133,7 @@ namespace ESPRGB_Client
             this.removeDevice = new System.Windows.Forms.Button();
             this.espVersion = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
-            this.powerConectedButton = new System.Windows.Forms.Button();
+            this.powerConnectedButton = new System.Windows.Forms.Button();
             this.restartButton = new System.Windows.Forms.Button();
             this.configButton = new System.Windows.Forms.Button();
             this.syncButton = new System.Windows.Forms.Button();
@@ -486,6 +490,7 @@ namespace ESPRGB_Client
             // _SolidColor
             // 
             this._SolidColor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(42)))), ((int)(((byte)(71)))));
+            this._SolidColor.Controls.Add(this.SolidColorHex);
             this._SolidColor.Controls.Add(this.powerButton);
             this._SolidColor.Controls.Add(this.colorWheel);
             this._SolidColor.Controls.Add(this.preset3);
@@ -501,6 +506,17 @@ namespace ESPRGB_Client
             this._SolidColor.Size = new System.Drawing.Size(729, 462);
             this._SolidColor.TabIndex = 0;
             this._SolidColor.Text = "Solid Color";
+            // 
+            // SolidColorHex
+            // 
+            this.SolidColorHex.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.SolidColorHex.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SolidColorHex.Location = new System.Drawing.Point(210, 342);
+            this.SolidColorHex.Name = "SolidColorHex";
+            this.SolidColorHex.Size = new System.Drawing.Size(61, 23);
+            this.SolidColorHex.TabIndex = 15;
+            this.SolidColorHex.Text = "#FFFFFF";
+            this.SolidColorHex.KeyUp += new System.Windows.Forms.KeyEventHandler(this.SolidColorHex_KeyUp);
             // 
             // powerButton
             // 
@@ -577,6 +593,7 @@ namespace ESPRGB_Client
             // _Breathing
             // 
             this._Breathing.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(42)))), ((int)(((byte)(71)))));
+            this._Breathing.Controls.Add(this.BreathingHex);
             this._Breathing.Controls.Add(this.colorBreathing);
             this._Breathing.Controls.Add(this.br_clearColorlist);
             this._Breathing.Controls.Add(this.br_removeLastColor);
@@ -594,6 +611,17 @@ namespace ESPRGB_Client
             this._Breathing.Size = new System.Drawing.Size(729, 462);
             this._Breathing.TabIndex = 2;
             this._Breathing.Text = "Breathing";
+            // 
+            // BreathingHex
+            // 
+            this.BreathingHex.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.BreathingHex.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BreathingHex.Location = new System.Drawing.Point(234, 344);
+            this.BreathingHex.Name = "BreathingHex";
+            this.BreathingHex.Size = new System.Drawing.Size(61, 23);
+            this.BreathingHex.TabIndex = 35;
+            this.BreathingHex.Text = "#FFFFFF";
+            this.BreathingHex.KeyUp += new System.Windows.Forms.KeyEventHandler(this.BreathingHex_KeyUp);
             // 
             // colorBreathing
             // 
@@ -1040,6 +1068,7 @@ namespace ESPRGB_Client
             // _SolidDisco
             // 
             this._SolidDisco.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(42)))), ((int)(((byte)(71)))));
+            this._SolidDisco.Controls.Add(this.SolidDiscoHex);
             this._SolidDisco.Controls.Add(this.colorWheel_SolidDisco);
             this._SolidDisco.Controls.Add(this.randomColor);
             this._SolidDisco.Controls.Add(this.label11);
@@ -1054,6 +1083,17 @@ namespace ESPRGB_Client
             this._SolidDisco.Size = new System.Drawing.Size(729, 462);
             this._SolidDisco.TabIndex = 5;
             this._SolidDisco.Text = "Solid Disco";
+            // 
+            // SolidDiscoHex
+            // 
+            this.SolidDiscoHex.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.SolidDiscoHex.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SolidDiscoHex.Location = new System.Drawing.Point(221, 379);
+            this.SolidDiscoHex.Name = "SolidDiscoHex";
+            this.SolidDiscoHex.Size = new System.Drawing.Size(61, 23);
+            this.SolidDiscoHex.TabIndex = 64;
+            this.SolidDiscoHex.Text = "#FFFFFF";
+            this.SolidDiscoHex.KeyUp += new System.Windows.Forms.KeyEventHandler(this.SolidDiscoHex_KeyUp);
             // 
             // colorWheel_SolidDisco
             // 
@@ -1153,6 +1193,7 @@ namespace ESPRGB_Client
             // _MorseCode
             // 
             this._MorseCode.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(42)))), ((int)(((byte)(71)))));
+            this._MorseCode.Controls.Add(this.MorseCodeHex);
             this._MorseCode.Controls.Add(this.morseColor);
             this._MorseCode.Controls.Add(this.useBuzzer);
             this._MorseCode.Controls.Add(this.unitTime);
@@ -1170,11 +1211,22 @@ namespace ESPRGB_Client
             this._MorseCode.TabIndex = 6;
             this._MorseCode.Text = "Morse Code";
             // 
+            // MorseCodeHex
+            // 
+            this.MorseCodeHex.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.MorseCodeHex.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MorseCodeHex.Location = new System.Drawing.Point(469, 291);
+            this.MorseCodeHex.Name = "MorseCodeHex";
+            this.MorseCodeHex.Size = new System.Drawing.Size(61, 23);
+            this.MorseCodeHex.TabIndex = 67;
+            this.MorseCodeHex.Text = "#FFFFFF";
+            this.MorseCodeHex.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MorseCodeHex_KeyUp);
+            // 
             // morseColor
             // 
             this.morseColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.morseColor.ColorStep = 1;
-            this.morseColor.Location = new System.Drawing.Point(456, 112);
+            this.morseColor.Location = new System.Drawing.Point(491, 112);
             this.morseColor.Name = "morseColor";
             this.morseColor.Size = new System.Drawing.Size(198, 198);
             this.morseColor.TabIndex = 66;
@@ -1332,7 +1384,7 @@ namespace ESPRGB_Client
             this.screenSampler.Location = new System.Drawing.Point(14, 38);
             this.screenSampler.Margin = new System.Windows.Forms.Padding(0);
             this.screenSampler.Name = "screenSampler";
-            this.screenSampler.ScreenColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(47)))), ((int)(((byte)(52)))));
+            this.screenSampler.ScreenColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(50)))), ((int)(((byte)(55)))));
             this.screenSampler.selectedScreen = 0;
             this.screenSampler.Size = new System.Drawing.Size(700, 385);
             this.screenSampler.TabIndex = 37;
@@ -1546,7 +1598,7 @@ namespace ESPRGB_Client
             this._Other.Controls.Add(this.removeDevice);
             this._Other.Controls.Add(this.espVersion);
             this._Other.Controls.Add(this.label25);
-            this._Other.Controls.Add(this.powerConectedButton);
+            this._Other.Controls.Add(this.powerConnectedButton);
             this._Other.Controls.Add(this.restartButton);
             this._Other.Controls.Add(this.configButton);
             this._Other.Controls.Add(this.syncButton);
@@ -1604,23 +1656,23 @@ namespace ESPRGB_Client
             this.label25.Tag = "DontDisable";
             this.label25.Text = "ESPRGB Version:";
             // 
-            // powerConectedButton
+            // powerConnectedButton
             // 
-            this.powerConectedButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(46)))), ((int)(((byte)(54)))));
-            this.powerConectedButton.FlatAppearance.BorderSize = 0;
-            this.powerConectedButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.powerConectedButton.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.powerConectedButton.ForeColor = System.Drawing.Color.White;
-            this.powerConectedButton.Image = global::ESPRGB_Client.Properties.Resources.power_0;
-            this.powerConectedButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.powerConectedButton.Location = new System.Drawing.Point(225, 25);
-            this.powerConectedButton.Name = "powerConectedButton";
-            this.powerConectedButton.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
-            this.powerConectedButton.Size = new System.Drawing.Size(80, 95);
-            this.powerConectedButton.TabIndex = 3;
-            this.powerConectedButton.Text = "\r\n\r\n\r\nPower if\r\nconnected";
-            this.powerConectedButton.UseVisualStyleBackColor = false;
-            this.powerConectedButton.Click += new System.EventHandler(this.PowerIfConnected_Click);
+            this.powerConnectedButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(46)))), ((int)(((byte)(54)))));
+            this.powerConnectedButton.FlatAppearance.BorderSize = 0;
+            this.powerConnectedButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.powerConnectedButton.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.powerConnectedButton.ForeColor = System.Drawing.Color.White;
+            this.powerConnectedButton.Image = global::ESPRGB_Client.Properties.Resources.power_0;
+            this.powerConnectedButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.powerConnectedButton.Location = new System.Drawing.Point(225, 25);
+            this.powerConnectedButton.Name = "powerConnectedButton";
+            this.powerConnectedButton.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
+            this.powerConnectedButton.Size = new System.Drawing.Size(80, 95);
+            this.powerConnectedButton.TabIndex = 3;
+            this.powerConnectedButton.Text = "\r\n\r\n\r\nPower if\r\nconnected";
+            this.powerConnectedButton.UseVisualStyleBackColor = false;
+            this.powerConnectedButton.Click += new System.EventHandler(this.PowerIfConnected_Click);
             // 
             // restartButton
             // 
@@ -1882,7 +1934,7 @@ namespace ESPRGB_Client
         public WindowsFormsApp2.scheduleList appScheduleList;
         private System.Windows.Forms.Label label20;
         public Zeroit.Framework.Metro.ZeroitMetroSwitch enableAppSchedule;
-        private System.Windows.Forms.Button powerConectedButton;
+        private System.Windows.Forms.Button powerConnectedButton;
         private System.Windows.Forms.Label label21;
         public Zeroit.Framework.Metro.ZeroitMetroTrackbar ambilightSpeed;
         public System.Windows.Forms.CheckBox startAmbilight;
@@ -1897,5 +1949,9 @@ namespace ESPRGB_Client
         private System.Windows.Forms.Label espVersion;
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.Button removeDevice;
+        public System.Windows.Forms.TextBox SolidColorHex;
+        public System.Windows.Forms.TextBox BreathingHex;
+        public System.Windows.Forms.TextBox SolidDiscoHex;
+        public System.Windows.Forms.TextBox MorseCodeHex;
     }
 }

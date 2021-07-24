@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Net.Http;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -165,7 +166,7 @@ namespace ESPRGB_Client
                         page.Controls.Add(_appControls[i]);
                         tabDevices.TabPages.Add(page);
 
-                        _appControls[i].ConnectDevice();
+                        _ = _appControls[i].ConnectDevice();
                     }
                 }
             }
@@ -418,7 +419,7 @@ namespace ESPRGB_Client
                 appControls controls = new appControls();
                 trayContext.Items.Insert(trayContext.Items.Count - 1, controls.trayAnimations(name));
                 controls.ipaddress = ipaddress;
-                controls.ConnectDevice();
+                _ = controls.ConnectDevice();
                 _appControls.Add(controls);               
 
                 TabPage page = new TabPage(name);            
@@ -543,42 +544,63 @@ namespace ESPRGB_Client
                 }
             }
         }
+        public bool CheckInternetConnection()
+        {
+            try
+            {
+                Ping myPing = new Ping();
+                String host = "github.com";
+                byte[] buffer = new byte[32];
+                int timeout = 1000;
+                PingOptions pingOptions = new PingOptions();
+                PingReply reply = myPing.Send(host, timeout, buffer, pingOptions);
+                return (reply.Status == IPStatus.Success);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
         public void checkForUpdates()
         {
             try
             {
-                Thread updateChecker = new Thread(() => {
-                    githubUpdater updater = new githubUpdater("limiteddata", "ESPRGB-Client", Path.GetTempPath());
-                    Task<bool> newUpdate = updater.checkForUpdates(curVersion);
-                    if (newUpdate.Result)
-                    {
-                        exceptions updateMessage = new exceptions(1, "ESPRGB-Update", "Version " + updater.latestVersion.ToString() + " is available.\n Do you want to update?");
-                        updateMessage.StartPosition = FormStartPosition.CenterParent;
-                        updateMessage.ShowDialog();
-                        if (updateMessage.DialogResult == DialogResult.Yes)
+                if (CheckInternetConnection())
+                {
+                    Console.WriteLine("Internet connection available");
+                    Thread updateChecker = new Thread(() => {
+                        githubUpdater updater = new githubUpdater("limiteddata", "ESPRGB-Client", Path.GetTempPath());
+                        Task<bool> newUpdate = updater.checkForUpdates(curVersion);
+                        if (newUpdate.Result)
                         {
-                            Task<bool> download = updater.downloadNewVersionFromExtension("msi");
-                            if (download.Result)
+                            exceptions updateMessage = new exceptions(1, "ESPRGB-Update", "Version " + updater.latestVersion.ToString() + " is available.\n Do you want to update?");
+                            updateMessage.StartPosition = FormStartPosition.CenterParent;
+                            updateMessage.ShowDialog();
+                            if (updateMessage.DialogResult == DialogResult.Yes)
                             {
-                                exceptions msg = new exceptions(0, "ESPRGB-Update", "Finished downloading. Continue installing the new version");
-                                msg.StartPosition = FormStartPosition.CenterParent;
-                                msg.ShowDialog();
-                                if (msg.DialogResult == DialogResult.OK)
+                                Task<bool> download = updater.downloadNewVersionFromExtension("msi");
+                                if (download.Result)
                                 {
-                                    if (updater.Install()) this.Invoke((MethodInvoker)delegate { Application.Exit(); });
+                                    exceptions msg = new exceptions(0, "ESPRGB-Update", "Finished downloading. Continue installing the new version");
+                                    msg.StartPosition = FormStartPosition.CenterParent;
+                                    msg.ShowDialog();
+                                    if (msg.DialogResult == DialogResult.OK)
+                                    {
+                                        if (updater.Install()) this.Invoke((MethodInvoker)delegate { Application.Exit(); });
+                                    }
                                 }
                             }
                         }
-                    }
-                });
-                updateChecker.Start();
+                    });
+                    updateChecker.Start();
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
                 throw;
             }
-
+ 
         }
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {

@@ -43,26 +43,6 @@
             this.nextButton = new System.Windows.Forms.Button();
             this.closeButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.parametersBreathing = new System.Windows.Forms.Panel();
-            this.useColorList = new System.Windows.Forms.CheckBox();
-            this.colorBreathing = new Cyotek.Windows.Forms.ColorWheel();
-            this.label18 = new System.Windows.Forms.Label();
-            this.br_clearColorlist = new System.Windows.Forms.Button();
-            this.breathingSpeedText = new System.Windows.Forms.Label();
-            this.breathingSpeed = new Zeroit.Framework.Metro.ZeroitMetroTrackbar();
-            this.br_removeLastColor = new System.Windows.Forms.Button();
-            this.label19 = new System.Windows.Forms.Label();
-            this.colorListResult = new ESPRGB_Client.breathingSlider();
-            this.br_addCurrentColor = new System.Windows.Forms.Button();
-            this.parametersColorCycle = new System.Windows.Forms.Panel();
-            this.label16 = new System.Windows.Forms.Label();
-            this.ColorCycleSpeedText = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
-            this.ColorCycleSpeed = new Zeroit.Framework.Metro.ZeroitMetroTrackbar();
-            this.parametersSolidColor = new System.Windows.Forms.Panel();
-            this.colorWheel = new Cyotek.Windows.Forms.ColorWheel();
-            this.brightnessSlide = new Zeroit.Framework.Metro.ZeroitMetroTrackbar();
-            this.label15 = new System.Windows.Forms.Label();
             this.noParam = new System.Windows.Forms.Panel();
             this.label14 = new System.Windows.Forms.Label();
             this.animListTime = new System.Windows.Forms.ListBox();
@@ -96,6 +76,7 @@
             this.screenSampler1 = new ESPRGB_Client.ScreenSampler();
             this.label33 = new System.Windows.Forms.Label();
             this.parametersMorseCode = new System.Windows.Forms.Panel();
+            this.MorseCodeHex = new System.Windows.Forms.TextBox();
             this.morseColor = new Cyotek.Windows.Forms.ColorWheel();
             this.useBuzzer = new System.Windows.Forms.CheckBox();
             this.unitTime = new Zeroit.Framework.Metro.ZeroitMetroTrackbar();
@@ -107,6 +88,7 @@
             this.label32 = new System.Windows.Forms.Label();
             this.breathingSlider3 = new ESPRGB_Client.breathingSlider();
             this.parametersSolidDisco = new System.Windows.Forms.Panel();
+            this.SolidDiscoHex = new System.Windows.Forms.TextBox();
             this.solidDiscoAudioDevice = new System.Windows.Forms.ComboBox();
             this.SolidDiscoVisualizer = new System.Windows.Forms.PictureBox();
             this.colorslider_simple = new ESPRGB_Client.colorslider_simple();
@@ -138,12 +120,31 @@
             this.pictureBoxTop = new System.Windows.Forms.PictureBox();
             this.colorslider1 = new WindowsFormsApp2.colorslider();
             this.label26 = new System.Windows.Forms.Label();
+            this.parametersBreathing = new System.Windows.Forms.Panel();
+            this.BreathingHex = new System.Windows.Forms.TextBox();
+            this.useColorList = new System.Windows.Forms.CheckBox();
+            this.colorBreathing = new Cyotek.Windows.Forms.ColorWheel();
+            this.label18 = new System.Windows.Forms.Label();
+            this.br_clearColorlist = new System.Windows.Forms.Button();
+            this.breathingSpeedText = new System.Windows.Forms.Label();
+            this.breathingSpeed = new Zeroit.Framework.Metro.ZeroitMetroTrackbar();
+            this.br_removeLastColor = new System.Windows.Forms.Button();
+            this.label19 = new System.Windows.Forms.Label();
+            this.colorListResult = new ESPRGB_Client.breathingSlider();
+            this.br_addCurrentColor = new System.Windows.Forms.Button();
+            this.parametersColorCycle = new System.Windows.Forms.Panel();
+            this.label16 = new System.Windows.Forms.Label();
+            this.ColorCycleSpeedText = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.ColorCycleSpeed = new Zeroit.Framework.Metro.ZeroitMetroTrackbar();
+            this.parametersSolidColor = new System.Windows.Forms.Panel();
+            this.SolidColorHex = new System.Windows.Forms.TextBox();
+            this.colorWheel = new Cyotek.Windows.Forms.ColorWheel();
+            this.brightnessSlide = new Zeroit.Framework.Metro.ZeroitMetroTrackbar();
+            this.label15 = new System.Windows.Forms.Label();
             this.discoTimer = new System.Windows.Forms.Timer(this.components);
             this.solidDiscoTimer = new System.Windows.Forms.Timer(this.components);
             this.addSchedulePanel.SuspendLayout();
-            this.parametersBreathing.SuspendLayout();
-            this.parametersColorCycle.SuspendLayout();
-            this.parametersSolidColor.SuspendLayout();
             this.noParam.SuspendLayout();
             this.timeSchedulePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.minuteBox)).BeginInit();
@@ -155,6 +156,9 @@
             this.parametersDisco.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ResultColor)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTop)).BeginInit();
+            this.parametersBreathing.SuspendLayout();
+            this.parametersColorCycle.SuspendLayout();
+            this.parametersSolidColor.SuspendLayout();
             this.SuspendLayout();
             // 
             // addSchedulePanel
@@ -165,18 +169,18 @@
             this.addSchedulePanel.Controls.Add(this.nextButton);
             this.addSchedulePanel.Controls.Add(this.closeButton);
             this.addSchedulePanel.Controls.Add(this.label1);
-            this.addSchedulePanel.Controls.Add(this.parametersMorseCode);
-            this.addSchedulePanel.Controls.Add(this.parametersSolidDisco);
-            this.addSchedulePanel.Controls.Add(this.parametersDisco);
-            this.addSchedulePanel.Controls.Add(this.parametersBreathing);
-            this.addSchedulePanel.Controls.Add(this.parametersColorCycle);
-            this.addSchedulePanel.Controls.Add(this.parametersSolidColor);
             this.addSchedulePanel.Controls.Add(this.noParam);
             this.addSchedulePanel.Controls.Add(this.animListTime);
             this.addSchedulePanel.Controls.Add(this.animListApp);
             this.addSchedulePanel.Controls.Add(this.procList);
             this.addSchedulePanel.Controls.Add(this.timeSchedulePanel);
             this.addSchedulePanel.Controls.Add(this.parametersAmbilight);
+            this.addSchedulePanel.Controls.Add(this.parametersMorseCode);
+            this.addSchedulePanel.Controls.Add(this.parametersSolidDisco);
+            this.addSchedulePanel.Controls.Add(this.parametersDisco);
+            this.addSchedulePanel.Controls.Add(this.parametersBreathing);
+            this.addSchedulePanel.Controls.Add(this.parametersColorCycle);
+            this.addSchedulePanel.Controls.Add(this.parametersSolidColor);
             this.addSchedulePanel.Location = new System.Drawing.Point(10, 10);
             this.addSchedulePanel.Name = "addSchedulePanel";
             this.addSchedulePanel.Size = new System.Drawing.Size(765, 567);
@@ -261,295 +265,6 @@
             this.label1.TabIndex = 33;
             this.label1.Tag = "dontHide";
             this.label1.Text = "Add new schedule";
-            // 
-            // parametersBreathing
-            // 
-            this.parametersBreathing.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(32)))), ((int)(((byte)(54)))));
-            this.parametersBreathing.Controls.Add(this.useColorList);
-            this.parametersBreathing.Controls.Add(this.colorBreathing);
-            this.parametersBreathing.Controls.Add(this.label18);
-            this.parametersBreathing.Controls.Add(this.br_clearColorlist);
-            this.parametersBreathing.Controls.Add(this.breathingSpeedText);
-            this.parametersBreathing.Controls.Add(this.breathingSpeed);
-            this.parametersBreathing.Controls.Add(this.br_removeLastColor);
-            this.parametersBreathing.Controls.Add(this.label19);
-            this.parametersBreathing.Controls.Add(this.colorListResult);
-            this.parametersBreathing.Controls.Add(this.br_addCurrentColor);
-            this.parametersBreathing.Location = new System.Drawing.Point(15, 42);
-            this.parametersBreathing.Name = "parametersBreathing";
-            this.parametersBreathing.Size = new System.Drawing.Size(735, 472);
-            this.parametersBreathing.TabIndex = 46;
-            this.parametersBreathing.Tag = "Breathing";
-            this.parametersBreathing.Visible = false;
-            // 
-            // useColorList
-            // 
-            this.useColorList.AutoSize = true;
-            this.useColorList.ForeColor = System.Drawing.Color.White;
-            this.useColorList.Location = new System.Drawing.Point(432, 130);
-            this.useColorList.Name = "useColorList";
-            this.useColorList.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.useColorList.Size = new System.Drawing.Size(91, 17);
-            this.useColorList.TabIndex = 45;
-            this.useColorList.TabStop = false;
-            this.useColorList.Text = "Use Color List";
-            this.useColorList.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.useColorList.UseVisualStyleBackColor = true;
-            // 
-            // colorBreathing
-            // 
-            this.colorBreathing.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.colorBreathing.ColorStep = 1;
-            this.colorBreathing.Location = new System.Drawing.Point(260, 178);
-            this.colorBreathing.Name = "colorBreathing";
-            this.colorBreathing.Size = new System.Drawing.Size(190, 190);
-            this.colorBreathing.TabIndex = 44;
-            this.colorBreathing.TabStop = false;
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Font = new System.Drawing.Font("Segoe UI", 11.25F);
-            this.label18.ForeColor = System.Drawing.Color.White;
-            this.label18.Location = new System.Drawing.Point(19, 13);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(76, 20);
-            this.label18.TabIndex = 39;
-            this.label18.Text = "Breathing:";
-            // 
-            // br_clearColorlist
-            // 
-            this.br_clearColorlist.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.br_clearColorlist.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
-            this.br_clearColorlist.FlatAppearance.BorderSize = 0;
-            this.br_clearColorlist.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.br_clearColorlist.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.br_clearColorlist.ForeColor = System.Drawing.Color.White;
-            this.br_clearColorlist.Location = new System.Drawing.Point(557, 178);
-            this.br_clearColorlist.Margin = new System.Windows.Forms.Padding(0);
-            this.br_clearColorlist.Name = "br_clearColorlist";
-            this.br_clearColorlist.Size = new System.Drawing.Size(25, 25);
-            this.br_clearColorlist.TabIndex = 42;
-            this.br_clearColorlist.TabStop = false;
-            this.br_clearColorlist.Text = "C";
-            this.br_clearColorlist.UseMnemonic = false;
-            this.br_clearColorlist.UseVisualStyleBackColor = false;
-            this.br_clearColorlist.Click += new System.EventHandler(this.br_clearColorlist_Click);
-            // 
-            // breathingSpeedText
-            // 
-            this.breathingSpeedText.AutoSize = true;
-            this.breathingSpeedText.ForeColor = System.Drawing.Color.White;
-            this.breathingSpeedText.Location = new System.Drawing.Point(570, 131);
-            this.breathingSpeedText.Name = "breathingSpeedText";
-            this.breathingSpeedText.Size = new System.Drawing.Size(13, 13);
-            this.breathingSpeedText.TabIndex = 28;
-            this.breathingSpeedText.Text = "1";
-            // 
-            // breathingSpeed
-            // 
-            this.breathingSpeed.BackColor = System.Drawing.Color.Transparent;
-            this.breathingSpeed.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.breathingSpeed.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(98)))), ((int)(((byte)(98)))));
-            this.breathingSpeed.GradientColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(215)))));
-            this.breathingSpeed.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(156)))));
-            this.breathingSpeed.LeftColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(156)))));
-            this.breathingSpeed.Location = new System.Drawing.Point(153, 103);
-            this.breathingSpeed.Maximum = 200;
-            this.breathingSpeed.Minimum = 1;
-            this.breathingSpeed.Name = "breathingSpeed";
-            this.breathingSpeed.RailWidth = 20;
-            this.breathingSpeed.RegionColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(156)))));
-            this.breathingSpeed.RightColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(190)))), ((int)(((byte)(190)))));
-            this.breathingSpeed.Size = new System.Drawing.Size(430, 23);
-            this.breathingSpeed.SliderColor = System.Drawing.Color.White;
-            this.breathingSpeed.SliderWidth = 20;
-            this.breathingSpeed.TabIndex = 30;
-            this.breathingSpeed.TabStop = false;
-            this.breathingSpeed.Value = 1;
-            this.breathingSpeed.Scroll += new Zeroit.Framework.Metro.ZeroitMetroTrackbar.ScrollEventHandler(this.breathingSpeed_Scroll);
-            // 
-            // br_removeLastColor
-            // 
-            this.br_removeLastColor.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.br_removeLastColor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(57)))), ((int)(((byte)(43)))));
-            this.br_removeLastColor.FlatAppearance.BorderSize = 0;
-            this.br_removeLastColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.br_removeLastColor.Font = new System.Drawing.Font("Segoe UI Black", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.br_removeLastColor.ForeColor = System.Drawing.Color.White;
-            this.br_removeLastColor.Location = new System.Drawing.Point(522, 178);
-            this.br_removeLastColor.Margin = new System.Windows.Forms.Padding(0);
-            this.br_removeLastColor.Name = "br_removeLastColor";
-            this.br_removeLastColor.Size = new System.Drawing.Size(25, 25);
-            this.br_removeLastColor.TabIndex = 41;
-            this.br_removeLastColor.TabStop = false;
-            this.br_removeLastColor.Text = "-";
-            this.br_removeLastColor.UseMnemonic = false;
-            this.br_removeLastColor.UseVisualStyleBackColor = false;
-            this.br_removeLastColor.Click += new System.EventHandler(this.br_removeLastColor_Click);
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.ForeColor = System.Drawing.Color.White;
-            this.label19.Location = new System.Drawing.Point(525, 131);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(41, 13);
-            this.label19.TabIndex = 27;
-            this.label19.Text = "Speed:";
-            // 
-            // colorListResult
-            // 
-            this.colorListResult.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(42)))), ((int)(((byte)(71)))));
-            this.colorListResult.Location = new System.Drawing.Point(153, 150);
-            this.colorListResult.Name = "colorListResult";
-            this.colorListResult.Size = new System.Drawing.Size(430, 20);
-            this.colorListResult.TabIndex = 43;
-            this.colorListResult.TabStop = false;
-            // 
-            // br_addCurrentColor
-            // 
-            this.br_addCurrentColor.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.br_addCurrentColor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(156)))));
-            this.br_addCurrentColor.FlatAppearance.BorderSize = 0;
-            this.br_addCurrentColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.br_addCurrentColor.Font = new System.Drawing.Font("Segoe UI Black", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.br_addCurrentColor.ForeColor = System.Drawing.Color.White;
-            this.br_addCurrentColor.Location = new System.Drawing.Point(487, 178);
-            this.br_addCurrentColor.Margin = new System.Windows.Forms.Padding(0);
-            this.br_addCurrentColor.Name = "br_addCurrentColor";
-            this.br_addCurrentColor.Size = new System.Drawing.Size(25, 25);
-            this.br_addCurrentColor.TabIndex = 40;
-            this.br_addCurrentColor.TabStop = false;
-            this.br_addCurrentColor.Text = "+";
-            this.br_addCurrentColor.UseMnemonic = false;
-            this.br_addCurrentColor.UseVisualStyleBackColor = false;
-            this.br_addCurrentColor.Click += new System.EventHandler(this.br_addCurrentColor_Click);
-            // 
-            // parametersColorCycle
-            // 
-            this.parametersColorCycle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(32)))), ((int)(((byte)(54)))));
-            this.parametersColorCycle.Controls.Add(this.label16);
-            this.parametersColorCycle.Controls.Add(this.ColorCycleSpeedText);
-            this.parametersColorCycle.Controls.Add(this.label17);
-            this.parametersColorCycle.Controls.Add(this.ColorCycleSpeed);
-            this.parametersColorCycle.Location = new System.Drawing.Point(15, 42);
-            this.parametersColorCycle.Name = "parametersColorCycle";
-            this.parametersColorCycle.Size = new System.Drawing.Size(735, 472);
-            this.parametersColorCycle.TabIndex = 45;
-            this.parametersColorCycle.Tag = "Color Cycle";
-            this.parametersColorCycle.Visible = false;
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Font = new System.Drawing.Font("Segoe UI", 11.25F);
-            this.label16.ForeColor = System.Drawing.Color.White;
-            this.label16.Location = new System.Drawing.Point(19, 15);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(85, 20);
-            this.label16.TabIndex = 41;
-            this.label16.Text = "Color cycle:";
-            // 
-            // ColorCycleSpeedText
-            // 
-            this.ColorCycleSpeedText.AutoSize = true;
-            this.ColorCycleSpeedText.ForeColor = System.Drawing.Color.White;
-            this.ColorCycleSpeedText.Location = new System.Drawing.Point(660, 98);
-            this.ColorCycleSpeedText.Name = "ColorCycleSpeedText";
-            this.ColorCycleSpeedText.Size = new System.Drawing.Size(13, 13);
-            this.ColorCycleSpeedText.TabIndex = 28;
-            this.ColorCycleSpeedText.Text = "1";
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.ForeColor = System.Drawing.Color.White;
-            this.label17.Location = new System.Drawing.Point(619, 98);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(41, 13);
-            this.label17.TabIndex = 27;
-            this.label17.Text = "Speed:";
-            // 
-            // ColorCycleSpeed
-            // 
-            this.ColorCycleSpeed.BackColor = System.Drawing.Color.Transparent;
-            this.ColorCycleSpeed.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ColorCycleSpeed.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(98)))), ((int)(((byte)(98)))));
-            this.ColorCycleSpeed.GradientColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(215)))));
-            this.ColorCycleSpeed.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(156)))));
-            this.ColorCycleSpeed.LeftColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(156)))));
-            this.ColorCycleSpeed.Location = new System.Drawing.Point(63, 70);
-            this.ColorCycleSpeed.Maximum = 200;
-            this.ColorCycleSpeed.Minimum = 1;
-            this.ColorCycleSpeed.Name = "ColorCycleSpeed";
-            this.ColorCycleSpeed.RailWidth = 20;
-            this.ColorCycleSpeed.RegionColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(156)))));
-            this.ColorCycleSpeed.RightColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(190)))), ((int)(((byte)(190)))));
-            this.ColorCycleSpeed.Size = new System.Drawing.Size(610, 23);
-            this.ColorCycleSpeed.SliderColor = System.Drawing.Color.White;
-            this.ColorCycleSpeed.SliderWidth = 20;
-            this.ColorCycleSpeed.TabIndex = 30;
-            this.ColorCycleSpeed.TabStop = false;
-            this.ColorCycleSpeed.Value = 1;
-            this.ColorCycleSpeed.Scroll += new Zeroit.Framework.Metro.ZeroitMetroTrackbar.ScrollEventHandler(this.ColorCycleSpeed_Scroll);
-            // 
-            // parametersSolidColor
-            // 
-            this.parametersSolidColor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(32)))), ((int)(((byte)(54)))));
-            this.parametersSolidColor.Controls.Add(this.colorWheel);
-            this.parametersSolidColor.Controls.Add(this.brightnessSlide);
-            this.parametersSolidColor.Controls.Add(this.label15);
-            this.parametersSolidColor.Location = new System.Drawing.Point(15, 42);
-            this.parametersSolidColor.Name = "parametersSolidColor";
-            this.parametersSolidColor.Size = new System.Drawing.Size(735, 472);
-            this.parametersSolidColor.TabIndex = 44;
-            this.parametersSolidColor.Tag = "Solid Color";
-            this.parametersSolidColor.Visible = false;
-            // 
-            // colorWheel
-            // 
-            this.colorWheel.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.colorWheel.ColorStep = 1;
-            this.colorWheel.Location = new System.Drawing.Point(223, 83);
-            this.colorWheel.Name = "colorWheel";
-            this.colorWheel.Size = new System.Drawing.Size(290, 290);
-            this.colorWheel.TabIndex = 42;
-            this.colorWheel.TabStop = false;
-            this.colorWheel.ColorChanged += new System.EventHandler(this.colorWheel_ColorChanged);
-            // 
-            // brightnessSlide
-            // 
-            this.brightnessSlide.BackColor = System.Drawing.Color.White;
-            this.brightnessSlide.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.brightnessSlide.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(98)))), ((int)(((byte)(98)))));
-            this.brightnessSlide.GradientColor = System.Drawing.Color.Transparent;
-            this.brightnessSlide.HoverColor = System.Drawing.Color.White;
-            this.brightnessSlide.LeftColor = System.Drawing.Color.White;
-            this.brightnessSlide.Location = new System.Drawing.Point(223, 394);
-            this.brightnessSlide.Name = "brightnessSlide";
-            this.brightnessSlide.RailWidth = 20;
-            this.brightnessSlide.RegionColor = System.Drawing.Color.White;
-            this.brightnessSlide.RightColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(190)))), ((int)(((byte)(190)))));
-            this.brightnessSlide.Size = new System.Drawing.Size(290, 23);
-            this.brightnessSlide.SliderColor = System.Drawing.Color.White;
-            this.brightnessSlide.SliderWidth = 20;
-            this.brightnessSlide.TabIndex = 43;
-            this.brightnessSlide.TabStop = false;
-            this.brightnessSlide.UseGradient = false;
-            this.brightnessSlide.Value = 100;
-            this.brightnessSlide.Scroll += new Zeroit.Framework.Metro.ZeroitMetroTrackbar.ScrollEventHandler(this.brightnessSlide_Scroll);
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Font = new System.Drawing.Font("Segoe UI", 11.25F);
-            this.label15.ForeColor = System.Drawing.Color.White;
-            this.label15.Location = new System.Drawing.Point(19, 15);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(86, 20);
-            this.label15.TabIndex = 41;
-            this.label15.Text = "Solid Color:";
             // 
             // noParam
             // 
@@ -971,7 +686,7 @@
             this.screenSampler1.Location = new System.Drawing.Point(18, 43);
             this.screenSampler1.Margin = new System.Windows.Forms.Padding(0);
             this.screenSampler1.Name = "screenSampler1";
-            this.screenSampler1.ScreenColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(51)))));
+            this.screenSampler1.ScreenColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(49)))), ((int)(((byte)(55)))));
             this.screenSampler1.selectedScreen = 0;
             this.screenSampler1.Size = new System.Drawing.Size(700, 385);
             this.screenSampler1.TabIndex = 40;
@@ -990,6 +705,7 @@
             // parametersMorseCode
             // 
             this.parametersMorseCode.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(32)))), ((int)(((byte)(54)))));
+            this.parametersMorseCode.Controls.Add(this.MorseCodeHex);
             this.parametersMorseCode.Controls.Add(this.morseColor);
             this.parametersMorseCode.Controls.Add(this.useBuzzer);
             this.parametersMorseCode.Controls.Add(this.unitTime);
@@ -1007,15 +723,27 @@
             this.parametersMorseCode.Tag = "Morse Code";
             this.parametersMorseCode.Visible = false;
             // 
+            // MorseCodeHex
+            // 
+            this.MorseCodeHex.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.MorseCodeHex.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MorseCodeHex.Location = new System.Drawing.Point(459, 293);
+            this.MorseCodeHex.Name = "MorseCodeHex";
+            this.MorseCodeHex.Size = new System.Drawing.Size(61, 23);
+            this.MorseCodeHex.TabIndex = 76;
+            this.MorseCodeHex.Text = "#FFFFFF";
+            this.MorseCodeHex.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MorseCodeHex_KeyUp);
+            // 
             // morseColor
             // 
             this.morseColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.morseColor.ColorStep = 1;
-            this.morseColor.Location = new System.Drawing.Point(451, 116);
+            this.morseColor.Location = new System.Drawing.Point(485, 116);
             this.morseColor.Name = "morseColor";
             this.morseColor.Size = new System.Drawing.Size(200, 200);
             this.morseColor.TabIndex = 75;
             this.morseColor.TabStop = false;
+            this.morseColor.ColorChanged += new System.EventHandler(this.morseColor_ColorChanged);
             // 
             // useBuzzer
             // 
@@ -1140,6 +868,7 @@
             // parametersSolidDisco
             // 
             this.parametersSolidDisco.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(32)))), ((int)(((byte)(54)))));
+            this.parametersSolidDisco.Controls.Add(this.SolidDiscoHex);
             this.parametersSolidDisco.Controls.Add(this.solidDiscoAudioDevice);
             this.parametersSolidDisco.Controls.Add(this.SolidDiscoVisualizer);
             this.parametersSolidDisco.Controls.Add(this.colorslider_simple);
@@ -1154,6 +883,17 @@
             this.parametersSolidDisco.TabIndex = 48;
             this.parametersSolidDisco.Tag = "Solid Disco";
             this.parametersSolidDisco.Visible = false;
+            // 
+            // SolidDiscoHex
+            // 
+            this.SolidDiscoHex.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.SolidDiscoHex.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SolidDiscoHex.Location = new System.Drawing.Point(235, 388);
+            this.SolidDiscoHex.Name = "SolidDiscoHex";
+            this.SolidDiscoHex.Size = new System.Drawing.Size(61, 23);
+            this.SolidDiscoHex.TabIndex = 91;
+            this.SolidDiscoHex.Text = "#FFFFFF";
+            this.SolidDiscoHex.KeyUp += new System.Windows.Forms.KeyEventHandler(this.SolidDiscoHex_KeyUp);
             // 
             // solidDiscoAudioDevice
             // 
@@ -1599,6 +1339,320 @@
             this.label26.TabIndex = 39;
             this.label26.Text = "Disco:";
             // 
+            // parametersBreathing
+            // 
+            this.parametersBreathing.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(32)))), ((int)(((byte)(54)))));
+            this.parametersBreathing.Controls.Add(this.BreathingHex);
+            this.parametersBreathing.Controls.Add(this.useColorList);
+            this.parametersBreathing.Controls.Add(this.colorBreathing);
+            this.parametersBreathing.Controls.Add(this.label18);
+            this.parametersBreathing.Controls.Add(this.br_clearColorlist);
+            this.parametersBreathing.Controls.Add(this.breathingSpeedText);
+            this.parametersBreathing.Controls.Add(this.breathingSpeed);
+            this.parametersBreathing.Controls.Add(this.br_removeLastColor);
+            this.parametersBreathing.Controls.Add(this.label19);
+            this.parametersBreathing.Controls.Add(this.colorListResult);
+            this.parametersBreathing.Controls.Add(this.br_addCurrentColor);
+            this.parametersBreathing.Location = new System.Drawing.Point(15, 42);
+            this.parametersBreathing.Name = "parametersBreathing";
+            this.parametersBreathing.Size = new System.Drawing.Size(735, 472);
+            this.parametersBreathing.TabIndex = 46;
+            this.parametersBreathing.Tag = "Breathing";
+            this.parametersBreathing.Visible = false;
+            // 
+            // BreathingHex
+            // 
+            this.BreathingHex.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.BreathingHex.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BreathingHex.Location = new System.Drawing.Point(235, 350);
+            this.BreathingHex.Name = "BreathingHex";
+            this.BreathingHex.Size = new System.Drawing.Size(61, 23);
+            this.BreathingHex.TabIndex = 92;
+            this.BreathingHex.Text = "#FFFFFF";
+            this.BreathingHex.KeyUp += new System.Windows.Forms.KeyEventHandler(this.BreathingHex_KeyUp);
+            // 
+            // useColorList
+            // 
+            this.useColorList.AutoSize = true;
+            this.useColorList.ForeColor = System.Drawing.Color.White;
+            this.useColorList.Location = new System.Drawing.Point(432, 130);
+            this.useColorList.Name = "useColorList";
+            this.useColorList.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.useColorList.Size = new System.Drawing.Size(91, 17);
+            this.useColorList.TabIndex = 45;
+            this.useColorList.TabStop = false;
+            this.useColorList.Text = "Use Color List";
+            this.useColorList.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.useColorList.UseVisualStyleBackColor = true;
+            // 
+            // colorBreathing
+            // 
+            this.colorBreathing.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.colorBreathing.ColorStep = 1;
+            this.colorBreathing.Location = new System.Drawing.Point(260, 178);
+            this.colorBreathing.Name = "colorBreathing";
+            this.colorBreathing.Size = new System.Drawing.Size(190, 190);
+            this.colorBreathing.TabIndex = 44;
+            this.colorBreathing.TabStop = false;
+            this.colorBreathing.ColorChanged += new System.EventHandler(this.colorBreathing_ColorChanged);
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("Segoe UI", 11.25F);
+            this.label18.ForeColor = System.Drawing.Color.White;
+            this.label18.Location = new System.Drawing.Point(19, 13);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(76, 20);
+            this.label18.TabIndex = 39;
+            this.label18.Text = "Breathing:";
+            // 
+            // br_clearColorlist
+            // 
+            this.br_clearColorlist.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.br_clearColorlist.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
+            this.br_clearColorlist.FlatAppearance.BorderSize = 0;
+            this.br_clearColorlist.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.br_clearColorlist.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.br_clearColorlist.ForeColor = System.Drawing.Color.White;
+            this.br_clearColorlist.Location = new System.Drawing.Point(557, 178);
+            this.br_clearColorlist.Margin = new System.Windows.Forms.Padding(0);
+            this.br_clearColorlist.Name = "br_clearColorlist";
+            this.br_clearColorlist.Size = new System.Drawing.Size(25, 25);
+            this.br_clearColorlist.TabIndex = 42;
+            this.br_clearColorlist.TabStop = false;
+            this.br_clearColorlist.Text = "C";
+            this.br_clearColorlist.UseMnemonic = false;
+            this.br_clearColorlist.UseVisualStyleBackColor = false;
+            this.br_clearColorlist.Click += new System.EventHandler(this.br_clearColorlist_Click);
+            // 
+            // breathingSpeedText
+            // 
+            this.breathingSpeedText.AutoSize = true;
+            this.breathingSpeedText.ForeColor = System.Drawing.Color.White;
+            this.breathingSpeedText.Location = new System.Drawing.Point(570, 131);
+            this.breathingSpeedText.Name = "breathingSpeedText";
+            this.breathingSpeedText.Size = new System.Drawing.Size(13, 13);
+            this.breathingSpeedText.TabIndex = 28;
+            this.breathingSpeedText.Text = "1";
+            // 
+            // breathingSpeed
+            // 
+            this.breathingSpeed.BackColor = System.Drawing.Color.Transparent;
+            this.breathingSpeed.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.breathingSpeed.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(98)))), ((int)(((byte)(98)))));
+            this.breathingSpeed.GradientColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(215)))));
+            this.breathingSpeed.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(156)))));
+            this.breathingSpeed.LeftColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(156)))));
+            this.breathingSpeed.Location = new System.Drawing.Point(153, 103);
+            this.breathingSpeed.Maximum = 200;
+            this.breathingSpeed.Minimum = 1;
+            this.breathingSpeed.Name = "breathingSpeed";
+            this.breathingSpeed.RailWidth = 20;
+            this.breathingSpeed.RegionColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(156)))));
+            this.breathingSpeed.RightColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(190)))), ((int)(((byte)(190)))));
+            this.breathingSpeed.Size = new System.Drawing.Size(430, 23);
+            this.breathingSpeed.SliderColor = System.Drawing.Color.White;
+            this.breathingSpeed.SliderWidth = 20;
+            this.breathingSpeed.TabIndex = 30;
+            this.breathingSpeed.TabStop = false;
+            this.breathingSpeed.Value = 1;
+            this.breathingSpeed.Scroll += new Zeroit.Framework.Metro.ZeroitMetroTrackbar.ScrollEventHandler(this.breathingSpeed_Scroll);
+            // 
+            // br_removeLastColor
+            // 
+            this.br_removeLastColor.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.br_removeLastColor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(57)))), ((int)(((byte)(43)))));
+            this.br_removeLastColor.FlatAppearance.BorderSize = 0;
+            this.br_removeLastColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.br_removeLastColor.Font = new System.Drawing.Font("Segoe UI Black", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.br_removeLastColor.ForeColor = System.Drawing.Color.White;
+            this.br_removeLastColor.Location = new System.Drawing.Point(522, 178);
+            this.br_removeLastColor.Margin = new System.Windows.Forms.Padding(0);
+            this.br_removeLastColor.Name = "br_removeLastColor";
+            this.br_removeLastColor.Size = new System.Drawing.Size(25, 25);
+            this.br_removeLastColor.TabIndex = 41;
+            this.br_removeLastColor.TabStop = false;
+            this.br_removeLastColor.Text = "-";
+            this.br_removeLastColor.UseMnemonic = false;
+            this.br_removeLastColor.UseVisualStyleBackColor = false;
+            this.br_removeLastColor.Click += new System.EventHandler(this.br_removeLastColor_Click);
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.ForeColor = System.Drawing.Color.White;
+            this.label19.Location = new System.Drawing.Point(525, 131);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(41, 13);
+            this.label19.TabIndex = 27;
+            this.label19.Text = "Speed:";
+            // 
+            // colorListResult
+            // 
+            this.colorListResult.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(42)))), ((int)(((byte)(71)))));
+            this.colorListResult.Location = new System.Drawing.Point(153, 150);
+            this.colorListResult.Name = "colorListResult";
+            this.colorListResult.Size = new System.Drawing.Size(430, 20);
+            this.colorListResult.TabIndex = 43;
+            this.colorListResult.TabStop = false;
+            // 
+            // br_addCurrentColor
+            // 
+            this.br_addCurrentColor.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.br_addCurrentColor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(156)))));
+            this.br_addCurrentColor.FlatAppearance.BorderSize = 0;
+            this.br_addCurrentColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.br_addCurrentColor.Font = new System.Drawing.Font("Segoe UI Black", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.br_addCurrentColor.ForeColor = System.Drawing.Color.White;
+            this.br_addCurrentColor.Location = new System.Drawing.Point(487, 178);
+            this.br_addCurrentColor.Margin = new System.Windows.Forms.Padding(0);
+            this.br_addCurrentColor.Name = "br_addCurrentColor";
+            this.br_addCurrentColor.Size = new System.Drawing.Size(25, 25);
+            this.br_addCurrentColor.TabIndex = 40;
+            this.br_addCurrentColor.TabStop = false;
+            this.br_addCurrentColor.Text = "+";
+            this.br_addCurrentColor.UseMnemonic = false;
+            this.br_addCurrentColor.UseVisualStyleBackColor = false;
+            this.br_addCurrentColor.Click += new System.EventHandler(this.br_addCurrentColor_Click);
+            // 
+            // parametersColorCycle
+            // 
+            this.parametersColorCycle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(32)))), ((int)(((byte)(54)))));
+            this.parametersColorCycle.Controls.Add(this.label16);
+            this.parametersColorCycle.Controls.Add(this.ColorCycleSpeedText);
+            this.parametersColorCycle.Controls.Add(this.label17);
+            this.parametersColorCycle.Controls.Add(this.ColorCycleSpeed);
+            this.parametersColorCycle.Location = new System.Drawing.Point(15, 42);
+            this.parametersColorCycle.Name = "parametersColorCycle";
+            this.parametersColorCycle.Size = new System.Drawing.Size(735, 472);
+            this.parametersColorCycle.TabIndex = 45;
+            this.parametersColorCycle.Tag = "Color Cycle";
+            this.parametersColorCycle.Visible = false;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Segoe UI", 11.25F);
+            this.label16.ForeColor = System.Drawing.Color.White;
+            this.label16.Location = new System.Drawing.Point(19, 15);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(85, 20);
+            this.label16.TabIndex = 41;
+            this.label16.Text = "Color cycle:";
+            // 
+            // ColorCycleSpeedText
+            // 
+            this.ColorCycleSpeedText.AutoSize = true;
+            this.ColorCycleSpeedText.ForeColor = System.Drawing.Color.White;
+            this.ColorCycleSpeedText.Location = new System.Drawing.Point(660, 98);
+            this.ColorCycleSpeedText.Name = "ColorCycleSpeedText";
+            this.ColorCycleSpeedText.Size = new System.Drawing.Size(13, 13);
+            this.ColorCycleSpeedText.TabIndex = 28;
+            this.ColorCycleSpeedText.Text = "1";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.ForeColor = System.Drawing.Color.White;
+            this.label17.Location = new System.Drawing.Point(619, 98);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(41, 13);
+            this.label17.TabIndex = 27;
+            this.label17.Text = "Speed:";
+            // 
+            // ColorCycleSpeed
+            // 
+            this.ColorCycleSpeed.BackColor = System.Drawing.Color.Transparent;
+            this.ColorCycleSpeed.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.ColorCycleSpeed.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(98)))), ((int)(((byte)(98)))));
+            this.ColorCycleSpeed.GradientColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(215)))));
+            this.ColorCycleSpeed.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(156)))));
+            this.ColorCycleSpeed.LeftColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(156)))));
+            this.ColorCycleSpeed.Location = new System.Drawing.Point(63, 70);
+            this.ColorCycleSpeed.Maximum = 200;
+            this.ColorCycleSpeed.Minimum = 1;
+            this.ColorCycleSpeed.Name = "ColorCycleSpeed";
+            this.ColorCycleSpeed.RailWidth = 20;
+            this.ColorCycleSpeed.RegionColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(215)))), ((int)(((byte)(156)))));
+            this.ColorCycleSpeed.RightColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(190)))), ((int)(((byte)(190)))));
+            this.ColorCycleSpeed.Size = new System.Drawing.Size(610, 23);
+            this.ColorCycleSpeed.SliderColor = System.Drawing.Color.White;
+            this.ColorCycleSpeed.SliderWidth = 20;
+            this.ColorCycleSpeed.TabIndex = 30;
+            this.ColorCycleSpeed.TabStop = false;
+            this.ColorCycleSpeed.Value = 1;
+            this.ColorCycleSpeed.Scroll += new Zeroit.Framework.Metro.ZeroitMetroTrackbar.ScrollEventHandler(this.ColorCycleSpeed_Scroll);
+            // 
+            // parametersSolidColor
+            // 
+            this.parametersSolidColor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(32)))), ((int)(((byte)(54)))));
+            this.parametersSolidColor.Controls.Add(this.SolidColorHex);
+            this.parametersSolidColor.Controls.Add(this.colorWheel);
+            this.parametersSolidColor.Controls.Add(this.brightnessSlide);
+            this.parametersSolidColor.Controls.Add(this.label15);
+            this.parametersSolidColor.Location = new System.Drawing.Point(15, 42);
+            this.parametersSolidColor.Name = "parametersSolidColor";
+            this.parametersSolidColor.Size = new System.Drawing.Size(735, 472);
+            this.parametersSolidColor.TabIndex = 44;
+            this.parametersSolidColor.Tag = "Solid Color";
+            this.parametersSolidColor.Visible = false;
+            // 
+            // SolidColorHex
+            // 
+            this.SolidColorHex.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.SolidColorHex.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SolidColorHex.Location = new System.Drawing.Point(223, 347);
+            this.SolidColorHex.Name = "SolidColorHex";
+            this.SolidColorHex.Size = new System.Drawing.Size(61, 23);
+            this.SolidColorHex.TabIndex = 92;
+            this.SolidColorHex.Text = "#FFFFFF";
+            this.SolidColorHex.KeyUp += new System.Windows.Forms.KeyEventHandler(this.SolidColorHex_KeyUp);
+            // 
+            // colorWheel
+            // 
+            this.colorWheel.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.colorWheel.ColorStep = 1;
+            this.colorWheel.Location = new System.Drawing.Point(223, 83);
+            this.colorWheel.Name = "colorWheel";
+            this.colorWheel.Size = new System.Drawing.Size(290, 290);
+            this.colorWheel.TabIndex = 42;
+            this.colorWheel.TabStop = false;
+            this.colorWheel.ColorChanged += new System.EventHandler(this.colorWheel_ColorChanged);
+            // 
+            // brightnessSlide
+            // 
+            this.brightnessSlide.BackColor = System.Drawing.Color.White;
+            this.brightnessSlide.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.brightnessSlide.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(98)))), ((int)(((byte)(98)))));
+            this.brightnessSlide.GradientColor = System.Drawing.Color.Transparent;
+            this.brightnessSlide.HoverColor = System.Drawing.Color.White;
+            this.brightnessSlide.LeftColor = System.Drawing.Color.White;
+            this.brightnessSlide.Location = new System.Drawing.Point(223, 394);
+            this.brightnessSlide.Name = "brightnessSlide";
+            this.brightnessSlide.RailWidth = 20;
+            this.brightnessSlide.RegionColor = System.Drawing.Color.White;
+            this.brightnessSlide.RightColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(190)))), ((int)(((byte)(190)))));
+            this.brightnessSlide.Size = new System.Drawing.Size(290, 23);
+            this.brightnessSlide.SliderColor = System.Drawing.Color.White;
+            this.brightnessSlide.SliderWidth = 20;
+            this.brightnessSlide.TabIndex = 43;
+            this.brightnessSlide.TabStop = false;
+            this.brightnessSlide.UseGradient = false;
+            this.brightnessSlide.Value = 100;
+            this.brightnessSlide.Scroll += new Zeroit.Framework.Metro.ZeroitMetroTrackbar.ScrollEventHandler(this.brightnessSlide_Scroll);
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Segoe UI", 11.25F);
+            this.label15.ForeColor = System.Drawing.Color.White;
+            this.label15.Location = new System.Drawing.Point(19, 15);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(86, 20);
+            this.label15.TabIndex = 41;
+            this.label15.Text = "Solid Color:";
+            // 
             // discoTimer
             // 
             this.discoTimer.Interval = 10;
@@ -1623,12 +1677,6 @@
             this.Load += new System.EventHandler(this.newScheduleWindow_Load);
             this.addSchedulePanel.ResumeLayout(false);
             this.addSchedulePanel.PerformLayout();
-            this.parametersBreathing.ResumeLayout(false);
-            this.parametersBreathing.PerformLayout();
-            this.parametersColorCycle.ResumeLayout(false);
-            this.parametersColorCycle.PerformLayout();
-            this.parametersSolidColor.ResumeLayout(false);
-            this.parametersSolidColor.PerformLayout();
             this.noParam.ResumeLayout(false);
             this.noParam.PerformLayout();
             this.timeSchedulePanel.ResumeLayout(false);
@@ -1646,6 +1694,12 @@
             this.parametersDisco.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ResultColor)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTop)).EndInit();
+            this.parametersBreathing.ResumeLayout(false);
+            this.parametersBreathing.PerformLayout();
+            this.parametersColorCycle.ResumeLayout(false);
+            this.parametersColorCycle.PerformLayout();
+            this.parametersSolidColor.ResumeLayout(false);
+            this.parametersSolidColor.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1755,5 +1809,9 @@
         private System.Windows.Forms.Label label28;
         public System.Windows.Forms.ComboBox solidDiscoAudioDevice;
         private System.Windows.Forms.Button finishButton;
+        public System.Windows.Forms.TextBox SolidColorHex;
+        public System.Windows.Forms.TextBox MorseCodeHex;
+        public System.Windows.Forms.TextBox SolidDiscoHex;
+        public System.Windows.Forms.TextBox BreathingHex;
     }
 }

@@ -358,11 +358,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\ESP\\ESPRGB-Client\\ESPRGB-Client\\ESPRGB-Client\\ESPRGB-Client.csproj",
+      "projectUniqueName": "E:\\ESP\\ESPRGB-Client\\ESPRGB-Client\\ESPRGB-Client.csproj",
       "projectName": "ESPRGB-Client",
-      "projectPath": "D:\\ESP\\ESPRGB-Client\\ESPRGB-Client\\ESPRGB-Client\\ESPRGB-Client.csproj",
+      "projectPath": "E:\\ESP\\ESPRGB-Client\\ESPRGB-Client\\ESPRGB-Client.csproj",
       "packagesPath": "C:\\Users\\adroi\\.nuget\\packages\\",
-      "outputPath": "D:\\ESP\\ESPRGB-Client\\ESPRGB-Client\\ESPRGB-Client\\obj\\",
+      "outputPath": "E:\\ESP\\ESPRGB-Client\\ESPRGB-Client\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "configFilePaths": [

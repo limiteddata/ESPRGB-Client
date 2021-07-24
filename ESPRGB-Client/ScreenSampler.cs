@@ -258,8 +258,7 @@ namespace ESPRGB_Client
             this.screenPictureBox.Focus();
         }
         private void uploadImage(object sender, EventArgs e)
-        {
-            
+        { 
             using (OpenFileDialog dlg = new OpenFileDialog())
             {
                 dlg.Title = "Open Image";
